@@ -83,6 +83,71 @@
     100% { transform:translate3d(var(--deriva, 30px),-118vh,0) rotate(var(--giro, 35deg)) scale(1.05); opacity:0; }
   }
 
+  /* ---------- Pétalos cayendo ---------- */
+  .petalos{
+    position:fixed; inset:0; z-index:0;
+    overflow:hidden; pointer-events:none;
+  }
+  .petalo-cae{
+    position:absolute;
+    top:-8vh;
+    color:var(--pc, #e8c15f);
+    opacity:0;
+    will-change:transform, opacity;
+    animation-name:caer;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+  }
+  .petalo-cae svg{ display:block; width:100%; height:100%; }
+  @keyframes caer{
+    0%   { transform:translate3d(0,-8vh,0) rotate(0deg); opacity:0; }
+    8%   { opacity:.65; }
+    50%  { transform:translate3d(var(--deriva2, 30px),50vh,0) rotate(190deg); }
+    90%  { opacity:.4; }
+    100% { transform:translate3d(calc(var(--deriva2, 30px) * -1),112vh,0) rotate(380deg); opacity:0; }
+  }
+
+  /* ---------- Jardín de tulipanes ---------- */
+  .jardin{
+    position:absolute;
+    left:0; right:0; bottom:-4px;
+    height:clamp(110px, 20vh, 190px);
+    z-index:0;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .jardin__tulipan{
+    position:absolute;
+    bottom:-2px;
+    height:var(--alto, 110px);
+    width:calc(var(--alto, 110px) * .485);
+    transform-origin:bottom center;
+    animation:sway 6s ease-in-out infinite;
+    opacity:.75;
+    filter:drop-shadow(0 6px 10px rgba(2,5,16,.45));
+  }
+  .jardin__tulipan svg{ display:block; width:100%; height:100%; }
+  @keyframes sway{
+    0%,100% { transform:rotate(-2.2deg); }
+    50%     { transform:rotate(2.6deg); }
+  }
+
+  /* ---------- Explosión de pétalos ---------- */
+  .burst{
+    position:fixed; inset:0; z-index:45;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .burst__petalo{
+    position:absolute;
+    width:16px; height:21px;
+    will-change:transform, opacity;
+  }
+  .burst__petalo svg{
+    display:block; width:100%; height:100%;
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,.25));
+  }
+
   /* ============ INTRO ============ */
   .intro{
     position:fixed; inset:0; z-index:5;
@@ -93,7 +158,7 @@
     transition:opacity .55s ease, transform .6s ease, visibility .55s;
   }
   body.abierto .intro{ opacity:0; visibility:hidden; transform:scale(1.06); pointer-events:none; }
-  .intro__texto{ display:flex; flex-direction:column; align-items:center; gap:clamp(6px,1.2vh,14px); }
+  .intro__texto{ display:flex; flex-direction:column; align-items:center; gap:clamp(6px,1.2vh,14px); position:relative; z-index:1; }
 
   .subtitulo{
     margin:0;
@@ -207,6 +272,7 @@
   /* Botón principal */
   .boton{
     position:relative;
+    z-index:1;
     display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
     min-height:58px;
     padding:0 clamp(28px,8vw,46px);
@@ -290,11 +356,19 @@
     padding:0 .06em;
   }
   .hero__linea{
-    display:block;
-    width:74px; height:1px;
-    margin:18px auto 0;
-    background:linear-gradient(90deg,transparent,rgba(232,193,95,.75),transparent);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    margin:16px auto 0;
   }
+  .hero__linea i{
+    display:block;
+    width:34px; height:1px;
+    background:linear-gradient(90deg,transparent,rgba(232,193,95,.7));
+  }
+  .hero__linea i:last-of-type{ background:linear-gradient(270deg,transparent,rgba(232,193,95,.7)); }
+  .hero__linea svg{ width:15px; height:15px; color:var(--oro); }
   .hero__lugar{
     margin:16px 0 0;
     font-size:.56rem;
@@ -1052,7 +1126,7 @@
       animation-iteration-count:1 !important;
       transition-duration:.15s !important;
     }
-    .flotante{ display:none; }
+    .flotante, .petalos, .jardin, .burst{ display:none; }
     .revelar{ opacity:1; transform:none; }
     .ruleta{ transition:none; }
   }
@@ -1061,9 +1135,12 @@
 <body>
 
 <div class="fondo" id="fondo" aria-hidden="true"></div>
+<div class="petalos" id="petalos" aria-hidden="true"></div>
+<div class="burst" id="burst" aria-hidden="true"></div>
 
 <!-- ================= INTRO ================= -->
 <main class="intro" id="intro">
+  <div class="jardin" id="jardin" aria-hidden="true"></div>
   <div class="intro__texto">
     <p class="subtitulo">Un regalo para ti</p>
     <h1 class="titulo">Melida</h1>
@@ -1101,7 +1178,15 @@
   <header class="hero">
     <p class="hero__etiqueta">Nuestra historia</p>
     <h1 class="hero__nombres">Marcelo <span class="amp">&amp;</span> Melida</h1>
-    <span class="hero__linea" aria-hidden="true"></span>
+    <span class="hero__linea" aria-hidden="true">
+      <i></i>
+      <svg viewBox="0 0 64 64" fill="currentColor">
+        <path d="M32 41c-6.6 0-12-5.4-12-12V15.5c0-2.2 2.6-3.2 4.1-1.5L32 22l7.9-8c1.5-1.7 4.1-.7 4.1 1.5V29c0 6.6-5.4 12-12 12Z"/>
+        <path d="M32 40v14" stroke="#78a56a" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M32 54c-6.4-1.6-9.6-6-9.6-11.2 5.7 0 9.6 4.3 9.6 11.2Z" fill="#78a56a"/>
+      </svg>
+      <i></i>
+    </span>
     <p class="hero__lugar">Guatemala <span>·</span> Honduras</p>
   </header>
 
@@ -1344,6 +1429,11 @@ const $ = (s) => document.querySelector(s);
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const corazon = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
 
+/* Pétalo y tulipán para los efectos */
+const petaloSVG = '<svg viewBox="0 0 24 32" aria-hidden="true"><path d="M12 1.6C7.1 7.1 4.1 12.7 4.1 18.7c0 6.6 3.5 11.7 7.9 11.7s7.9-5.1 7.9-11.7C19.9 12.7 16.9 7.1 12 1.6Z" fill="currentColor"/><path d="M12 7.5v18" stroke="rgba(0,0,0,.10)" stroke-width="1" stroke-linecap="round"/></svg>';
+
+const tulipanSVG = '<svg viewBox="0 0 64 132" fill="none" aria-hidden="true"><path d="M32 36V126" stroke="#6f9f6a" stroke-width="3.4" stroke-linecap="round"/><path d="M32 104c-13-1.6-20-9-21-21 12 0 19 7.5 21 21Z" fill="#6f9f6a"/><path d="M32 118c12-1 18.5-7.5 19.5-18-10.5 0-17.5 6-19.5 18Z" fill="#5c8b58"/><path d="M32 6c-3.6 3.8-6.1 8.2-6.1 13.4v6.2c0 8.2 2.7 13.4 6.1 13.4s6.1-5.2 6.1-13.4v-6.2C38.1 14.2 35.6 9.8 32 6Z" fill="currentColor"/><path d="M25.9 13.5c-4.6 3.6-7.2 8.7-7.2 14.3 0 6.2 2.6 10.8 6.1 12.2V26.5c0-4.1.2-8 1.1-13Z" fill="currentColor" opacity=".92"/><path d="M38.1 13.5c4.6 3.6 7.2 8.7 7.2 14.3 0 6.2-2.6 10.8-6.1 12.2V26.5c0-4.1-.2-8-1.1-13Z" fill="currentColor" opacity=".92"/></svg>';
+
 /* ---------- Textos con el nombre ---------- */
 $('.hero__nombres').innerHTML = `${EL} <span class="amp">&amp;</span> ${ELLA}`;
 $('#tituloGustos').textContent = ELLA;
@@ -1463,7 +1553,9 @@ $('#vales').addEventListener('click', (e) => {
   if (reduceMotion) return;
   const cont = $('#fondo');
   const iconos = [
+    `<svg viewBox="0 0 64 64" fill="currentColor"><path d="M32 41c-6.6 0-12-5.4-12-12V15.5c0-2.2 2.6-3.2 4.1-1.5L32 22l7.9-8c1.5-1.7 4.1-.7 4.1 1.5V29c0 6.6-5.4 12-12 12Z"/><path d="M32 40v14" stroke="#7fae74" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M32 54c-6.4-1.6-9.6-6-9.6-11.2 5.7 0 9.6 4.3 9.6 11.2Z" fill="#7fae74"/></svg>`,
     `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`,
+    `<svg viewBox="0 0 64 64" fill="currentColor"><path d="M32 41c-6.6 0-12-5.4-12-12V15.5c0-2.2 2.6-3.2 4.1-1.5L32 22l7.9-8c1.5-1.7 4.1-.7 4.1 1.5V29c0 6.6-5.4 12-12 12Z"/><path d="M32 40v14" stroke="#7fae74" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M32 54c-6.4-1.6-9.6-6-9.6-11.2 5.7 0 9.6 4.3 9.6 11.2Z" fill="#7fae74"/></svg>`,
     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20.5S4 16 4 10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 6-8 10.5-8 10.5Z"/></svg>`,
     `<svg viewBox="0 0 64 64" fill="currentColor"><path d="M32 41c-6.6 0-12-5.4-12-12V15.5c0-2.2 2.6-3.2 4.1-1.5L32 22l7.9-8c1.5-1.7 4.1-.7 4.1 1.5V29c0 6.6-5.4 12-12 12Z"/><path d="M32 40v14" stroke="#7fae74" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M32 54c-6.4-1.6-9.6-6-9.6-11.2 5.7 0 9.6 4.3 9.6 11.2Z" fill="#7fae74"/></svg>`
   ];
@@ -1494,6 +1586,102 @@ $('#vales').addEventListener('click', (e) => {
   }
 })();
 
+/* ---------- Jardín de tulipanes de la portada ---------- */
+(function jardin() {
+  if (reduceMotion) return;
+  const cont = $('#jardin');
+  if (!cont) return;
+
+  const datos = [
+    { x: 1,  h: 104, c: '#e8c15f', d: 0    },
+    { x: 7,  h: 136, c: '#f4dda2', d: 1.2  },
+    { x: 13, h: 88,  c: '#d99a8a', d: 2.4  },
+    { x: 18, h: 116, c: '#c9a24a', d: 0.7  },
+    { x: 78, h: 122, c: '#f4dda2', d: 1.6  },
+    { x: 84, h: 92,  c: '#d99a8a', d: 0.3  },
+    { x: 90, h: 132, c: '#e8c15f', d: 2.1  },
+    { x: 96, h: 104, c: '#c9a24a', d: 1.1  }
+  ];
+
+  datos.forEach((t) => {
+    const el = document.createElement('div');
+    el.className = 'jardin__tulipan';
+    el.style.left = t.x + '%';
+    el.style.setProperty('--alto', t.h + 'px');
+    el.style.color = t.c;
+    el.style.animationDelay = '-' + t.d + 's';
+    el.style.opacity = (0.5 + Math.random() * 0.32).toFixed(2);
+    el.innerHTML = tulipanSVG;
+    cont.appendChild(el);
+  });
+})();
+
+/* ---------- Pétalos cayendo ---------- */
+(function petalosCayendo() {
+  if (reduceMotion) return;
+  const cont = $('#petalos');
+  if (!cont) return;
+
+  const cols = ['#e8c15f', '#f4dda2', '#d99a8a', '#c9a24a', '#f4dda2'];
+  const total = window.innerWidth < 640 ? 11 : 18;
+
+  for (let i = 0; i < total; i++) {
+    const el = document.createElement('div');
+    el.className = 'petalo-cae';
+
+    const w = 8 + Math.random() * 9;
+    el.style.left = (Math.random() * 100) + '%';
+    el.style.width = w + 'px';
+    el.style.height = (w * 1.32) + 'px';
+    el.style.color = cols[i % cols.length];
+    el.style.setProperty('--deriva2', (Math.random() * 90 - 45) + 'px');
+    el.style.animationDuration = (12 + Math.random() * 14) + 's';
+    el.style.animationDelay = -(Math.random() * 26) + 's';
+    el.innerHTML = petaloSVG;
+
+    cont.appendChild(el);
+  }
+})();
+
+/* ---------- Explosión de pétalos al abrir ---------- */
+function explotarPetalos(x, y) {
+  if (reduceMotion) return;
+  const capa = $('#burst');
+  if (!capa) return;
+
+  const cols = ['#e8c15f', '#d99a8a', '#c9a24a', '#f4dda2', '#f7e6c0'];
+  const total = 32;
+
+  for (let i = 0; i < total; i++) {
+    const p = document.createElement('div');
+    p.className = 'burst__petalo';
+    const size = 14 + Math.random() * 12;
+    p.style.left = x + 'px';
+    p.style.top = y + 'px';
+    p.style.width = size + 'px';
+    p.style.height = (size * 1.32) + 'px';
+    p.style.color = cols[i % cols.length];
+    p.innerHTML = petaloSVG;
+    capa.appendChild(p);
+
+    const ang = (Math.PI * 2 * i) / total + (Math.random() * 0.6 - 0.3);
+    const dist = 80 + Math.random() * 250;
+    const dx = Math.cos(ang) * dist;
+    const dy = Math.sin(ang) * dist * 0.9 + 40;
+    const rot = Math.random() * 720 - 360;
+    const esc = 0.6 + Math.random() * 0.55;
+    const dur = 1000 + Math.random() * 800;
+
+    const anim = p.animate([
+      { transform: 'translate(-50%,-50%) rotate(0deg) scale(.35)', opacity: 1, offset: 0 },
+      { transform: `translate(calc(-50% + ${dx * .65}px), calc(-50% + ${dy * .5}px)) rotate(${rot * .55}deg) scale(${esc})`, opacity: 1, offset: .55 },
+      { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) rotate(${rot}deg) scale(${esc})`, opacity: 0, offset: 1 }
+    ], { duration: dur, easing: 'cubic-bezier(.16,.7,.3,1)', fill: 'forwards' });
+
+    anim.onfinish = () => p.remove();
+  }
+}
+
 /* ---------- Abrir el regalo ---------- */
 const sobre = $('#sobre');
 const botonAbrir = $('#abrir');
@@ -1502,6 +1690,9 @@ let bloqueado = false;
 function abrir() {
   if (bloqueado || document.body.classList.contains('abierto')) return;
   bloqueado = true;
+
+  const caja = sobre.getBoundingClientRect();
+  explotarPetalos(caja.left + caja.width / 2, caja.top + caja.height * 0.42);
 
   document.body.classList.add('abriendo');
   botonAbrir.textContent = 'Abriendo…';

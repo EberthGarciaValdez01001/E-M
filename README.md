@@ -77,3 +77,11 @@ Están en `fotos/` ya optimizadas (JPEG). Para cambiar una, reemplaza el archivo
 - Contador principal (desde el primer saludo) + línea con los días de relación.
 - Interacciones: modal de carta con foco atrapado, visor de la carta a mano con zoom, checklist, vales canjeables, ruleta con resultado consistente con la aguja.
 - Responsive probado en 360 px, 412 px y escritorio; respeta `prefers-reduced-motion`.
+
+## Efectos de tulipanes
+
+- **Jardín:** 8 tulipanes creciendo en las esquinas inferiores de la portada, meciéndose con el viento.
+- **Pétalos cayendo:** capa de pétalos dorados, crema y rosa en toda la página.
+- **Lluvia al abrir:** al pulsar “Toca para abrir” salen 32 pétalos desde el sobre.
+- **Detalles:** tulipán en el divisor de los nombres, en el pie y como icono de la pestaña.
+- Todo se oculta automáticamente si el dispositivo pide movimiento reducido.
