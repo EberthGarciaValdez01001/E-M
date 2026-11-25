@@ -484,15 +484,36 @@
     color:#e9d3a1;
   }
   .contador__reloj span{ color:#8f97b8; letter-spacing:.1em; }
-  .contador__extra{
-    margin:16px 0 0;
-    font-size:.72rem;
-    font-weight:300;
-    letter-spacing:.04em;
-    line-height:1.6;
-    color:#9aa1bf;
+  .contador__fecha{
+    margin:0 0 12px;
+    font-size:.64rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:#8f96b4;
   }
-  .contador__extra b{ font-weight:400; color:#d9c396; }
+  .contador__total{
+    margin:12px 0 0;
+    font-size:.58rem;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:#a98f5e;
+  }
+  .contador-sep{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin:24px 0;
+    color:#c9a86a;
+  }
+  .contador-sep span{
+    display:block;
+    width:min(90px, 22vw);
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(232,193,95,.4));
+  }
+  .contador-sep span:last-child{ background:linear-gradient(270deg, transparent, rgba(232,193,95,.4)); }
+  .contador-sep svg{ width:13px; height:13px; opacity:.9; }
   .contador__nota{
     margin:-4px 0 12px;
     font-family:var(--serif);
@@ -1198,11 +1219,27 @@
   </figure>
 
   <section class="panel revelar">
-    <p class="etiqueta">Tiempo de conocernos</p>
-    <p class="contador__nota">( primer saludo )</p>
-    <p class="contador__grande" id="contadorGrande">Calculando…</p>
-    <p class="contador__reloj" id="contadorReloj" aria-live="off">00h 00m 00s</p>
-    <p class="contador__extra" id="contadorExtra">Juntos desde el 14 de julio de 2026.</p>
+    <div class="contador-bloque">
+      <p class="etiqueta">Tiempo de conocernos</p>
+      <p class="contador__nota">( primer saludo )</p>
+      <p class="contador__fecha">27 de noviembre de 2024 · 22:13</p>
+      <p class="contador__grande" id="contadorGrande">Calculando…</p>
+      <p class="contador__reloj" id="contadorReloj" aria-live="off">00h 00m 00s</p>
+    </div>
+
+    <div class="contador-sep" aria-hidden="true">
+      <span></span>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <span></span>
+    </div>
+
+    <div class="contador-bloque">
+      <p class="etiqueta">Tiempo de estar juntos</p>
+      <p class="contador__nota">( la pregunta )</p>
+      <p class="contador__fecha">14 de julio de 2026</p>
+      <p class="contador__grande" id="contadorJuntos">Calculando…</p>
+      <p class="contador__total" id="totalJuntos">…</p>
+    </div>
   </section>
 
   <section class="panel revelar">
@@ -1494,24 +1531,34 @@ $('#vales').addEventListener('click', (e) => {
   btn.closest('.vale').classList.add('usado');
 });
 
-/* ---------- Contador ---------- */
+/* ---------- Contadores ---------- */
 (function contador() {
   const grande = $('#contadorGrande');
   const reloj = $('#contadorReloj');
-  const extra = $('#contadorExtra');
-  if (!FECHA_INICIO) { grande.textContent = 'Cada día contigo'; reloj.remove(); extra.remove(); return; }
+  const junto = $('#contadorJuntos');
+  const total = $('#totalJuntos');
+
+  if (!FECHA_INICIO) {
+    grande.textContent = 'Cada día contigo';
+    reloj.remove();
+    return;
+  }
 
   const inicio = new Date(FECHA_INICIO);
-  if (isNaN(inicio.getTime())) { grande.textContent = 'Cada día contigo'; reloj.remove(); extra.remove(); return; }
+  if (isNaN(inicio.getTime())) {
+    grande.textContent = 'Cada día contigo';
+    reloj.remove();
+    return;
+  }
 
   const relacion = FECHA_RELACION ? new Date(FECHA_RELACION + 'T00:00:00') : null;
 
   const plural = (n, uno, varios) => n === 1 ? `${n} ${uno}` : `${n} ${varios}`;
 
-  function desglose(hasta) {
-    let y = hasta.getFullYear() - inicio.getFullYear();
-    let m = hasta.getMonth() - inicio.getMonth();
-    let d = hasta.getDate() - inicio.getDate();
+  function desglose(desde, hasta) {
+    let y = hasta.getFullYear() - desde.getFullYear();
+    let m = hasta.getMonth() - desde.getMonth();
+    let d = hasta.getDate() - desde.getDate();
     if (d < 0) {
       const diasMesAnterior = new Date(hasta.getFullYear(), hasta.getMonth(), 0).getDate();
       d += diasMesAnterior;
@@ -1521,27 +1568,30 @@ $('#vales').addEventListener('click', (e) => {
     return { y, m, d };
   }
 
-  function pintar() {
-    const ahora = new Date();
-    const { y, m, d } = desglose(ahora);
-
+  function textoDesde(desde, hasta) {
+    const { y, m, d } = desglose(desde, hasta);
     const partes = [];
     if (y > 0) partes.push(plural(y, 'año', 'años'));
     if (m > 0) partes.push(plural(m, 'mes', 'meses'));
     partes.push(plural(d, 'día', 'días'));
+    return partes.length === 1 ? partes[0] : partes.slice(0, -1).join(', ') + ' y ' + partes.slice(-1);
+  }
 
-    const texto = partes.length === 1 ? partes[0] : partes.slice(0, -1).join(', ') + ' y ' + partes.slice(-1);
-    grande.textContent = texto;
+  function pintar() {
+    const ahora = new Date();
+
+    grande.textContent = textoDesde(inicio, ahora);
+
+    if (junto && relacion && !isNaN(relacion.getTime())) {
+      junto.textContent = textoDesde(relacion, ahora);
+      const dias = Math.max(0, Math.floor((ahora - relacion) / 86400000));
+      if (total) total.textContent = `${dias.toLocaleString('es')} días juntos`;
+    }
 
     const hh = String(ahora.getHours()).padStart(2, '0');
     const mm = String(ahora.getMinutes()).padStart(2, '0');
     const ss = String(ahora.getSeconds()).padStart(2, '0');
     reloj.innerHTML = `${hh}h ${mm}m ${ss}s <span>· y contando</span>`;
-
-    if (extra && relacion && !isNaN(relacion.getTime())) {
-      const diasRelacion = Math.max(0, Math.floor((ahora - relacion) / 86400000));
-      extra.innerHTML = `Juntos desde el <b>14 de julio de 2026</b> · hace ${diasRelacion.toLocaleString('es')} días`;
-    }
   }
 
   pintar();

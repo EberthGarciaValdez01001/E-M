@@ -12,7 +12,8 @@ Abre `index.html` con doble clic. Funciona sin servidor; las fotos están en `fo
 2. **Sitio (scroll):**
    - Nombres + “Guatemala · Honduras”.
    - Foto de su cumpleaños en Metro Mall.
-   - **Tiempo de conocernos (primer saludo):** contador desde el 27/11/2024 22:13 + reloj en vivo + “Juntos desde el 14/07/2026”.
+   - **Tiempo de conocernos (primer saludo):** fecha 27/11/2024 · 22:13, contador y reloj en vivo.
+   - **Tiempo de estar juntos (la pregunta):** fecha 14/07/2026, contador y total de días juntos.
    - “Mensaje privado → Abrir carta”: la carta escrita, la firma y **la carta a mano del PDF** (se puede ampliar).
    - Foto del primer encuentro (Centro Cívico).
    - “Lo que más amo de ti”.
