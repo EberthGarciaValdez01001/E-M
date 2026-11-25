@@ -22,6 +22,7 @@ Abre `index.html` con doble clic. Funciona sin servidor; las fotos están en `fo
    - **Nuestros lugares:** mapa de Google real + paradas (Centro Cívico y Metro Mall); al tocar una parada se mueve el mapa y se abren sus fotos.
    - Foto de Metro Mall.
    - **Galería:** las fotos de los días 4 y 5 de septiembre de 2026.
+   - **Siete atardeceres:** cuenta regresiva al próximo atardecer (18:15) y 7 tarjetas con frases, del 7 al 1.
    - “Nuestra lista” (checklist interactiva).
    - “Nuestros vales de amor” (se pueden canjear).
    - Ruleta de citas.
@@ -71,6 +72,13 @@ Están en `fotos/` ya optimizadas (JPEG). Para cambiar una, reemplaza el archivo
 1. **Netlify Drop** — https://app.netlify.com/drop (arrastra la carpeta completa, con `fotos/`).
 2. **GitHub Pages** — Settings → Pages → rama `main` / root.
 3. **Vercel** — `npx vercel` dentro de la carpeta.
+
+## Atardeceres
+
+La sección **“Siete atardeceres”** tiene 7 tarjetas (del 07 al 01), cada una con su cielo y su frase, y una cuenta regresiva en vivo hasta el próximo atardecer.
+
+- Las frases y los colores de cada cielo están en el arreglo `ATARDECERES`, al inicio del `<script>`.
+- La hora del atardecer está en la función `relojAtardecer()` (`HORA = 18`, `MIN = 15`). Cámbiala si quieres otra hora.
 
 ## Detalles técnicos
 
