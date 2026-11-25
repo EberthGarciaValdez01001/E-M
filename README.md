@@ -1,51 +1,72 @@
-# Un regalo para ti · Melida
+# Eberth & Melida · Nuestra historia
 
-Página web de regalo: portada con sobre dorado que se abre y revela una carta con los momentos de la relación.
+Página de regalo con la estética de la referencia (azul noche + dorado): portada con sobre, nombres, foto con marco blanco, contador en vivo, mensaje privado, momentos, mapa, lista, vales y ruleta.
 
 ## Cómo verla
 
-Abre `index.html` con doble clic (funciona sin internet; solo las tipografías se descargan de Google Fonts).
+Abre `index.html` con doble clic. Funciona sin servidor; solo las tipografías se descargan de Google Fonts.
 
-## Cómo personalizarla
+## Estructura
 
-Todo el contenido está en un solo bloque al inicio del `<script>`, al final de `index.html`:
+1. **Portada:** “UN REGALO PARA TI” → nombre → sobre con sello → “Toca para abrir”.
+2. **Sitio (scroll):**
+   - Nombres de los dos.
+   - Foto con marco blanco y frase.
+   - Contador: años, meses y días + reloj en vivo.
+   - “Mensaje privado → Abrir carta” (modal con la carta).
+   - Foto.
+   - “Lo que más amo de ti”.
+   - “Nuestros momentos” (línea de tiempo).
+   - “Dónde empezó todo” (mapa con 3 lugares).
+   - Foto.
+   - “Nuestra lista” (checklist interactiva).
+   - “Nuestros vales de amor” (se pueden canjear).
+   - Ruleta de citas.
+   - Cierre + firma.
+
+## Personalizar
+
+Todo el contenido está en el bloque de constantes al inicio del `<script>` de `index.html`:
 
 ```js
-const NOMBRE = 'Melida';            // nombre que aparece en la carta
-const FECHA_INICIO = '2024-02-14';  // AAAA-MM-DD → activa el contador de días ("" lo oculta)
-const FIRMA = 'Tu nombre';          // cómo firmas la carta
-const MOMENTOS = [ ... ];           // capítulos de la línea de tiempo
-const RAZONES = [ ... ];            // lista "Cosas que amo de ti"
+const ELLA = 'Melida';          // nombre de ella
+const EL   = 'Eberth';          // tu nombre
+const FECHA_INICIO = '2024-02-14';  // AAAA-MM-DD ("" oculta el contador)
+
+const GUSTOS = [ ... ];         // "Lo que más amo de ti"
+const MOMENTOS = [ ... ];       // capítulos de la línea de tiempo
+const LUGARES = [ ... ];        // nombres y descripciones de los 3 lugares
+const LISTA = [ ... ];          // cosas por hacer juntos
+const VALES = [ ... ];          // vales de amor
+const RULETA = [ ... ];         // opciones de la ruleta
 ```
 
-Además, en el HTML:
+También en el HTML: el `<title>`, las frases de las fotos (`<figcaption>`) y los textos de la carta (dentro del modal).
 
-- El título grande de la portada: `<h1 class="titulo">Melida</h1>`
-- El subtítulo: `<p class="subtitulo">Un regalo para ti</p>`
-- La dedicatoria: los dos primeros `<p>` dentro de `<article class="papel">`
+## Añadir fotos
 
-## Añadir fotos (opcional)
-
-Dentro de cada momento puedes insertar una imagen. Copia tus fotos a una carpeta `fotos/` y añade:
+En cada `<figure class="marco">` hay un bloque `.marco__vacio` con el icono de cámara. Sustitúyelo por una imagen:
 
 ```html
-<img src="fotos/playa.jpg" alt="Nosotros en la playa" style="width:100%;border-radius:10px;margin:10px 0">
+<div class="marco__foto">
+  <img src="fotos/nosotros.jpg" alt="Nosotros">
+</div>
 ```
 
-…o edita el render de `MOMENTOS` para incluir `foto: 'fotos/playa.jpg'`.
+Crea una carpeta `fotos/` al lado de `index.html` y usa imágenes verticales (4:5 funciona mejor). Se recortan solas con `object-fit: cover`.
 
-## Publicarla y compartirla
+## Publicar y compartir
 
-1. **Netlify Drop** (lo más rápido): entra en https://app.netlify.com/drop y arrastra la carpeta del proyecto. Te da un enlace tipo `https://algo.netlify.app`.
-2. **GitHub Pages**: sube el repo y activa Pages en Settings → Pages.
-3. **Vercel**: `npx vercel` dentro de la carpeta.
+1. **Netlify Drop** — https://app.netlify.com/drop (arrastra la carpeta).
+2. **GitHub Pages** — Settings → Pages → rama `main` / root.
+3. **Vercel** — `npx vercel` dentro de la carpeta.
 
-Después envía el enlace por WhatsApp: se abre como una página normal y se puede añadir a la pantalla de inicio.
+Luego envía el enlace por WhatsApp. Mejor aún: genera un QR con ese enlace e imprímelo dentro de una tarjeta.
 
-## Detalles incluidos
+## Detalles técnicos
 
-- Tulipán como icono de la pestaña y tulipanes flotantes de fondo.
-- Sobre con sello de corazón y animación de apertura.
-- Carta con contador de días, línea de tiempo, “cosas que amo de ti” y firma.
-- Botón de música suave generada con Web Audio (sin archivos de audio).
-- Diseño responsive (probado en 360 px, 412 px y escritorio) y respeto por `prefers-reduced-motion`.
+- Sin frameworks ni build: un solo `index.html`.
+- Música suave opcional generada con Web Audio (sin archivos).
+- Contador de días calculado en el navegador.
+- Interacciones: modal de carta con foco atrapado, checklist, vales canjeables, ruleta con resultado consistente con la aguja.
+- Responsive probado en 360 px, 412 px y escritorio; respeta `prefers-reduced-motion`.

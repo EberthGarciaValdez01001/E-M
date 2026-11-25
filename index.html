@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#0b1026" />
-<title>Un regalo para ti · Melida</title>
+<meta name="theme-color" content="#070d24" />
+<title>Eberth &amp; Melida · Nuestra historia</title>
 
-<!-- Tulipán como icono de la página -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%230b1026'/%3E%3Cpath d='M32 41c-6.6 0-12-5.4-12-12V15.5c0-2.2 2.6-3.2 4.1-1.5L32 22l7.9-8c1.5-1.7 4.1-.7 4.1 1.5V29c0 6.6-5.4 12-12 12Z' fill='%23e8c15f'/%3E%3Cpath d='M32 22v17' stroke='%23c99b34' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M32 40v15' stroke='%2378c48f' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M32 55c-7-1.6-10.5-6.4-10.5-12 6.2 0 10.5 4.6 10.5 12Z' fill='%2378c48f'/%3E%3C/svg%3E" />
+<!-- Tulipán como icono -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23070d24'/%3E%3Cpath d='M32 41c-6.6 0-12-5.4-12-12V15.5c0-2.2 2.6-3.2 4.1-1.5L32 22l7.9-8c1.5-1.7 4.1-.7 4.1 1.5V29c0 6.6-5.4 12-12 12Z' fill='%23e8c15f'/%3E%3Cpath d='M32 22v17' stroke='%23c99b34' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M32 40v15' stroke='%2378c48f' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M32 55c-7-1.6-10.5-6.4-10.5-12 6.2 0 10.5 4.6 10.5 12Z' fill='%2378c48f'/%3E%3C/svg%3E" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,54 +16,58 @@
 <style>
   /* ============ BASE ============ */
   :root{
-    --noche-1:#080c1f;
-    --noche-2:#111a3b;  
-    --noche-3:#1a2350;
-    --oro-1:#f6dfa0;
-    --oro-2:#e8c15f;
-    --oro-3:#c99b34;
-    --oro-4:#a87c22;
-    --crema:#fdf7ea;
-    --tinta:#3b3326;
-    --tinta-suave:#5c5240;
-    --lavanda:#c9d0ea;
+    --bg:#060b1e;
+    --bg-2:#0a1330;
+    --panel-a:#111c44;
+    --panel-b:#0a1230;
+    --oro:#e8c15f;
+    --oro-claro:#f4dda2;
+    --oro-oscuro:#b98d2b;
+    --linea:rgba(232,193,95,.34);
+    --linea-suave:rgba(232,193,95,.16);
+    --crema:#f7f1e3;
+    --texto:#c3c8de;
+    --tenue:#9aa1bf;
     --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
     --sans:'Jost', 'Segoe UI', system-ui, sans-serif;
   }
 
   *,*::before,*::after{ box-sizing:border-box; }
 
-  html,body{ margin:0; padding:0; min-height:100%; }
+  html{ scroll-behavior:smooth; }
 
   body{
+    margin:0;
+    min-height:100%;
     font-family:var(--sans);
+    color:var(--texto);
     background:
-      radial-gradient(1200px 700px at 50% -10%, #22306b 0%, transparent 60%),
-      radial-gradient(900px 600px at 85% 105%, #2a1f4d 0%, transparent 62%),
-      linear-gradient(170deg, var(--noche-1) 0%, var(--noche-2) 55%, #0d1330 100%);
-    color:var(--lavanda);
+      radial-gradient(1100px 700px at 50% -8%, #1a2a63 0%, transparent 62%),
+      radial-gradient(900px 700px at 90% 100%, #241b49 0%, transparent 60%),
+      linear-gradient(175deg, #070c20 0%, var(--bg-2) 45%, #070d24 100%);
+    background-attachment:fixed;
     overflow-x:hidden;
     -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
   }
 
-  body.viendo-carta{ overflow:hidden; }
+  body:not(.abierto){ overflow:hidden; }
 
-  ::selection{ background:rgba(232,193,95,.35); color:#fff; }
+  ::selection{ background:rgba(232,193,95,.32); color:#fff; }
 
-  /* ============ FONDO DECORATIVO ============ */
+  button{ font-family:inherit; }
+
+  /* ============ FONDO ============ */
   .fondo{
     position:fixed; inset:0; z-index:0;
     overflow:hidden; pointer-events:none;
   }
   .fondo::after{
-    content:''; position:absolute; inset:0;
-    background:radial-gradient(circle at 50% 45%, transparent 40%, rgba(4,7,18,.55) 100%);
+    content:'';
+    position:absolute; inset:0;
+    background:radial-gradient(circle at 50% 40%, transparent 45%, rgba(3,6,16,.5) 100%);
   }
-
   .flotante{
-    position:absolute;
-    bottom:-12%;
+    position:absolute; bottom:-12%;
     opacity:0;
     will-change:transform, opacity;
     animation-name:flotar;
@@ -71,79 +75,54 @@
     animation-iteration-count:infinite;
   }
   .flotante svg{ display:block; width:100%; height:auto; }
-
   @keyframes flotar{
     0%   { transform:translate3d(0,0,0) rotate(0deg) scale(.9); opacity:0; }
-    12%  { opacity:.55; }
-    55%  { opacity:.38; }
-    88%  { opacity:.18; }
+    12%  { opacity:.5; }
+    55%  { opacity:.33; }
+    88%  { opacity:.16; }
     100% { transform:translate3d(var(--deriva, 30px),-118vh,0) rotate(var(--giro, 35deg)) scale(1.05); opacity:0; }
   }
 
-  /* ============ ESCENAS ============ */
-  .escena{ position:fixed; inset:0; z-index:1; }
-
-  /* ---------- Portada ---------- */
+  /* ============ INTRO ============ */
   .intro{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
+    position:fixed; inset:0; z-index:5;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
     gap:clamp(14px, 2.2vh, 26px);
     padding:clamp(22px, 5vw, 48px) 22px;
-    transition:opacity .7s ease, transform .7s ease, visibility .7s;
+    transition:opacity .55s ease, transform .6s ease, visibility .55s;
   }
-  body.viendo-carta .intro{
-    opacity:0;
-    transform:scale(1.06);
-    visibility:hidden;
-    pointer-events:none;
-  }
-
+  body.abierto .intro{ opacity:0; visibility:hidden; transform:scale(1.06); pointer-events:none; }
   .intro__texto{ display:flex; flex-direction:column; align-items:center; gap:clamp(6px,1.2vh,14px); }
 
   .subtitulo{
     margin:0;
-    font-size:clamp(.66rem, 2.5vw, .82rem);
+    font-size:clamp(.66rem, 2.5vw, .8rem);
     font-weight:300;
-    letter-spacing:.52em;
-    text-indent:.52em;
-    color:#d6dbf0;
-    text-transform:uppercase;
+    letter-spacing:.52em; text-indent:.52em;
+    color:#d6dbf0; text-transform:uppercase;
     animation:entrar 1s .15s cubic-bezier(.22,.9,.28,1) both;
   }
-
   .titulo{
     margin:0;
-    font-family:var(--serif);
-    font-style:italic;
-    font-weight:500;
+    font-family:var(--serif); font-style:italic; font-weight:500;
     font-size:clamp(3.6rem, 16vw, 6rem);
     line-height:.95;
-    letter-spacing:.015em;
-    background:linear-gradient(180deg, #fff6da 0%, var(--oro-1) 26%, var(--oro-2) 55%, #b98e2e 100%);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
+    background:linear-gradient(180deg,#fff6da 0%,var(--oro-claro) 26%,var(--oro) 55%,#b98e2e 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
     filter:drop-shadow(0 6px 22px rgba(232,193,95,.28));
     animation:entrar 1.1s .32s cubic-bezier(.22,.9,.28,1) both;
   }
-
   .divisor{
     display:flex; align-items:center; gap:10px;
-    opacity:.9;
     animation:entrar 1s .5s ease both;
   }
-  .divisor span{ display:block; width:clamp(34px,9vw,62px); height:1px; background:linear-gradient(90deg, transparent, rgba(232,193,95,.75)); }
-  .divisor span:last-child{ background:linear-gradient(270deg, transparent, rgba(232,193,95,.75)); }
-  .divisor svg{ width:13px; height:13px; color:var(--oro-2); opacity:.85; }
+  .divisor span{ display:block; width:clamp(34px,9vw,62px); height:1px; background:linear-gradient(90deg, transparent, rgba(232,193,95,.7)); }
+  .divisor span:last-child{ background:linear-gradient(270deg, transparent, rgba(232,193,95,.7)); }
+  .divisor svg{ width:13px; height:13px; color:var(--oro); opacity:.9; }
 
-  @keyframes entrar{
-    from{ opacity:0; transform:translateY(22px); }
-    to{ opacity:1; transform:translateY(0); }
-  }
+  @keyframes entrar{ from{ opacity:0; transform:translateY(22px); } to{ opacity:1; transform:translateY(0); } }
 
-  /* ---------- Sobre ---------- */
   .sobre-envoltura{
     position:relative;
     width:min(430px, 88vw);
@@ -152,15 +131,13 @@
   .sobre-envoltura::before{
     content:'';
     position:absolute; inset:-18% -12%;
-    background:radial-gradient(ellipse at center, rgba(232,193,95,.22) 0%, transparent 68%);
-    filter:blur(12px);
+    background:radial-gradient(ellipse at center, rgba(232,193,95,.2) 0%, transparent 68%);
+    filter:blur(14px);
     pointer-events:none;
   }
-
   .sobre{
     position:relative;
-    width:100%;
-    aspect-ratio:1.42 / 1;
+    width:100%; aspect-ratio:1.42/1;
     perspective:1300px;
     filter:drop-shadow(0 34px 44px rgba(2,4,14,.55));
     transition:transform .8s cubic-bezier(.22,.9,.28,1);
@@ -168,58 +145,35 @@
     -webkit-tap-highlight-color:transparent;
   }
   .sobre:hover{ transform:translateY(-6px); }
-  .sobre:focus-visible{ outline:2px solid var(--oro-1); outline-offset:10px; border-radius:12px; }
+  .sobre:focus-visible{ outline:2px solid var(--oro-claro); outline-offset:10px; border-radius:12px; }
 
   .sobre__cuerpo{
-    position:absolute; inset:0;
-    border-radius:12px;
-    background:linear-gradient(160deg, #e0b355 0%, #caa03c 48%, #b58a2b 100%);
+    position:absolute; inset:0; border-radius:12px;
+    background:linear-gradient(160deg,#e0b355 0%,#caa03c 48%,#b58a2b 100%);
     box-shadow:inset 0 0 0 1px rgba(255,240,200,.22), inset 0 -22px 40px rgba(80,55,10,.28);
     z-index:1;
   }
-
-  /* Papel que asoma al abrir */
   .sobre__papel{
-    position:absolute;
-    left:6%; right:6%;
-    bottom:7%;
-    height:88%;
-    z-index:2;
-    border-radius:8px 8px 3px 3px;
-    background:linear-gradient(180deg, #fffaf0, #f7ecd8);
+    position:absolute; left:6%; right:6%; bottom:7%; height:88%;
+    z-index:2; border-radius:8px 8px 3px 3px;
+    background:linear-gradient(180deg,#fffaf0,#f7ecd8);
     box-shadow:0 8px 22px rgba(20,14,0,.35), inset 0 0 0 1px rgba(190,150,70,.35);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:12px;
+    display:flex; flex-direction:column; align-items:center; gap:12px;
     padding-top:clamp(16px,5vw,26px);
     transition:transform .95s cubic-bezier(.3,.9,.25,1);
     overflow:hidden;
   }
   .sobre__papel span{
-    font-family:var(--serif);
-    font-style:italic;
-    font-size:clamp(1.15rem,4.2vw,1.5rem);
-    color:#b08a3c;
-    letter-spacing:.02em;
+    font-family:var(--serif); font-style:italic;
+    font-size:clamp(1.15rem,4.2vw,1.5rem); color:#b08a3c;
   }
-  .sobre__papel i{
-    display:block; width:52%; height:1px;
-    background:linear-gradient(90deg, transparent, rgba(180,148,80,.55), transparent);
-  }
+  .sobre__papel i{ display:block; width:52%; height:1px; background:linear-gradient(90deg,transparent,rgba(180,148,80,.55),transparent); }
   .sobre__papel em{
     font-family:var(--sans); font-style:normal;
-    font-size:.56rem; letter-spacing:.32em; text-transform:uppercase;
-    color:#b6a077;
+    font-size:.56rem; letter-spacing:.32em; text-transform:uppercase; color:#b6a077;
   }
 
-  /* Solapas */
-  .sobre__solapa{
-    position:absolute; inset:0;
-    border-radius:12px;
-    z-index:3;
-    pointer-events:none;
-  }
+  .sobre__solapa{ position:absolute; inset:0; border-radius:12px; z-index:3; pointer-events:none; }
   .solapa-izq{ clip-path:polygon(0 0, 52% 51%, 0 100%); background:linear-gradient(90deg,#b98d2b,#d3a743); }
   .solapa-der{ clip-path:polygon(100% 0, 48% 51%, 100% 100%); background:linear-gradient(270deg,#b98d2b,#d3a743); }
   .solapa-inf{ clip-path:polygon(0 100%, 50% 47%, 100% 100%); background:linear-gradient(180deg,#d8ac47,#c19632); }
@@ -232,65 +186,48 @@
   }
   .sobre:hover .solapa-sup{ filter:brightness(1.06); }
 
-  /* Sello */
   .sello{
-    position:absolute;
-    left:50%; top:52%;
-    width:clamp(58px, 17vw, 82px);
-    aspect-ratio:1;
+    position:absolute; left:50%; top:52%;
+    width:clamp(58px,17vw,82px); aspect-ratio:1;
     transform:translate(-50%,-50%);
-    border-radius:50%;
-    z-index:6;
+    border-radius:50%; z-index:6;
     display:grid; place-items:center;
-    background:
-      radial-gradient(circle at 34% 30%, #fff3c9 0%, #f0cf77 38%, #d4a83f 72%, #b58a29 100%);
-    box-shadow:
-      0 10px 20px rgba(60,40,0,.42),
-      inset 0 -3px 8px rgba(120,85,10,.35),
-      inset 0 2px 4px rgba(255,250,225,.75);
+    background:radial-gradient(circle at 34% 30%, #fff3c9 0%, #f0cf77 38%, #d4a83f 72%, #b58a29 100%);
+    box-shadow:0 10px 20px rgba(60,40,0,.42), inset 0 -3px 8px rgba(120,85,10,.35), inset 0 2px 4px rgba(255,250,225,.75);
     transition:transform .55s cubic-bezier(.5,-.4,.6,1.4), opacity .5s ease;
     pointer-events:none;
   }
   .sello svg{ width:42%; height:42%; color:#fffdf5; filter:drop-shadow(0 1px 2px rgba(140,100,10,.45)); }
 
-  /* Estado abierto */
   body.abriendo .solapa-sup{ transform:rotateX(-178deg); z-index:0; }
   body.abriendo .sello{ opacity:0; transform:translate(-50%,-50%) scale(.35) rotate(28deg); }
   body.abriendo .sobre__papel{ transform:translateY(-24%); }
   body.abriendo .sobre{ cursor:default; }
 
-  /* ---------- Botón principal ---------- */
+  /* Botón principal */
   .boton{
     position:relative;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:.55rem;
+    display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
     min-height:58px;
-    padding:0 clamp(28px, 8vw, 46px);
-    border:none;
-    border-radius:999px;
-    font-family:var(--sans);
-    font-size:clamp(.95rem, 3.6vw, 1.06rem);
-    font-weight:400;
-    letter-spacing:.035em;
-    color:#2b2208;
-    cursor:pointer;
+    padding:0 clamp(28px,8vw,46px);
+    border:none; border-radius:999px;
+    font-size:clamp(.95rem,3.6vw,1.06rem);
+    font-weight:400; letter-spacing:.035em;
+    color:#2b2208; cursor:pointer;
     -webkit-tap-highlight-color:transparent;
-    background:linear-gradient(180deg, #ffe9a8 0%, #f2cb6b 42%, #e2b451 100%);
+    background:linear-gradient(180deg,#ffe9a8 0%,#f2cb6b 42%,#e2b451 100%);
     box-shadow:
       0 14px 26px -8px rgba(3,6,18,.7),
       0 1px 0 rgba(255,255,255,.45) inset,
       0 0 0 1px rgba(255,247,214,.45) inset,
       0 -3px 10px rgba(120,85,10,.26) inset;
-    overflow:hidden;               /* recorta el brillo dentro del botón */
-    transition:transform .25s ease, box-shadow .3s ease, filter .3s ease;
+    overflow:hidden;
+    transition:transform .25s ease, filter .3s ease;
     animation:entrar 1.15s .78s cubic-bezier(.22,.9,.28,1) both, latir 3.6s 2s ease-in-out infinite;
   }
   .boton::after{
     content:'';
     position:absolute; inset:0;
-    border-radius:inherit;
     background:linear-gradient(100deg, transparent 30%, rgba(255,255,255,.55) 48%, transparent 62%);
     transform:translateX(-120%);
     animation:brillo 5.5s 3s ease-in-out infinite;
@@ -299,7 +236,6 @@
   .boton:hover{ transform:translateY(-2px); filter:brightness(1.04); }
   .boton:active{ transform:translateY(1px) scale(.985); }
   .boton:focus-visible{ outline:2px solid #fff3cf; outline-offset:4px; }
-
   @keyframes latir{
     0%,100%{ box-shadow:0 14px 26px -8px rgba(3,6,18,.7), 0 1px 0 rgba(255,255,255,.45) inset, 0 0 0 1px rgba(255,247,214,.45) inset, 0 -3px 10px rgba(120,85,10,.26) inset, 0 0 0 0 rgba(232,193,95,0); }
     50%    { box-shadow:0 14px 26px -8px rgba(3,6,18,.7), 0 1px 0 rgba(255,255,255,.45) inset, 0 0 0 1px rgba(255,247,214,.45) inset, 0 -3px 10px rgba(120,85,10,.26) inset, 0 0 26px 6px rgba(232,193,95,.26); }
@@ -309,310 +245,708 @@
     82%,100%{ transform:translateX(120%); }
   }
 
-  /* ============ LA CARTA ============ */
-  .carta{
-    z-index:2;
-    overflow-y:auto;
-    overflow-x:hidden;
-    -webkit-overflow-scrolling:touch;
+  /* ============ SITIO ============ */
+  .sitio{
+    position:relative; z-index:2;
+    display:none;
+    width:100%; max-width:640px;
+    margin:0 auto;
+    padding:clamp(34px,7vh,64px) 18px calc(56px + env(safe-area-inset-bottom));
+    flex-direction:column;
+    gap:clamp(18px,3.6vw,26px);
+  }
+  body.abierto .sitio{ display:flex; }
+
+  .revelar{
     opacity:0;
-    visibility:hidden;
-    transform:translateY(40px) scale(.985);
-    transition:opacity .8s ease .05s, transform .9s cubic-bezier(.22,.9,.28,1) .05s, visibility .8s;
+    transform:translateY(26px);
+    transition:opacity .9s cubic-bezier(.22,.9,.28,1), transform .9s cubic-bezier(.22,.9,.28,1);
   }
-  body.viendo-carta .carta{
-    opacity:1;
-    visibility:visible;
-    transform:none;
-  }
+  .revelar.visible{ opacity:1; transform:none; }
 
-  /* Garabato superior */
-  .carta__luz{
-    position:absolute; top:-140px; left:50%;
-    width:min(720px, 120vw); height:340px;
-    transform:translateX(-50%);
-    background:radial-gradient(ellipse at center, rgba(232,193,95,.22), transparent 68%);
-    filter:blur(14px);
-    pointer-events:none;
-  }
-
-  .papel{
-    position:relative;
-    width:min(640px, calc(100% - 36px));
-    margin:clamp(58px, 8vh, 86px) auto 44px;
-    padding:clamp(26px, 6.5vw, 54px) clamp(22px, 6vw, 52px) clamp(30px, 6vw, 48px);
-    border-radius:20px;
-    color:var(--tinta);
-    background:
-      radial-gradient(120% 80% at 12% 0%, rgba(255,255,255,.9), transparent 55%),
-      radial-gradient(100% 70% at 92% 100%, rgba(226,196,132,.45), transparent 60%),
-      linear-gradient(180deg, #fffaf1 0%, #f9eeda 60%, #f3e4c6 100%);
-    box-shadow:
-      0 44px 90px rgba(2,5,16,.6),
-      0 2px 0 rgba(255,255,255,.85) inset,
-      0 0 0 1px rgba(198,158,74,.55);
-    animation:subirPapel .9s .12s cubic-bezier(.22,.9,.28,1) both;
-  }
-  .papel::before{
-    content:'';
-    position:absolute; inset:10px;
-    border-radius:14px;
-    border:1px solid rgba(190,152,74,.34);
-    pointer-events:none;
-  }
-  @keyframes subirPapel{
-    from{ opacity:0; transform:translateY(34px); }
-    to{ opacity:1; transform:translateY(0); }
-  }
-
-  .papel__etiqueta{
-    display:flex; align-items:center; justify-content:center; gap:10px;
-    margin:0 0 6px;
-    font-size:.62rem; letter-spacing:.38em; text-indent:.38em;
-    text-transform:uppercase; color:#a98c4e; font-weight:400;
-  }
-  .papel__etiqueta i{ display:block; width:26px; height:1px; background:rgba(180,145,70,.55); }
-
-  .papel__saludo{
-    margin:0;
+  /* Hero */
+  .hero{
     text-align:center;
+    padding:clamp(6px,2vh,18px) 4px clamp(2px,1vh,8px);
+  }
+  .hero__etiqueta{
+    margin:0 0 14px;
+    font-size:.6rem; letter-spacing:.42em; text-indent:.42em;
+    text-transform:uppercase; color:var(--tenue);
+  }
+  .hero__nombres{
+    margin:0;
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(2.6rem, 11.5vw, 4rem);
+    line-height:1.05;
+    letter-spacing:.005em;
+    color:var(--crema);
+    text-shadow:0 10px 30px rgba(0,0,0,.4);
+  }
+  .hero__nombres .amp{
+    font-style:italic;
+    color:var(--oro);
+    padding:0 .06em;
+  }
+  .hero__linea{
+    display:block;
+    width:74px; height:1px;
+    margin:18px auto 0;
+    background:linear-gradient(90deg,transparent,rgba(232,193,95,.75),transparent);
+  }
+
+  /* Marco de foto */
+  .marco{
+    position:relative;
+    width:100%;
+    max-width:470px;
+    margin:0 auto;
+    background:#fdfaf3;
+    padding:9px;
+    border-radius:16px;
+    box-shadow:0 26px 50px rgba(1,4,14,.55), 0 2px 0 rgba(255,255,255,.6) inset;
+  }
+  .marco__foto{
+    position:relative;
+    aspect-ratio:4/5;
+    border-radius:9px;
+    overflow:hidden;
+    background:
+      radial-gradient(120% 90% at 20% 10%, rgba(232,193,95,.28), transparent 55%),
+      radial-gradient(100% 90% at 85% 95%, rgba(126,96,180,.4), transparent 60%),
+      linear-gradient(150deg,#1a2450 0%,#0d1533 60%,#141b3d 100%);
+    display:grid;
+    place-items:center;
+    gap:0;
+    isolation:isolate;
+  }
+  .marco__foto img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .marco__foto::after{
+    content:'';
+    position:absolute; inset:0;
+    background:
+      repeating-linear-gradient(115deg, rgba(255,255,255,.022) 0 1px, transparent 1px 8px),
+      radial-gradient(circle at 50% 50%, transparent 55%, rgba(4,7,18,.35) 100%);
+    pointer-events:none;
+  }
+  .marco__vacio{
+    position:relative; z-index:1;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    text-align:center;
+    padding:22px;
+  }
+  .marco__vacio svg{ width:30px; height:30px; color:rgba(244,221,162,.7); }
+  .marco__vacio strong{
+    font-family:var(--serif); font-style:italic; font-weight:500;
+    font-size:1.35rem; color:rgba(247,241,227,.9);
+  }
+  .marco__vacio span{
+    font-size:.56rem; letter-spacing:.3em; text-transform:uppercase;
+    color:rgba(244,221,162,.6);
+  }
+  .marco figcaption{
+    text-align:center;
+    padding:12px 6px 4px;
+    font-family:var(--serif); font-style:italic;
+    font-size:1.02rem;
+    color:#7d7258;
+  }
+
+  /* Panel base */
+  .panel{
+    position:relative;
+    width:100%;
+    padding:clamp(24px,6.2vw,38px) clamp(20px,5.6vw,34px);
+    border-radius:22px;
+    border:1px solid var(--linea);
+    background:
+      radial-gradient(130% 90% at 50% -10%, rgba(232,193,95,.09), transparent 58%),
+      linear-gradient(180deg, rgba(19,29,66,.82), rgba(8,14,36,.94));
+    box-shadow:0 24px 50px rgba(1,4,14,.4), 0 1px 0 rgba(255,255,255,.05) inset;
+    text-align:center;
+    overflow:hidden;
+  }
+  .etiqueta{
+    margin:0 0 12px;
+    font-size:.6rem; letter-spacing:.36em; text-indent:.36em;
+    text-transform:uppercase;
+    color:#c9a86a;
+    font-weight:400;
+  }
+  .titulo-panel{
+    margin:0 0 6px;
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(1.5rem,5.6vw,1.85rem);
+    line-height:1.25;
+    color:var(--crema);
+    letter-spacing:.005em;
+  }
+  .sub-panel{
+    margin:0 auto;
+    max-width:36ch;
+    font-size:.86rem;
+    font-weight:300;
+    line-height:1.65;
+    color:var(--tenue);
+  }
+
+  /* Contador */
+  .contador__grande{
+    margin:6px 0 14px;
     font-family:var(--serif);
     font-style:italic;
     font-weight:500;
-    font-size:clamp(2.4rem, 10vw, 3.5rem);
-    line-height:1.05;
-    color:#8a6a24;
-    letter-spacing:.01em;
+    font-size:clamp(1.65rem,7vw,2.3rem);
+    line-height:1.3;
+    color:var(--oro-claro);
+    text-shadow:0 6px 24px rgba(232,193,95,.18);
   }
-  .papel__saludo small{
-    display:block;
-    margin-top:.35rem;
-    font-family:var(--sans);
-    font-style:normal;
-    font-size:.62rem;
-    letter-spacing:.3em;
-    text-transform:uppercase;
-    color:#b39a63;
-  }
-
-  .tulipan-sep{
-    display:flex; align-items:center; justify-content:center; gap:12px;
-    margin:clamp(16px,3.5vw,24px) 0 clamp(18px,3.5vw,26px);
-    color:#c9a24a;
-  }
-  .tulipan-sep span{ display:block; height:1px; width:min(70px,18vw); background:linear-gradient(90deg, transparent, rgba(190,152,74,.65)); }
-  .tulipan-sep span:last-child{ background:linear-gradient(270deg, transparent, rgba(190,152,74,.65)); }
-  .tulipan-sep svg{ width:22px; height:22px; }
-
-  .papel p{
-    margin:0 0 1.05em;
-    font-size:clamp(.96rem, 3.5vw, 1.02rem);
-    line-height:1.85;
-    font-weight:300;
-    color:#4a4234;
-    letter-spacing:.006em;
-  }
-  .papel p:last-of-type{ margin-bottom:0; }
-  .papel strong{ font-weight:500; color:#3c3324; }
-  .papel em{ font-family:var(--serif); font-style:italic; font-size:1.12em; color:#7d5f21; }
-
-  .contador{
-    display:block;
-    width:fit-content;
-    margin:0 auto clamp(24px,5vw,32px);
-    padding:.55rem 1.1rem;
+  .contador__reloj{
+    display:inline-block;
+    margin:0;
+    padding:.42rem .95rem;
     border-radius:999px;
-    background:rgba(201,162,74,.12);
-    border:1px solid rgba(201,162,74,.42);
-    font-size:.68rem;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-    color:#8d6c22;
-    text-align:center;
+    border:1px solid rgba(232,193,95,.3);
+    background:rgba(232,193,95,.07);
+    font-size:.78rem;
+    letter-spacing:.24em;
+    font-variant-numeric:tabular-nums;
+    color:#e9d3a1;
   }
-  .contador b{ font-weight:500; letter-spacing:.08em; color:#6f5316; }
+  .contador__reloj span{ color:#8f97b8; letter-spacing:.1em; }
 
-  .seccion{
-    margin:clamp(26px,6vw,38px) 0 0;
-    font-size:.62rem;
-    letter-spacing:.34em;
-    text-transform:uppercase;
-    color:#a98c4e;
-    font-weight:500;
+  /* Sobre de la carta */
+  .sobre-arte{
+    position:relative;
+    width:100%;
+    max-width:300px;
+    margin:6px auto 22px;
+    aspect-ratio:3/2;
   }
-  .seccion::after{
+  .sobre-arte svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .sobre-arte .corchete{
+    position:absolute;
+    width:16px; height:16px;
+    border:1px solid rgba(232,193,95,.6);
+  }
+  .sobre-arte .corchete:nth-of-type(1){ top:-16px; left:-16px; border-right:0; border-bottom:0; }
+  .sobre-arte .corchete:nth-of-type(2){ top:-16px; right:-16px; border-left:0; border-bottom:0; }
+  .sobre-arte .corchete:nth-of-type(3){ bottom:-16px; left:-16px; border-right:0; border-top:0; }
+  .sobre-arte .corchete:nth-of-type(4){ bottom:-16px; right:-16px; border-left:0; border-top:0; }
+
+  .sello-carta{
+    position:absolute; left:50%; top:50%;
+    width:clamp(62px,17vw,84px); aspect-ratio:1;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    display:grid; place-items:center;
+    background:radial-gradient(circle at 34% 28%, #fff3c9, #f0cf77 40%, #d4a83f 72%, #b58a29 100%);
+    box-shadow:0 0 0 8px rgba(232,193,95,.07), 0 14px 30px rgba(0,0,0,.45), inset 0 -3px 8px rgba(120,85,10,.3);
+  }
+  .sello-carta svg{ width:44%; height:44%; color:#1b1405; }
+  .sello-carta::after{
     content:'';
-    display:block;
-    width:100%; height:1px;
-    margin-top:.7rem;
-    background:linear-gradient(90deg, rgba(190,152,74,.55), transparent);
+    position:absolute; inset:-14px;
+    border-radius:50%;
+    border:1px solid rgba(232,193,95,.18);
+    animation:pulso 3.4s ease-in-out infinite;
+  }
+  @keyframes pulso{
+    0%,100%{ transform:scale(1); opacity:.7; }
+    50%    { transform:scale(1.1); opacity:0; }
   }
 
-  /* Línea de tiempo */
+  .btn-contorno{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-height:50px;
+    padding:0 clamp(24px,7vw,38px);
+    border-radius:999px;
+    border:1px solid rgba(232,193,95,.55);
+    background:transparent;
+    color:var(--oro-claro);
+    font-size:.76rem;
+    letter-spacing:.26em;
+    text-transform:uppercase;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:background .3s, color .3s, border-color .3s, transform .25s;
+  }
+  .btn-contorno:hover{ background:var(--oro); color:#231b05; border-color:var(--oro); transform:translateY(-1px); }
+  .btn-contorno:active{ transform:translateY(0); }
+  .btn-contorno:focus-visible{ outline:2px solid var(--oro-claro); outline-offset:4px; }
+
+  /* Lo que amo de ti */
+  .gustos{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:2px;
+    margin:18px 0 0;
+    text-align:left;
+  }
+  @media (min-width:480px){ .gustos{ grid-template-columns:1fr 1fr; gap:4px 18px; } }
+  .gustos li{
+    display:flex; gap:11px; align-items:flex-start;
+    padding:11px 0;
+    font-size:.92rem; line-height:1.6; font-weight:300;
+    color:#d5d8e8;
+    border-bottom:1px solid rgba(232,193,95,.08);
+  }
+  .gustos svg{ flex:none; width:14px; height:14px; margin-top:.35em; color:#d99a6a; }
+
+  /* Momentos */
   .momentos{
     position:relative;
-    margin:clamp(16px,4vw,22px) 0 0;
-    padding-left:30px;
+    margin:22px 0 0;
+    padding-left:28px;
+    text-align:left;
   }
   .momentos::before{
     content:'';
-    position:absolute; left:6px; top:8px; bottom:16px;
+    position:absolute; left:4px; top:8px; bottom:14px;
     width:1px;
-    background:linear-gradient(180deg, rgba(201,162,74,.75), rgba(201,162,74,.22) 70%, transparent);
+    background:linear-gradient(180deg, rgba(232,193,95,.7), rgba(232,193,95,.18) 70%, transparent);
   }
-  .momento{ position:relative; padding-bottom:clamp(20px,4.5vw,26px); }
+  .momento{ position:relative; padding-bottom:22px; }
   .momento:last-child{ padding-bottom:0; }
   .momento::before{
     content:'';
-    position:absolute; left:-29px; top:8px;
-    width:8px; height:8px; border-radius:50%;
-    background:#c9a24a;
-    box-shadow:0 0 0 4px rgba(232,193,95,.16);
+    position:absolute; left:-28px; top:7px;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--oro);
+    box-shadow:0 0 0 4px rgba(232,193,95,.14);
   }
   .momento__cap{
     display:block;
-    font-size:.58rem;
-    letter-spacing:.3em;
-    text-transform:uppercase;
-    color:#b39a63;
-    margin-bottom:.35rem;
+    font-size:.55rem; letter-spacing:.3em; text-transform:uppercase;
+    color:#a98f5e; margin-bottom:.3rem;
   }
   .momento h3{
-    margin:0 0 .4rem;
-    font-family:var(--serif);
-    font-weight:600;
-    font-size:clamp(1.18rem,4.6vw,1.35rem);
-    line-height:1.25;
-    color:#6b5119;
-    letter-spacing:.005em;
+    margin:0 0 .3rem;
+    font-family:var(--serif); font-weight:600;
+    font-size:1.24rem; line-height:1.25;
+    color:var(--oro-claro);
   }
-  .momento p{ margin:0; font-size:clamp(.93rem,3.4vw,.98rem); line-height:1.8; }
+  .momento p{ margin:0; font-size:.9rem; line-height:1.72; font-weight:300; color:#b9bed4; }
 
-  /* Razones */
-  .razones{ list-style:none; margin:clamp(16px,4vw,22px) 0 0; padding:0; display:grid; gap:12px; }
-  .razones li{
-    display:flex; gap:12px; align-items:flex-start;
-    font-size:clamp(.94rem,3.4vw,.99rem);
-    line-height:1.7;
-    font-weight:300;
-    color:#4a4234;
+  /* Mapa */
+  .mapa{
+    position:relative;
+    margin:20px 0 18px;
+    aspect-ratio:16/10;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid rgba(232,193,95,.22);
+    background:
+      radial-gradient(80% 90% at 20% 20%, rgba(41,60,124,.8), transparent 60%),
+      radial-gradient(70% 80% at 80% 80%, rgba(58,40,96,.8), transparent 60%),
+      linear-gradient(150deg,#0d1638,#0a1029);
   }
-  .razones svg{ flex:none; width:15px; height:15px; margin-top:.32em; color:#c9903f; }
+  .mapa::before{
+    content:'';
+    position:absolute; inset:0;
+    background:
+      linear-gradient(rgba(232,193,95,.07) 1px, transparent 1px) 0 0/ 100% 22px,
+      linear-gradient(90deg, rgba(232,193,95,.07) 1px, transparent 1px) 0 0/ 22px 100%;
+    mask-image:radial-gradient(circle at 50% 50%, #000 55%, transparent 100%);
+  }
+  .mapa svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .pin{
+    position:absolute;
+    transform:translate(-50%,-50%);
+    display:flex; flex-direction:column; align-items:center;
+    z-index:2;
+  }
+  .pin__punto{
+    position:relative;
+    width:30px; height:30px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #fff2c4, #e8c15f 55%, #b98d2b);
+    display:grid; place-items:center;
+    box-shadow:0 6px 14px rgba(0,0,0,.5);
+    font-size:.66rem; font-weight:500; color:#241b05;
+  }
+  .pin__punto::after{
+    content:'';
+    position:absolute; inset:-8px;
+    border-radius:50%;
+    border:1px solid rgba(232,193,95,.35);
+    animation:pulso 3.8s ease-in-out infinite;
+  }
+  .pin__nombre{
+    margin-top:7px;
+    padding:3px 8px;
+    border-radius:999px;
+    background:rgba(7,12,30,.82);
+    border:1px solid rgba(232,193,95,.25);
+    font-size:.5rem; letter-spacing:.16em; text-transform:uppercase;
+    color:#e7d6ae;
+    white-space:nowrap;
+  }
+  .lugares{
+    list-style:none; margin:0; padding:0;
+    display:grid; gap:2px;
+    text-align:left;
+  }
+  .lugar{
+    display:flex; gap:12px; align-items:baseline;
+    padding:10px 0;
+    border-bottom:1px solid rgba(232,193,95,.08);
+  }
+  .lugar:last-child{ border-bottom:0; }
+  .lugar__num{
+    flex:none;
+    font-family:var(--serif); font-style:italic;
+    font-size:.95rem; color:#a98f5e;
+    min-width:22px;
+  }
+  .lugar__txt{ font-size:.9rem; line-height:1.5; font-weight:300; color:#c6cadf; }
+  .lugar__txt b{ display:block; font-weight:400; color:var(--crema); font-size:.95rem; }
+
+  /* Lista */
+  .lista{
+    list-style:none; margin:16px 0 0; padding:0;
+    text-align:left;
+  }
+  .lista li + li{ border-top:1px solid rgba(232,193,95,.08); }
+  .lista button{
+    display:flex; align-items:center; gap:14px;
+    width:100%;
+    padding:14px 2px;
+    background:none; border:0;
+    color:#d3d7e7;
+    font-size:.94rem; font-weight:300; text-align:left;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:color .25s;
+  }
+  .lista button:hover{ color:var(--crema); }
+  .lista .marca{
+    flex:none;
+    position:relative;
+    width:22px; height:22px;
+    border-radius:50%;
+    border:1px solid rgba(232,193,95,.45);
+    display:grid; place-items:center;
+    transition:background .3s, border-color .3s;
+  }
+  .lista .marca svg{
+    width:11px; height:11px;
+    color:#241b05;
+    opacity:0;
+    transform:scale(.4) rotate(-25deg);
+    transition:opacity .3s, transform .35s cubic-bezier(.2,1.4,.4,1);
+  }
+  .lista button[aria-pressed="true"]{ color:#8f96b4; }
+  .lista button[aria-pressed="true"] .marca{ background:var(--oro); border-color:var(--oro); }
+  .lista button[aria-pressed="true"] .marca svg{ opacity:1; transform:scale(1) rotate(0); }
+  .lista button[aria-pressed="true"] .txt{ text-decoration:line-through; text-decoration-color:rgba(232,193,95,.5); }
+
+  /* Vales */
+  .vales{ display:grid; gap:12px; margin:18px 0 0; }
+  .vale{
+    position:relative;
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:16px 16px 16px 20px;
+    border-radius:14px;
+    border:1px dashed rgba(232,193,95,.35);
+    background:linear-gradient(120deg, rgba(232,193,95,.08), rgba(232,193,95,.02));
+    text-align:left;
+    overflow:hidden;
+    transition:border-color .3s, background .3s, opacity .3s;
+  }
+  .vale__txt small{
+    display:block;
+    font-size:.53rem; letter-spacing:.3em; text-transform:uppercase;
+    color:#a98f5e; margin-bottom:.3rem;
+  }
+  .vale__txt h4{
+    margin:0;
+    font-family:var(--serif); font-weight:500;
+    font-size:1.12rem; line-height:1.3;
+    color:var(--crema);
+  }
+  .vale__btn{
+    flex:none;
+    min-height:36px;
+    padding:0 14px;
+    border-radius:999px;
+    border:1px solid rgba(232,193,95,.5);
+    background:transparent;
+    color:var(--oro-claro);
+    font-size:.6rem; letter-spacing:.16em; text-transform:uppercase;
+    cursor:pointer;
+    transition:background .3s, color .3s, border-color .3s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .vale__btn:hover{ background:var(--oro); color:#231b05; border-color:var(--oro); }
+  .vale__btn:focus-visible{ outline:2px solid var(--oro-claro); outline-offset:3px; }
+  .vale.usado{ border-style:solid; border-color:rgba(232,193,95,.18); opacity:.62; }
+  .vale.usado .vale__btn{ background:transparent; color:#7d859f; border-color:rgba(255,255,255,.15); cursor:default; }
+  .vale__sello{
+    position:absolute; right:12px; top:50%;
+    transform:translateY(-50%) rotate(-12deg) scale(.7);
+    padding:3px 10px;
+    border:1px solid rgba(232,193,95,.7);
+    border-radius:4px;
+    font-size:.55rem; letter-spacing:.24em; text-transform:uppercase;
+    color:var(--oro);
+    opacity:0; pointer-events:none;
+    transition:opacity .35s, transform .45s cubic-bezier(.2,1.4,.4,1);
+  }
+  .vale.usado .vale__sello{ opacity:.9; transform:translateY(-50%) rotate(-12deg) scale(1); }
+  .vale.usado .vale__btn{ visibility:hidden; }
+
+  /* Ruleta */
+  .ruleta-envoltura{
+    position:relative;
+    width:min(260px, 74vw);
+    aspect-ratio:1;
+    margin:22px auto 20px;
+  }
+  .ruleta{
+    position:relative;
+    width:100%; height:100%;
+    border-radius:50%;
+    background:conic-gradient(
+      #f0d38a 0deg 72deg,
+      #c9a24a 72deg 144deg,
+      #f0d38a 144deg 216deg,
+      #c9a24a 216deg 288deg,
+      #f0d38a 288deg 360deg
+    );
+    box-shadow:0 0 0 10px rgba(232,193,95,.08), 0 0 0 11px rgba(232,193,95,.25), 0 22px 40px rgba(0,0,0,.45);
+    transition:transform 4s cubic-bezier(.16,.84,.16,1);
+    overflow:hidden;
+  }
+  .ruleta::after{
+    content:'';
+    position:absolute; inset:0;
+    border-radius:50%;
+    background:radial-gradient(circle at 50% 50%, rgba(255,249,230,.55) 0 8%, transparent 9%),
+               radial-gradient(circle at 50% 50%, transparent 55%, rgba(90,60,10,.18) 100%);
+  }
+  .ruleta__et{
+    position:absolute; left:50%; top:50%;
+    width:0; height:0;
+    font-size:.7rem;
+    letter-spacing:.02em;
+    font-weight:500;
+    color:#2c2308;
+    white-space:nowrap;
+  }
+  .ruleta__et span{
+    position:absolute;
+    left:0; top:0;
+    transform:translate(-50%,-50%);
+  }
+  .ruleta__aguja{
+    position:absolute; left:50%; top:-14px;
+    width:0; height:0;
+    transform:translateX(-50%);
+    border-left:11px solid transparent;
+    border-right:11px solid transparent;
+    border-top:20px solid var(--oro);
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,.5));
+    z-index:3;
+  }
+  .ruleta__eje{
+    position:absolute; left:50%; top:50%;
+    width:48px; height:48px;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    display:grid; place-items:center;
+    background:radial-gradient(circle at 36% 30%, #fff4cd, #e8c15f 55%, #b98d2b);
+    box-shadow:0 6px 16px rgba(0,0,0,.45), inset 0 -2px 6px rgba(120,85,10,.35);
+    color:#2b2208;
+    z-index:2;
+  }
+  .ruleta__eje svg{ width:20px; height:20px; }
+  .ruleta__res{
+    min-height:2.6em;
+    margin:0;
+    font-family:var(--serif);
+    font-size:1.12rem;
+    font-style:italic;
+    line-height:1.4;
+    color:var(--oro-claro);
+    transition:opacity .4s;
+  }
 
   /* Cierre */
-  .despedida{
-    margin-top:clamp(28px,6vw,38px);
-    padding-top:clamp(22px,5vw,30px);
-    border-top:1px solid rgba(190,152,74,.35);
+  .cierre{
     text-align:center;
+    padding:clamp(16px,4vh,30px) 10px 0;
   }
-  .despedida p{ font-family:var(--serif); font-style:italic; font-size:1.12rem; line-height:1.7; color:#5a4a2e; margin-bottom:.9rem; }
-  .firma{
-    display:block;
+  .cierre p{
+    margin:0 auto;
+    max-width:28ch;
     font-family:var(--serif);
+    font-size:clamp(1.35rem,5.6vw,1.7rem);
     font-style:italic;
-    font-weight:500;
-    font-size:clamp(1.7rem,6.5vw,2.1rem);
-    color:#8a6a24;
-    line-height:1.2;
+    line-height:1.55;
+    color:var(--oro-claro);
   }
-  .firma small{
+  .cierre .firma{
     display:block;
-    margin-top:.4rem;
-    font-family:var(--sans);
-    font-style:normal;
-    font-size:.56rem;
-    letter-spacing:.3em;
-    text-transform:uppercase;
-    color:#b39a63;
+    margin-top:16px;
+    font-family:var(--serif);
+    font-size:clamp(1.8rem,7vw,2.3rem);
+    font-style:italic;
+    color:var(--crema);
   }
+  .cierre .firma small{
+    display:block;
+    margin-top:.5rem;
+    font-family:var(--sans); font-style:normal;
+    font-size:.54rem; letter-spacing:.3em; text-transform:uppercase;
+    color:#a98f5e;
+  }
+  .pie{
+    display:flex; align-items:center; justify-content:center; gap:9px;
+    margin-top:10px; padding-bottom:8px;
+    font-size:.56rem; letter-spacing:.28em; text-transform:uppercase;
+    color:#7c83a3;
+  }
+  .pie svg{ width:14px; height:14px; color:#8ab98c; }
 
-  .acciones{
-    display:flex; flex-wrap:wrap; gap:12px; justify-content:center;
-    margin-top:clamp(26px,6vw,34px);
-  }
-  .boton-fantasma{
-    min-height:46px;
-    padding:0 24px;
-    border-radius:999px;
-    border:1px solid rgba(160,122,44,.55);
-    background:rgba(255,252,240,.6);
-    color:#7a5f22;
-    font-family:var(--sans);
-    font-size:.76rem;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-    cursor:pointer;
-    transition:background .25s, transform .25s, border-color .25s;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .boton-fantasma:hover{ background:rgba(255,250,232,.95); border-color:rgba(160,122,44,.9); transform:translateY(-1px); }
-  .boton-fantasma:focus-visible{ outline:2px solid #b9932f; outline-offset:3px; }
-
-  /* Botones flotantes */
-  .flotador{
-    position:fixed;
-    z-index:40;
+  /* ============ MODAL CARTA ============ */
+  .modal{
+    position:fixed; inset:0; z-index:60;
     display:grid; place-items:center;
-    width:46px; height:46px;
+    padding:20px;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .45s ease, visibility .45s;
+  }
+  .modal.abierto{ opacity:1; visibility:visible; }
+  .modal__fondo{
+    position:absolute; inset:0;
+    background:rgba(3,6,18,.78);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+  }
+  .carta-modal{
+    position:relative;
+    width:min(520px, 100%);
+    max-height:min(86vh, 820px);
+    overflow-y:auto;
+    padding:clamp(28px,7vw,46px) clamp(22px,6vw,40px);
+    border-radius:22px;
+    border:1px solid rgba(232,193,95,.45);
+    background:
+      radial-gradient(120% 70% at 50% 0%, rgba(232,193,95,.1), transparent 60%),
+      linear-gradient(180deg,#101a40,#0a1129);
+    box-shadow:0 40px 90px rgba(0,0,0,.6);
+    text-align:center;
+    transform:translateY(24px) scale(.97);
+    transition:transform .5s cubic-bezier(.22,.9,.28,1);
+  }
+  .modal.abierto .carta-modal{ transform:none; }
+  .carta-modal::-webkit-scrollbar{ width:8px; }
+  .carta-modal::-webkit-scrollbar-thumb{ background:rgba(232,193,95,.3); border-radius:99px; }
+
+  .carta-modal h2{
+    margin:0 0 18px;
+    font-family:var(--serif); font-weight:500; font-style:italic;
+    font-size:clamp(2rem,8vw,2.5rem);
+    color:var(--oro-claro);
+    line-height:1.1;
+  }
+  .carta-modal p{
+    margin:0 0 1em;
+    font-family:var(--serif);
+    font-size:clamp(1.06rem,4.2vw,1.2rem);
+    font-style:italic;
+    line-height:1.75;
+    color:#ded7c6;
+  }
+  .carta-modal .carta-firma{
+    margin:24px 0 26px;
+    font-family:var(--sans); font-style:normal;
+    font-size:.58rem; letter-spacing:.34em; text-transform:uppercase;
+    color:#b49a63;
+  }
+  .carta-modal .carta-firma span{
+    display:block;
+    margin-top:10px;
+    font-family:var(--serif); font-style:italic; text-transform:none;
+    letter-spacing:.01em;
+    font-size:1.9rem;
+    color:var(--crema);
+  }
+  .carta-cerrar{
+    position:absolute; top:12px; right:12px;
+    width:38px; height:38px;
+    display:grid; place-items:center;
     border-radius:50%;
-    border:1px solid rgba(232,193,95,.38);
-    background:rgba(11,16,36,.92);
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
-    box-shadow:0 8px 22px rgba(0,0,0,.35);
-    color:var(--oro-1);
+    border:1px solid rgba(232,193,95,.25);
+    background:rgba(7,12,30,.5);
+    color:#d9cba8;
     cursor:pointer;
-    transition:background .25s, transform .25s, border-color .25s, opacity .4s;
+    transition:background .25s, color .25s;
+  }
+  .carta-cerrar:hover{ background:rgba(232,193,95,.18); color:#fff; }
+  .carta-cerrar svg{ width:15px; height:15px; }
+
+  /* ============ FLOTANTES ============ */
+  .flotador{
+    position:fixed; z-index:40;
+    display:grid; place-items:center;
+    width:44px; height:44px;
+    border-radius:50%;
+    border:1px solid rgba(232,193,95,.32);
+    background:rgba(7,12,30,.8);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    color:var(--oro-claro);
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,.3);
+    transition:background .25s, transform .25s, border-color .25s, opacity .35s;
     -webkit-tap-highlight-color:transparent;
-    top:max(16px, env(safe-area-inset-top));
+    top:max(14px, env(safe-area-inset-top));
   }
-  .flotador:hover{ background:rgba(28,38,80,.8); border-color:rgba(232,193,95,.7); transform:translateY(-1px); }
-  .flotador:focus-visible{ outline:2px solid var(--oro-1); outline-offset:3px; }
-  .flotador svg{ width:20px; height:20px; }
+  .flotador:hover{ background:rgba(26,36,74,.92); border-color:rgba(232,193,95,.65); transform:translateY(-1px); }
+  .flotador:focus-visible{ outline:2px solid var(--oro-claro); outline-offset:3px; }
+  .flotador svg{ width:19px; height:19px; }
+  .flotador.musica{ right:14px; }
+  .flotador.musica svg{ transition:opacity .3s, transform .3s; }
+  .flotador.musica[aria-pressed="false"] svg{ opacity:.55; }
+  .flotador.musica[aria-pressed="true"]{ background:rgba(232,193,95,.92); color:#241c04; border-color:#ffe9a8; }
+  .flotador.musica[aria-pressed="true"] svg{ opacity:1; transform:scale(1.05); }
 
-  .cerrar{ left:16px; opacity:0; visibility:hidden; pointer-events:none; }
-  body.viendo-carta .cerrar{ opacity:1; visibility:visible; pointer-events:auto; }
+  .volver{
+    left:14px; opacity:0; visibility:hidden; pointer-events:none;
+  }
+  body.abierto .volver{ opacity:1; visibility:visible; pointer-events:auto; }
 
-  .musica{ right:16px; }
-  .musica svg{ transition:opacity .3s, transform .3s; }
-  .musica[aria-pressed="false"] svg{ opacity:.55; }
-  .musica[aria-pressed="true"]{ background:rgba(232,193,95,.92); color:#241c04; border-color:#ffe9a8; }
-  .musica[aria-pressed="true"] svg{ opacity:1; transform:scale(1.05); }
-
-  /* Scrollbar tenue */
-  .carta::-webkit-scrollbar{ width:9px; }
-  .carta::-webkit-scrollbar-thumb{ background:rgba(232,193,95,.28); border-radius:99px; }
-  .carta::-webkit-scrollbar-track{ background:transparent; }
-
-  /* ============ RESPONSIVE / ACCESIBILIDAD ============ */
-  @media (max-height: 700px){
+  /* ============ AJUSTES ============ */
+  @media (max-height:700px){
     .intro{ gap:10px; }
-    .sobre-envoltura{ width:min(370px, 78vw); }
-    .titulo{ font-size:clamp(3rem, 13vw, 4.4rem); }
-  }
-
-  @media (min-width: 900px){
-    .intro{ gap:30px; }
+    .sobre-envoltura{ width:min(370px,78vw); }
+    .titulo{ font-size:clamp(3rem,13vw,4.4rem); }
   }
 
   @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
     *, *::before, *::after{
       animation-duration:.001ms !important;
       animation-iteration-count:1 !important;
       transition-duration:.15s !important;
     }
     .flotante{ display:none; }
+    .revelar{ opacity:1; transform:none; }
+    .ruleta{ transition:none; }
   }
 </style>
 </head>
 <body>
 
-<!-- Fondo con corazones y tulipanes -->
 <div class="fondo" id="fondo" aria-hidden="true"></div>
 
-<!-- ================= PORTADA ================= -->
-<main class="escena intro" id="intro">
+<!-- ================= INTRO ================= -->
+<main class="intro" id="intro">
   <div class="intro__texto">
     <p class="subtitulo">Un regalo para ti</p>
     <h1 class="titulo">Melida</h1>
@@ -626,18 +960,15 @@
   <div class="sobre-envoltura">
     <div class="sobre" id="sobre" role="button" tabindex="0" aria-label="Abrir el sobre">
       <div class="sobre__cuerpo"></div>
-
       <div class="sobre__papel" aria-hidden="true">
         <span>Para ti</span>
         <i></i>
         <em>con amor</em>
       </div>
-
       <div class="sobre__solapa solapa-izq"></div>
       <div class="sobre__solapa solapa-der"></div>
       <div class="sobre__solapa solapa-inf"></div>
       <div class="sobre__solapa solapa-sup"></div>
-
       <div class="sello" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
       </div>
@@ -647,52 +978,157 @@
   <button class="boton" id="abrir" type="button">Toca para abrir</button>
 </main>
 
-<!-- ================= LA CARTA ================= -->
-<main class="escena carta" id="carta" aria-hidden="true">
-  <div class="carta__luz" aria-hidden="true"></div>
+<!-- ================= SITIO ================= -->
+<main class="sitio" id="sitio" tabindex="-1">
 
-  <article class="papel">
-    <p class="papel__etiqueta"><i></i>Para ti<i></i></p>
-    <h2 class="papel__saludo" id="saludo">Melida<small>un pedacito de mi vida</small></h2>
+  <header class="hero">
+    <p class="hero__etiqueta">Nuestra historia</p>
+    <h1 class="hero__nombres">Eberth <span class="amp">&amp;</span> Melida</h1>
+    <span class="hero__linea" aria-hidden="true"></span>
+  </header>
 
-    <div class="tulipan-sep" aria-hidden="true">
-      <span></span>
-      <svg viewBox="0 0 64 64" fill="currentColor">
-        <path d="M32 41c-6.6 0-12-5.4-12-12V15.5c0-2.2 2.6-3.2 4.1-1.5L32 22l7.9-8c1.5-1.7 4.1-.7 4.1 1.5V29c0 6.6-5.4 12-12 12Z"/>
-        <path d="M32 40v14" stroke="#78a56a" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <path d="M32 54c-6.4-1.6-9.6-6-9.6-11.2 5.7 0 9.6 4.3 9.6 11.2Z" fill="#78a56a"/>
-      </svg>
-      <span></span>
-    </div>
-
-    <p>Melida, hice esto porque las palabras se me quedan cortas cuando se trata de ti. No es un regalo caro ni complicado: es un lugar pequeño donde guardé algunos de los momentos que más quiero.</p>
-    <p>Léelo despacio. Cada línea la escribí imaginando tu cara mientras la lees.</p>
-
-    <span class="contador" id="contador">Desde que empezó todo</span>
-
-    <h3 class="seccion">Nuestros momentos</h3>
-    <div class="momentos" id="momentos"></div>
-
-    <h3 class="seccion">Cosas que amo de ti</h3>
-    <ul class="razones" id="razones"></ul>
-
-    <div class="despedida">
-      <p>Gracias por llegar a mi vida y quedarte.<br>Esto es solo el principio.</p>
-      <span class="firma" id="firma">— Tu nombre<small>con todo mi amor</small></span>
-
-      <div class="acciones">
-        <button class="boton-fantasma" id="cerrarCarta" type="button">Cerrar la carta</button>
+  <figure class="marco revelar">
+    <div class="marco__foto">
+      <div class="marco__vacio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h1.7l1.2-2h7.2l1.2 2h1.7A2.5 2.5 0 0 1 21 8.5v8A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z"/><circle cx="12" cy="12.2" r="3.6"/></svg>
+        <strong>Nuestra foto</strong>
+        <span>aquí van tus recuerdos</span>
       </div>
     </div>
-  </article>
+    <figcaption>Nosotros, en nuestro lugar favorito.</figcaption>
+  </figure>
+
+  <section class="panel revelar">
+    <p class="etiqueta">Juntos desde hace</p>
+    <p class="contador__grande" id="contadorGrande">Calculando…</p>
+    <p class="contador__reloj" id="contadorReloj" aria-live="off">00h 00m 00s</p>
+  </section>
+
+  <section class="panel revelar">
+    <p class="etiqueta">Mensaje privado</p>
+    <div class="sobre-arte" aria-hidden="true">
+      <span class="corchete"></span><span class="corchete"></span><span class="corchete"></span><span class="corchete"></span>
+      <svg viewBox="0 0 300 200" fill="none" stroke="rgba(232,193,95,.65)" stroke-width="1.1">
+        <rect x="1" y="1" width="298" height="198" rx="14"/>
+        <path d="M2 2 L150 108 L298 2"/>
+        <path d="M2 198 L150 108 L298 198" stroke="rgba(232,193,95,.22)"/>
+      </svg>
+      <div class="sello-carta">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      </div>
+    </div>
+    <button class="btn-contorno" id="abrirCarta" type="button">Abrir carta</button>
+  </section>
+
+  <figure class="marco revelar">
+    <div class="marco__foto">
+      <div class="marco__vacio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h1.7l1.2-2h7.2l1.2 2h1.7A2.5 2.5 0 0 1 21 8.5v8A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z"/><circle cx="12" cy="12.2" r="3.6"/></svg>
+        <strong>Nuestra foto</strong>
+        <span>un día que vale la pena</span>
+      </div>
+    </div>
+    <figcaption>Los días que se volvieron recuerdo.</figcaption>
+  </figure>
+
+  <section class="panel revelar">
+    <p class="etiqueta">Lo que más amo de ti</p>
+    <h2 class="titulo-panel" id="tituloGustos">Melida</h2>
+    <ul class="gustos" id="gustos"></ul>
+  </section>
+
+  <section class="panel revelar">
+    <p class="etiqueta">Nuestros momentos</p>
+    <h2 class="titulo-panel">La historia que llevamos</h2>
+    <div class="momentos" id="momentos"></div>
+  </section>
+
+  <section class="panel revelar">
+    <p class="etiqueta">Dónde empezó todo</p>
+    <h2 class="titulo-panel">Nuestros lugares</h2>
+    <div class="mapa" aria-hidden="true">
+      <svg viewBox="0 0 400 250" fill="none">
+        <path d="M96 168 C 150 120, 168 92, 205 92 S 268 128, 300 76"
+              stroke="rgba(232,193,95,.55)" stroke-width="1.4" stroke-dasharray="5 6" stroke-linecap="round"/>
+      </svg>
+      <div class="pin" style="left:24%; top:70%"><div class="pin__punto">1</div></div>
+      <div class="pin" style="left:51%; top:40%"><div class="pin__punto">2</div></div>
+      <div class="pin" style="left:76%; top:34%"><div class="pin__punto">3</div></div>
+    </div>
+    <ul class="lugares" id="lugares"></ul>
+  </section>
+
+  <figure class="marco revelar">
+    <div class="marco__foto">
+      <div class="marco__vacio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h1.7l1.2-2h7.2l1.2 2h1.7A2.5 2.5 0 0 1 21 8.5v8A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z"/><circle cx="12" cy="12.2" r="3.6"/></svg>
+        <strong>Nuestra foto</strong>
+        <span>el siguiente recuerdo</span>
+      </div>
+    </div>
+    <figcaption>Y todo lo que todavía nos falta.</figcaption>
+  </figure>
+
+  <section class="panel revelar">
+    <p class="etiqueta">Cosas que quiero hacer contigo</p>
+    <h2 class="titulo-panel">Nuestra lista</h2>
+    <ul class="lista" id="lista"></ul>
+  </section>
+
+  <section class="panel revelar">
+    <p class="etiqueta">Para ti</p>
+    <h2 class="titulo-panel">Nuestros vales de amor</h2>
+    <p class="sub-panel">Canjéalos cuando quieras. Solo se pueden usar una vez.</p>
+    <div class="vales" id="vales"></div>
+  </section>
+
+  <section class="panel revelar">
+    <p class="etiqueta">Para ti</p>
+    <h2 class="titulo-panel">La ruleta tiene una pregunta</h2>
+    <p class="sub-panel">Gira… y responde con el corazón.</p>
+    <div class="ruleta-envoltura">
+      <div class="ruleta" id="ruleta"></div>
+      <div class="ruleta__aguja" aria-hidden="true"></div>
+      <div class="ruleta__eje" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      </div>
+    </div>
+    <button class="btn-contorno" id="girar" type="button">Girar</button>
+    <p class="ruleta__res" id="resultadoRuleta" aria-live="polite">Puedes girar las veces que quieras.</p>
+  </section>
+
+  <section class="cierre revelar">
+    <p>Melida,<br>por todo lo que somos.<br>Te amo.</p>
+    <span class="firma">Eberth<small>con todo mi amor</small></span>
+  </section>
+
+  <footer class="pie">
+    <svg viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><path d="M32 41c-6.6 0-12-5.4-12-12V15.5c0-2.2 2.6-3.2 4.1-1.5L32 22l7.9-8c1.5-1.7 4.1-.7 4.1 1.5V29c0 6.6-5.4 12-12 12Z"/><path d="M32 40v14" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none" opacity=".6"/></svg>
+    Hecho con amor para ti
+  </footer>
 </main>
 
-<!-- Botón cerrar -->
-<button class="flotador cerrar" id="cerrar" type="button" aria-label="Cerrar la carta">
+<!-- ================= MODAL CARTA ================= -->
+<div class="modal" id="modalCarta" role="dialog" aria-modal="true" aria-labelledby="tituloCarta" aria-hidden="true">
+  <div class="modal__fondo" data-cerrar-carta></div>
+  <div class="carta-modal">
+    <button class="carta-cerrar" type="button" data-cerrar-carta aria-label="Cerrar la carta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <p class="etiqueta">Para ti</p>
+    <h2 id="tituloCarta">Melida</h2>
+    <p>No sé si esto se parece a lo que imaginabas, pero quería hacerte un lugar donde quepa un poco de nosotros.</p>
+    <p>Gracias por reírte de mis chistes malos, por quedarte los días difíciles y por hacer que lo cotidiano se sienta como una aventura.</p>
+    <p>Ojalá vuelvas a leer esto las veces que quieras. Yo voy a seguir aquí.</p>
+    <p class="carta-firma">Con amor<span>Eberth</span></p>
+    <button class="btn-contorno" type="button" data-cerrar-carta>Cerrar</button>
+  </div>
+</div>
+
+<!-- Botones flotantes -->
+<button class="flotador volver" id="volver" type="button" aria-label="Volver al inicio">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 </button>
-
-<!-- Música -->
 <button class="flotador musica" id="musica" type="button" aria-pressed="false" aria-label="Encender música suave">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
@@ -701,107 +1137,181 @@
 
 <script>
 /* ============================================================
-   PERSONALIZA AQUÍ — todo lo que puedes cambiar
+   PERSONALIZA AQUÍ
    ============================================================ */
+const ELLA = 'Melida';
+const EL   = 'Eberth';
 
-const NOMBRE = 'Melida';
-
-// Fecha en que empezó la relación (AAAA-MM-DD). Déjalo vacío ("") para ocultar el contador.
+// Fecha y hora en que empezó todo (AAAA-MM-DD). Déjalo vacío ("") para ocultar el contador.
 const FECHA_INICIO = '2024-02-14';
 
-// Cómo quieres firmar la carta
-const FIRMA = 'Marcelo';
-
-const MOMENTOS = [
-  {
-    titulo: 'El primer mensaje',
-    texto: 'Todavía recuerdo la primera vez que hablamos. No sabía que una conversación tan simple iba a cambiarme tantas cosas.'
-  },
-  {
-    titulo: 'La primera risa',
-    texto: 'Hubo un momento en el que te reíste de algo que dije y supe que quería escuchar esa risa muchas veces más.'
-  },
-  {
-    titulo: 'Nuestro lugar',
-    texto: 'No importa dónde sea: contigo cualquier sitio se vuelve mi favorito. Un café, una banca, una llamada a medianoche.'
-  },
-  {
-    titulo: 'Las fotos que guardo',
-    texto: 'Tengo fotos tuyas que no muestro a nadie. Son mis favoritas porque en ellas estás siendo tú, sin filtros ni poses.'
-  },
-  {
-    titulo: 'El día que dije “te amo”',
-    texto: 'Lo dije bajito, casi con miedo. Y tú me miraste como si ya lo supieras desde hace mucho tiempo.'
-  },
-  {
-    titulo: 'Lo que viene',
-    texto: 'Esto no es un repaso del pasado: es una promesa. Todavía nos quedan muchísimos capítulos por escribir juntos.'
-  }
-];
-
-const RAZONES = [
+const GUSTOS = [
   'Tu risa cuando algo te da un poco de pena.',
   'Cómo cuidas a la gente que quieres, sin que nadie te lo pida.',
   'Tu forma de decir mi nombre cuando estás cansada.',
   'Que contigo hasta lo aburrido termina siendo divertido.'
 ];
 
+const MOMENTOS = [
+  { titulo:'El primer mensaje', texto:'Todavía recuerdo la primera vez que hablamos. No sabía que una conversación tan simple iba a cambiarme tantas cosas.' },
+  { titulo:'La primera risa', texto:'Hubo un momento en el que te reíste de algo que dije y supe que quería escuchar esa risa muchas veces más.' },
+  { titulo:'Nuestro lugar', texto:'No importa dónde sea: contigo cualquier sitio se vuelve mi favorito. Un café, una banca, una llamada a medianoche.' },
+  { titulo:'Las fotos que guardo', texto:'Tengo fotos tuyas que no muestro a nadie. Son mis favoritas porque en ellas estás siendo tú, sin filtros ni poses.' },
+  { titulo:'El día que dije “te amo”', texto:'Lo dije bajito, casi con miedo. Y tú me miraste como si ya lo supieras desde hace mucho tiempo.' },
+  { titulo:'Lo que viene', texto:'Esto no es un repaso del pasado: es una promesa. Todavía nos quedan muchísimos capítulos por escribir juntos.' }
+];
+
+const LUGARES = [
+  { nombre:'Donde nos conocimos', detalle:'El sitio donde todo empezó sin que nos diéramos cuenta.' },
+  { nombre:'Nuestra primera cita', detalle:'Ese día que se pasó volando y no queríamos irnos.' },
+  { nombre:'Nuestro lugar', detalle:'Al que siempre volvemos cuando queremos estar en paz.' }
+];
+
+const LISTA = [
+  'Viajar juntos',
+  'Ver el amanecer',
+  'Cocinar juntos',
+  'Bailar en cada cocina que tengamos'
+];
+
+const VALES = [
+  'Vale por una cena',
+  'Vale por un masaje',
+  'Vale por un día solo nuestro',
+  'Vale por un café en la cama'
+];
+
+const RULETA = ['Cena', 'Cine', 'Helado', 'Baile', 'Sorpresa'];
+
 /* ============================================================
    A PARTIR DE AQUÍ NO NECESITAS CAMBIAR NADA
    ============================================================ */
 
-const $ = (sel) => document.querySelector(sel);
+const $ = (s) => document.querySelector(s);
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const corazon = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
 
-/* ---------- Textos dinámicos ---------- */
-$('#saludo').firstChild.nodeValue = NOMBRE;
-$('#firma').firstChild.nodeValue = '— ' + FIRMA;
+/* ---------- Textos con el nombre ---------- */
+$('.hero__nombres').innerHTML = `${EL} <span class="amp">&amp;</span> ${ELLA}`;
+$('#tituloGustos').textContent = ELLA;
+$('#tituloCarta').textContent = ELLA;
+$('.carta-firma span').textContent = EL;
+$('.cierre .firma').firstChild.nodeValue = EL;
 
-/* ---------- Línea de tiempo ---------- */
+/* ---------- Lo que amo de ti ---------- */
+$('#gustos').innerHTML = GUSTOS.map(g => `<li>${corazon}<span>${g}</span></li>`).join('');
+
+/* ---------- Momentos ---------- */
 $('#momentos').innerHTML = MOMENTOS.map((m, i) => `
   <div class="momento">
     <span class="momento__cap">Capítulo ${String(i + 1).padStart(2, '0')}</span>
     <h3>${m.titulo}</h3>
     <p>${m.texto}</p>
-  </div>
-`).join('');
+  </div>`).join('');
 
-/* ---------- Razones ---------- */
-const corazon = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
-$('#razones').innerHTML = RAZONES.map((r) => `<li>${corazon}<span>${r}</span></li>`).join('');
+/* ---------- Lugares ---------- */
+$('#lugares').innerHTML = LUGARES.map((l, i) => `
+  <li class="lugar">
+    <span class="lugar__num">${String(i + 1).padStart(2, '0')}</span>
+    <span class="lugar__txt"><b>${l.nombre}</b>${l.detalle}</span>
+  </li>`).join('');
 
-/* ---------- Contador de días ---------- */
+/* ---------- Lista ---------- */
+$('#lista').innerHTML = LISTA.map(t => `
+  <li>
+    <button type="button" aria-pressed="false">
+      <span class="marca" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </span>
+      <span class="txt">${t}</span>
+    </button>
+  </li>`).join('');
+
+$('#lista').addEventListener('click', (e) => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  const on = btn.getAttribute('aria-pressed') === 'true';
+  btn.setAttribute('aria-pressed', String(!on));
+});
+
+/* ---------- Vales ---------- */
+$('#vales').innerHTML = VALES.map(v => `
+  <article class="vale">
+    <div class="vale__txt">
+      <small>Vale</small>
+      <h4>${v}</h4>
+    </div>
+    <button class="vale__btn" type="button">Canjear</button>
+    <span class="vale__sello" aria-hidden="true">Canjeado</span>
+  </article>`).join('');
+
+$('#vales').addEventListener('click', (e) => {
+  const btn = e.target.closest('.vale__btn');
+  if (!btn) return;
+  btn.closest('.vale').classList.add('usado');
+});
+
+/* ---------- Contador ---------- */
 (function contador() {
-  const el = $('#contador');
-  if (!FECHA_INICIO) { el.remove(); return; }
+  const grande = $('#contadorGrande');
+  const reloj = $('#contadorReloj');
+  if (!FECHA_INICIO) { grande.textContent = 'Cada día contigo'; reloj.remove(); return; }
 
   const inicio = new Date(FECHA_INICIO + 'T00:00:00');
-  if (isNaN(inicio.getTime())) { el.remove(); return; }
+  if (isNaN(inicio.getTime())) { grande.textContent = 'Cada día contigo'; reloj.remove(); return; }
 
-  const dias = Math.floor((Date.now() - inicio.getTime()) / 86400000);
-  if (dias < 0) { el.remove(); return; }
+  const plural = (n, uno, varios) => n === 1 ? `${n} ${uno}` : `${n} ${varios}`;
 
-  el.innerHTML = dias === 0
-    ? 'Hoy empieza <b>nuestra historia</b>'
-    : `<b>${dias.toLocaleString('es')}</b> días desde que empezó todo`;
+  function desglose(hasta) {
+    let y = hasta.getFullYear() - inicio.getFullYear();
+    let m = hasta.getMonth() - inicio.getMonth();
+    let d = hasta.getDate() - inicio.getDate();
+    if (d < 0) {
+      const diasMesAnterior = new Date(hasta.getFullYear(), hasta.getMonth(), 0).getDate();
+      d += diasMesAnterior;
+      m--;
+    }
+    if (m < 0) { m += 12; y--; }
+    return { y, m, d };
+  }
+
+  function pintar() {
+    const ahora = new Date();
+    const { y, m, d } = desglose(ahora);
+
+    const partes = [];
+    if (y > 0) partes.push(plural(y, 'año', 'años'));
+    if (m > 0) partes.push(plural(m, 'mes', 'meses'));
+    partes.push(plural(d, 'día', 'días'));
+
+    const texto = partes.length === 1 ? partes[0] : partes.slice(0, -1).join(', ') + ' y ' + partes.slice(-1);
+    grande.textContent = texto;
+
+    const hh = String(ahora.getHours()).padStart(2, '0');
+    const mm = String(ahora.getMinutes()).padStart(2, '0');
+    const ss = String(ahora.getSeconds()).padStart(2, '0');
+    reloj.innerHTML = `${hh}h ${mm}m ${ss}s <span>· y contando</span>`;
+  }
+
+  pintar();
+  setInterval(pintar, 1000);
 })();
 
-/* ---------- Corazones y tulipanes flotantes ---------- */
+/* ---------- Fondo ---------- */
 (function fondo() {
   if (reduceMotion) return;
-
   const cont = $('#fondo');
   const iconos = [
     `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`,
-    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.5 20.5 5 11a4.6 4.6 0 0 1 6.5-6.5l1.5 1.5 1.5-1.5A4.6 4.6 0 0 1 21 11l-6.5 6.5"/></svg>`,
+    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20.5S4 16 4 10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 6-8 10.5-8 10.5Z"/></svg>`,
     `<svg viewBox="0 0 64 64" fill="currentColor"><path d="M32 41c-6.6 0-12-5.4-12-12V15.5c0-2.2 2.6-3.2 4.1-1.5L32 22l7.9-8c1.5-1.7 4.1-.7 4.1 1.5V29c0 6.6-5.4 12-12 12Z"/><path d="M32 40v14" stroke="#7fae74" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M32 54c-6.4-1.6-9.6-6-9.6-11.2 5.7 0 9.6 4.3 9.6 11.2Z" fill="#7fae74"/></svg>`
   ];
   const colores = [
-    'rgba(232,193,95,.85)',
-    'rgba(232,193,95,.5)',
-    'rgba(246,223,160,.6)',
-    'rgba(226,148,150,.55)',
-    'rgba(201,208,234,.4)'
+    'rgba(232,193,95,.8)',
+    'rgba(232,193,95,.45)',
+    'rgba(244,221,162,.55)',
+    'rgba(216,150,150,.42)',
+    'rgba(201,208,234,.3)'
   ];
 
   const total = window.innerWidth < 640 ? 14 : 22;
@@ -809,62 +1319,47 @@ $('#razones').innerHTML = RAZONES.map((r) => `<li>${corazon}<span>${r}</span></l
   for (let i = 0; i < total; i++) {
     const el = document.createElement('div');
     el.className = 'flotante';
-
-    const tam = 12 + Math.random() * 26;
-    const dur = 16 + Math.random() * 16;
-    const retraso = -(Math.random() * dur);
-
+    const tam = 10 + Math.random() * 22;
+    const dur = 18 + Math.random() * 18;
     el.style.left = (Math.random() * 96) + '%';
     el.style.width = tam + 'px';
     el.style.color = colores[Math.floor(Math.random() * colores.length)];
     el.style.animationDuration = dur + 's';
-    el.style.animationDelay = retraso + 's';
+    el.style.animationDelay = -(Math.random() * dur) + 's';
     el.style.setProperty('--deriva', (Math.random() * 120 - 60) + 'px');
     el.style.setProperty('--giro', (Math.random() * 90 - 45) + 'deg');
     el.innerHTML = iconos[Math.floor(Math.random() * iconos.length)];
-
     cont.appendChild(el);
   }
 })();
 
-/* ---------- Abrir / cerrar ---------- */
-const intro = $('#intro');
-const carta = $('#carta');
+/* ---------- Abrir el regalo ---------- */
 const sobre = $('#sobre');
 const botonAbrir = $('#abrir');
 let bloqueado = false;
 
 function abrir() {
-  if (bloqueado || document.body.classList.contains('viendo-carta')) return;
+  if (bloqueado || document.body.classList.contains('abierto')) return;
   bloqueado = true;
 
   document.body.classList.add('abriendo');
   botonAbrir.textContent = 'Abriendo…';
 
   setTimeout(() => {
-    document.body.classList.add('viendo-carta');
-    carta.setAttribute('aria-hidden', 'false');
-    intro.setAttribute('aria-hidden', 'true');
-    carta.scrollTop = 0;
-    $('#cerrar').focus({ preventScroll: true });
+    document.body.classList.add('abierto');
+    document.body.classList.remove('abriendo');
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    iniciarRevelado();
+    $('#sitio').focus?.({ preventScroll: true });
     bloqueado = false;
-  }, reduceMotion ? 120 : 980);
+  }, reduceMotion ? 100 : 980);
 }
 
-function cerrar() {
-  if (bloqueado) return;
-  bloqueado = true;
-
-  document.body.classList.remove('viendo-carta');
-  carta.setAttribute('aria-hidden', 'true');
-  intro.setAttribute('aria-hidden', 'false');
-
-  setTimeout(() => {
-    document.body.classList.remove('abriendo');
-    botonAbrir.textContent = 'Toca para abrir';
-    sobre.focus({ preventScroll: true });
-    bloqueado = false;
-  }, reduceMotion ? 100 : 780);
+function volverAlInicio() {
+  document.body.classList.remove('abierto');
+  botonAbrir.textContent = 'Toca para abrir';
+  window.scrollTo({ top: 0, behavior: 'auto' });
+  sobre.focus({ preventScroll: true });
 }
 
 botonAbrir.addEventListener('click', abrir);
@@ -872,20 +1367,115 @@ sobre.addEventListener('click', abrir);
 sobre.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(); }
 });
+$('#volver').addEventListener('click', volverAlInicio);
 
-$('#cerrar').addEventListener('click', cerrar);
-$('#cerrarCarta').addEventListener('click', cerrar);
+/* ---------- Aparición al hacer scroll ---------- */
+let observador = null;
+function iniciarRevelado() {
+  if (reduceMotion) {
+    document.querySelectorAll('.revelar').forEach(el => el.classList.add('visible'));
+    return;
+  }
+  if (!observador) {
+    observador = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.classList.add('visible');
+          observador.unobserve(en.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+  }
+  document.querySelectorAll('.revelar:not(.visible)').forEach(el => observador.observe(el));
+}
+
+/* ---------- Modal de la carta ---------- */
+const modal = $('#modalCarta');
+const btnAbrirCarta = $('#abrirCarta');
+let ultimoFoco = null;
+
+function abrirCarta() {
+  ultimoFoco = document.activeElement;
+  modal.classList.add('abierto');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  modal.querySelector('.carta-cerrar').focus({ preventScroll: true });
+}
+
+function cerrarCarta() {
+  modal.classList.remove('abierto');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  if (ultimoFoco) ultimoFoco.focus({ preventScroll: true });
+}
+
+btnAbrirCarta.addEventListener('click', abrirCarta);
+modal.querySelectorAll('[data-cerrar-carta]').forEach(el => el.addEventListener('click', cerrarCarta));
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && document.body.classList.contains('viendo-carta')) cerrar();
+  if (e.key === 'Escape' && modal.classList.contains('abierto')) cerrarCarta();
 });
 
-/* ---------- Música suave opcional (sin archivos externos) ---------- */
+/* Atrapa el foco dentro del modal */
+modal.addEventListener('keydown', (e) => {
+  if (e.key !== 'Tab') return;
+  const foco = modal.querySelectorAll('button, [href], input, [tabindex]:not([tabindex="-1"])');
+  if (!foco.length) return;
+  const primero = foco[0], ultimo = foco[foco.length - 1];
+  if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
+  else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
+});
+
+/* ---------- Ruleta ---------- */
+(function ruleta() {
+  const disco = $('#ruleta');
+  const boton = $('#girar');
+  const salida = $('#resultadoRuleta');
+  const n = RULETA.length;
+  const paso = 360 / n;
+  let girando = false;
+  let rotacion = 0;
+
+  disco.innerHTML = RULETA.map((t, i) => {
+    const ang = i * paso + paso / 2;
+    return `<div class="ruleta__et" style="transform:rotate(${ang}deg) translateY(-${100}px)"><span style="transform:rotate(${-ang}deg)">${t}</span></div>`;
+  }).join('');
+
+  boton.addEventListener('click', () => {
+    if (girando) return;
+    girando = true;
+    boton.disabled = true;
+    salida.style.opacity = '0';
+
+    const i = Math.floor(Math.random() * n);
+    const centro = i * paso + paso / 2;
+    const jitter = (Math.random() - .5) * (paso * .5);
+    const vueltas = 5 + Math.floor(Math.random() * 3);
+    const destino = 360 * vueltas + (360 - centro + jitter);
+    rotacion += destino;
+
+    disco.style.transform = `rotate(${rotacion}deg)`;
+
+    // El segmento que queda bajo la aguja sale de la rotación final,
+    // así el resultado siempre coincide con lo que se ve.
+    const norm = ((rotacion % 360) + 360) % 360;
+    const original = (360 - norm) % 360;
+    const elegido = Math.floor(original / paso) % n;
+
+    setTimeout(() => {
+      girando = false;
+      boton.disabled = false;
+      salida.innerHTML = `¡Es una cita! <strong style="color:#f4dda2">${RULETA[elegido]}</strong> 😌`;
+      salida.style.opacity = '1';
+    }, reduceMotion ? 150 : 4100);
+  });
+})();
+
+/* ---------- Música suave (Web Audio, sin archivos) ---------- */
 (function musica() {
   const btn = $('#musica');
   let ctx = null, master = null, loop = null, encendida = false;
 
-  // Arpegio dulce en Do mayor (frecuencias en Hz)
   const melodia = [392.0, 523.25, 659.25, 523.25, 587.33, 493.88, 392.0, 329.63];
   const bajo = [130.81, 164.81, 146.83, 196.0];
 
@@ -912,7 +1502,6 @@ document.addEventListener('keydown', (e) => {
     if (!encendida || !ctx) return;
     const t = ctx.currentTime + 0.05;
     const paso = 0.62;
-
     melodia.forEach((f, i) => nota(f, t + i * paso, 1.5, 0.055));
     nota(bajo[Math.floor(Math.random() * bajo.length)], t, 2.4, 0.035);
   }
@@ -950,10 +1539,7 @@ document.addEventListener('keydown', (e) => {
     }
   }
 
-  btn.addEventListener('click', () => {
-    if (encendida) apagar();
-    else encender();
-  });
+  btn.addEventListener('click', () => encendida ? apagar() : encender());
 })();
 </script>
 </body>
