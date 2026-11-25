@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#070d24" />
-<title>E&amp;M</title>
+<title>E &amp; M</title>
 
 <!-- Tulipán como icono -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23070d24'/%3E%3Cpath d='M32 41c-6.6 0-12-5.4-12-12V15.5c0-2.2 2.6-3.2 4.1-1.5L32 22l7.9-8c1.5-1.7 4.1-.7 4.1 1.5V29c0 6.6-5.4 12-12 12Z' fill='%23e8c15f'/%3E%3Cpath d='M32 22v17' stroke='%23c99b34' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M32 40v15' stroke='%2378c48f' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M32 55c-7-1.6-10.5-6.4-10.5-12 6.2 0 10.5 4.6 10.5 12Z' fill='%2378c48f'/%3E%3C/svg%3E" />
@@ -111,7 +111,7 @@
   .jardin{
     position:absolute;
     left:0; right:0; bottom:-4px;
-    height:clamp(110px, 20vh, 190px);
+    height:clamp(140px, 24vh, 220px);
     z-index:0;
     pointer-events:none;
     overflow:hidden;
@@ -124,19 +124,55 @@
     transform-origin:bottom center;
     animation:sway 6s ease-in-out infinite;
     opacity:.75;
+    pointer-events:auto;
+    cursor:pointer;
     filter:drop-shadow(0 6px 10px rgba(2,5,16,.45));
+    transition:filter .3s ease;
+    -webkit-tap-highlight-color:transparent;
   }
+  .jardin__tulipan:hover{ filter:drop-shadow(0 9px 16px rgba(2,5,16,.55)) brightness(1.07); }
+  .jardin__tulipan:focus-visible{ outline:1px solid rgba(244,221,162,.7); outline-offset:3px; border-radius:20px; }
   .jardin__tulipan svg{ display:block; width:100%; height:100%; }
   .jardin--final{
     position:relative;
     left:auto; right:auto; bottom:auto;
-    height:150px;
+    height:175px;
     margin:0 0 -6px;
     overflow:hidden;
   }
   @keyframes sway{
     0%,100% { transform:rotate(-2.2deg); }
     50%     { transform:rotate(2.6deg); }
+  }
+
+  /* ---------- Fotos flotantes ---------- */
+  .fotos-flotantes{
+    position:fixed; inset:0; z-index:1;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .foto-flotante{
+    position:absolute;
+    margin:0;
+    padding:4px 4px 12px;
+    background:#fdfaf3;
+    border-radius:4px;
+    box-shadow:0 12px 26px rgba(0,0,0,.5);
+    transform:rotate(var(--r, -6deg));
+    animation:vaiven var(--d, 9s) ease-in-out var(--delay, 0s) infinite;
+    opacity:.72;
+  }
+  .foto-flotante img{
+    display:block;
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    border-radius:2px;
+    filter:saturate(.85);
+  }
+  @keyframes vaiven{
+    0%,100% { transform:translateY(0) rotate(var(--r, -6deg)); }
+    50%     { transform:translateY(-12px) rotate(calc(var(--r, -6deg) + 3deg)); }
   }
 
   /* ---------- Explosión de pétalos ---------- */
@@ -695,25 +731,68 @@
     white-space:nowrap;
   }
   .etiqueta--sub{ margin-top:26px; }
-  .lugares{
-    list-style:none; margin:0; padding:0;
-    display:grid; gap:2px;
+
+  /* Google Maps + paradas */
+  .mapa-google{
+    margin:18px 0 16px;
+    height:270px;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid rgba(232,193,95,.28);
+    background:#0a1029;
+    box-shadow:0 12px 28px rgba(0,0,0,.4);
+  }
+  .mapa-google iframe{ display:block; width:100%; height:100%; border:0; }
+  @media (min-width:520px){ .mapa-google{ height:330px; } }
+  .mapa-google__link{
+    display:inline-block;
+    margin:-2px 0 16px;
+    padding-bottom:3px;
+    border-bottom:1px solid rgba(232,193,95,.35);
+    font-size:.55rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:#c9a86a;
+    text-decoration:none;
+    transition:color .25s, border-color .25s;
+  }
+  .mapa-google__link:hover{ color:var(--oro-claro); border-color:var(--oro-claro); }
+
+  .paradas{ display:grid; gap:8px; text-align:left; }
+  .parada{
+    display:flex; align-items:center; gap:13px;
+    width:100%;
+    padding:13px 15px;
+    border-radius:12px;
+    border:1px solid rgba(232,193,95,.22);
+    background:rgba(232,193,95,.04);
+    color:inherit;
+    font-family:inherit;
     text-align:left;
+    cursor:pointer;
+    transition:background .25s, border-color .25s, transform .25s;
+    -webkit-tap-highlight-color:transparent;
   }
-  .lugar{
-    display:flex; gap:12px; align-items:baseline;
-    padding:10px 0;
-    border-bottom:1px solid rgba(232,193,95,.08);
-  }
-  .lugar:last-child{ border-bottom:0; }
-  .lugar__num{
+  .parada:hover{ background:rgba(232,193,95,.1); border-color:rgba(232,193,95,.45); transform:translateX(2px); }
+  .parada:focus-visible{ outline:2px solid var(--oro-claro); outline-offset:3px; }
+  .parada.activa{ background:rgba(232,193,95,.13); border-color:rgba(232,193,95,.6); }
+  .parada__num{
     flex:none;
     font-family:var(--serif); font-style:italic;
-    font-size:.95rem; color:#a98f5e;
-    min-width:22px;
+    font-size:1rem; color:#a98f5e; min-width:24px;
   }
-  .lugar__txt{ font-size:.9rem; line-height:1.5; font-weight:300; color:#c6cadf; }
-  .lugar__txt b{ display:block; font-weight:400; color:var(--crema); font-size:.95rem; }
+  .parada__txt{ flex:1; min-width:0; }
+  .parada__txt b{ display:block; font-weight:400; color:var(--crema); font-size:.98rem; }
+  .parada__txt small{ display:block; margin-top:3px; font-size:.66rem; letter-spacing:.04em; color:#9aa1bf; }
+  .parada__fotos{
+    flex:none;
+    padding:4px 8px;
+    border-radius:999px;
+    border:1px solid rgba(232,193,95,.3);
+    font-size:.5rem; letter-spacing:.14em; text-transform:uppercase;
+    color:#c9a86a;
+    white-space:nowrap;
+  }
 
   /* Galería */
   .galeria{
@@ -1109,6 +1188,52 @@
   .visor__cerrar:hover{ background:rgba(232,193,95,.2); color:#fff; }
   .visor__cerrar svg{ width:18px; height:18px; }
 
+  /* Modal de fotos por parada */
+  .lugar-modal{
+    position:relative;
+    width:min(560px, 100%);
+    max-height:min(88vh, 880px);
+    overflow-y:auto;
+    padding:clamp(26px,6.5vw,40px);
+    border-radius:22px;
+    border:1px solid rgba(232,193,95,.45);
+    background:
+      radial-gradient(120% 70% at 50% 0%, rgba(232,193,95,.1), transparent 60%),
+      linear-gradient(180deg,#101a40,#0a1129);
+    box-shadow:0 40px 90px rgba(0,0,0,.6);
+    text-align:center;
+  }
+  .lugar-modal::-webkit-scrollbar{ width:8px; }
+  .lugar-modal::-webkit-scrollbar-thumb{ background:rgba(232,193,95,.3); border-radius:99px; }
+  .lugar-modal h2{
+    margin:0 0 6px;
+    font-family:var(--serif); font-weight:500; font-style:italic;
+    font-size:clamp(2rem,8vw,2.5rem); line-height:1.1;
+    color:var(--oro-claro);
+  }
+  .lugar-modal__fecha{
+    margin:0;
+    font-size:.58rem; letter-spacing:.2em; text-transform:uppercase;
+    color:#a98f5e;
+  }
+  .lugar-fotos{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:20px;
+  }
+  .lugar-fotos figure{
+    position:relative;
+    margin:0;
+    aspect-ratio:1/1;
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid rgba(232,193,95,.18);
+    background:#0a1029;
+  }
+  .lugar-fotos img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .lugar-fotos figure:last-child:nth-child(odd){ grid-column:1 / -1; aspect-ratio:16/9; }
+
   /* ============ FLOTANTES ============ */
   .flotador{
     position:fixed; z-index:40;
@@ -1147,6 +1272,10 @@
     .titulo{ font-size:clamp(3rem,13vw,4.4rem); }
   }
 
+  @media (max-width:700px){
+    .foto-flotante{ opacity:.55; }
+  }
+
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
     *, *::before, *::after{
@@ -1154,7 +1283,7 @@
       animation-iteration-count:1 !important;
       transition-duration:.15s !important;
     }
-    .flotante, .petalos, .jardin, .burst{ display:none; }
+    .flotante, .petalos, .jardin, .burst, .fotos-flotantes{ display:none; }
     .revelar{ opacity:1; transform:none; }
     .ruleta{ transition:none; }
   }
@@ -1164,6 +1293,12 @@
 
 <div class="fondo" id="fondo" aria-hidden="true"></div>
 <div class="petalos" id="petalos" aria-hidden="true"></div>
+<div class="fotos-flotantes" aria-hidden="true">
+  <figure class="foto-flotante" style="left:1.5%; top:14%; width:76px; --r:-8deg; --d:9s; --delay:0s"><img src="fotos/metro-mall-1.jpg" alt=""></figure>
+  <figure class="foto-flotante" style="right:2.5%; top:25%; width:64px; --r:7deg; --d:10.5s; --delay:-2s"><img src="fotos/centro-civico-3.jpg" alt=""></figure>
+  <figure class="foto-flotante" style="left:3%; top:61%; width:70px; --r:6deg; --d:11s; --delay:-4s"><img src="fotos/centro-civico-5.jpg" alt=""></figure>
+  <figure class="foto-flotante" style="right:1.5%; top:71%; width:82px; --r:-7deg; --d:8.5s; --delay:-1s"><img src="fotos/metro-mall-3.jpg" alt=""></figure>
+</div>
 <div class="burst" id="burst" aria-hidden="true"></div>
 
 <!-- ================= INTRO ================= -->
@@ -1245,6 +1380,7 @@
       <p class="contador__nota">( la pregunta )</p>
       <p class="contador__fecha">14 de julio de 2026</p>
       <p class="contador__grande" id="contadorJuntos">Calculando…</p>
+      <p class="contador__reloj" id="relojJuntos" aria-live="off">00h 00m 00s</p>
       <p class="contador__total" id="totalJuntos">…</p>
     </div>
   </section>
@@ -1287,13 +1423,23 @@
   <section class="panel revelar">
     <p class="etiqueta">Dos países, una historia</p>
     <h2 class="titulo-panel">Nuestra distancia</h2>
-    <p class="sub-panel">Guatemala y Honduras. Un avión, muchas llamadas y las ganas de volver a vernos.</p>
+    <p class="sub-panel">Guatemala y Honduras. Un bus, muchas llamadas y las ganas de volver a vernos.</p>
     <div class="mapa mapa--distancia" aria-hidden="true">
       <svg viewBox="0 0 400 250" fill="none">
-        <path d="M70 170 C 150 40, 250 40, 330 170"
+        <path id="rutaBus" d="M70 170 C 150 40, 250 40, 330 170"
               stroke="rgba(232,193,95,.5)" stroke-width="1.6" stroke-dasharray="2 7" stroke-linecap="round"/>
-        <g transform="translate(200 72.5) rotate(90) scale(1.15)" fill="#e8c15f" opacity=".95">
-          <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/>
+        <g id="busViaje" opacity=".95">
+          <g fill="#e8c15f" transform="scale(1.25)">
+            <rect x="-15" y="-8" width="30" height="13" rx="3"/>
+            <path d="M-15 -8h18l7 6v7h-25Z" fill="#f4dda2"/>
+            <rect x="-11" y="-5" width="6" height="4.5" rx="1" fill="#0a1230"/>
+            <rect x="-2" y="-5" width="6" height="4.5" rx="1" fill="#0a1230"/>
+            <rect x="7" y="-2.5" width="5" height="4" rx="1" fill="#0a1230"/>
+            <circle cx="-8" cy="6.5" r="2.6" fill="#0a1230"/>
+            <circle cx="8" cy="6.5" r="2.6" fill="#0a1230"/>
+            <circle cx="-8" cy="6.5" r="1" fill="#e8c15f"/>
+            <circle cx="8" cy="6.5" r="1" fill="#e8c15f"/>
+          </g>
         </g>
       </svg>
       <div class="ciudad" style="left:17.5%; top:68%">
@@ -1305,8 +1451,19 @@
         <span class="ciudad__nombre">Honduras</span>
       </div>
     </div>
-    <p class="etiqueta etiqueta--sub">Nuestros lugares</p>
-    <ul class="lugares" id="lugares"></ul>
+  </section>
+
+  <section class="panel revelar">
+    <p class="etiqueta">Puntos del viaje</p>
+    <h2 class="titulo-panel">Nuestros lugares</h2>
+    <p class="sub-panel">Toca una parada para ver el mapa y sus fotos.</p>
+    <div class="mapa-google">
+      <iframe id="mapaGoogle" title="Mapa de nuestros lugares"
+              src="https://maps.google.com/maps?q=Centro%20C%C3%ADvico%2C%20Tegucigalpa%2C%20Honduras&z=16&output=embed&hl=es"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+    <a class="mapa-google__link" id="enlaceMapa" href="https://www.google.com/maps/search/?api=1&amp;query=Centro+C%C3%ADvico%2C+Tegucigalpa%2C+Honduras" target="_blank" rel="noopener">Abrir en Google Maps</a>
+    <div class="paradas" id="paradas"></div>
   </section>
 
   <figure class="marco revelar">
@@ -1381,7 +1538,7 @@
     <h2 id="tituloCarta">Melida</h2>
     <p>Melida: hay fechas que no se eligen, pero se quedan. El 27 de noviembre de 2024, a las 22:13, te escribí por primera vez.</p>
     <p>El 14 de julio de 2026 dijiste que sí. El 4 de septiembre te vi llegar al Centro Cívico y entendí que tanta distancia valía la pena.</p>
-    <p>Gracias por ese cumpleaños en Metro Mall, por reírte conmigo, por despedirte en un aeropuerto sin hacer drama y por quedarte incluso cuando estoy lejos.</p>
+    <p>Gracias por ese cumpleaños en Metro Mall, por reírte conmigo, por despedirte en la terminal sin hacer drama y por quedarte incluso cuando estoy lejos.</p>
     <p>Ojalá vuelvas a leer esto las veces que quieras. Yo voy a seguir aquí.</p>
     <p class="carta-firma">Con amor<span>Marcelo</span></p>
 
@@ -1404,6 +1561,19 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
   </button>
   <img src="fotos/carta-mano.jpg" alt="Carta escrita a mano para Melida">
+</div>
+
+<!-- Modal de fotos de una parada -->
+<div class="modal" id="modalLugar" role="dialog" aria-modal="true" aria-labelledby="tituloLugar" aria-hidden="true">
+  <div class="modal__fondo" data-cerrar-lugar></div>
+  <div class="lugar-modal">
+    <button class="carta-cerrar" type="button" data-cerrar-lugar aria-label="Cerrar las fotos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <p class="lugar-modal__fecha" id="fechaLugar">…</p>
+    <h2 id="tituloLugar">…</h2>
+    <div class="lugar-fotos" id="lugarFotos"></div>
+  </div>
 </div>
 
 <!-- Botones flotantes -->
@@ -1441,14 +1611,36 @@ const MOMENTOS = [
   { fecha:'14 jul 2026', titulo:'La pregunta', texto:'Después de miles de mensajes te pregunté si querías ser mi novia. Dijiste que sí, y desde entonces todo tiene otro nombre: nosotros.' },
   { fecha:'4 sep 2026 · 12:00', titulo:'El primer encuentro', texto:'Centro Cívico, Tegucigalpa. Llegaste a las doce y, por un momento, todo lo que había esperado se quedó quieto.' },
   { fecha:'5 sep 2026 · 12:30', titulo:'Metro Mall', texto:'Al día siguiente te vi otra vez. Era tu cumpleaños y yo solo quería que ese día te recordara a mí.' },
-  { fecha:'7 sep 2026 · 05:30', titulo:'El vuelo', texto:'A las 5:30 de la mañana salió mi vuelo. Desde entonces la distancia es solo el espacio entre una llamada y la siguiente.' },
+  { fecha:'7 sep 2026 · 05:30', titulo:'El regreso en bus', texto:'A las 5:30 de la mañana salió mi bus. Desde entonces la distancia es solo el espacio entre una llamada y la siguiente.' },
   { fecha:'Hoy', titulo:'Lo que viene', texto:'Esto no es un repaso del pasado: es una promesa. Todavía nos quedan muchísimos capítulos por escribir juntos.' }
 ];
 
-const LUGARES = [
-  { nombre:'Centro Cívico, Tegucigalpa', detalle:'Nuestro primer encuentro · 4 de septiembre de 2026, 12:00 p.m.' },
-  { nombre:'Metro Mall, Tegucigalpa', detalle:'Tu cumpleaños · 5 de septiembre de 2026, 12:30 p.m.' },
-  { nombre:'Aeropuerto Toncontín', detalle:'El día que volví · 7 de septiembre de 2026, 5:30 a.m.' }
+const PARADAS = [
+  {
+    id: 'centro-civico',
+    nombre: 'Centro Cívico',
+    fecha: '4 de septiembre de 2026 · 12:00 p.m.',
+    mapa: 'Centro Cívico, Tegucigalpa, Honduras',
+    fotos: [
+      { src: 'fotos/centro-civico-1.jpg', alt: 'Plaza del Centro Cívico' },
+      { src: 'fotos/centro-civico-2.jpg', alt: 'Vista de la plaza desde arriba' },
+      { src: 'fotos/centro-civico-3.jpg', alt: 'Bebidas y McDonald\'s del primer encuentro' },
+      { src: 'fotos/centro-civico-4.jpg', alt: 'Pérgola y flores del Centro Cívico' },
+      { src: 'fotos/centro-civico-5.jpg', alt: 'Torre Chortí' },
+      { src: 'fotos/centro-civico-6.jpg', alt: 'Pasillo del Centro Cívico' }
+    ]
+  },
+  {
+    id: 'metro-mall',
+    nombre: 'Metro Mall',
+    fecha: '5 de septiembre de 2026 · 12:30 p.m.',
+    mapa: 'Metro Mall, Tegucigalpa, Honduras',
+    fotos: [
+      { src: 'fotos/metro-mall-1.jpg', alt: 'Melida soplando las velas de su cumpleaños' },
+      { src: 'fotos/metro-mall-2.jpg', alt: 'Caminando por Metro Mall' },
+      { src: 'fotos/metro-mall-3.jpg', alt: 'Comida en Metro Mall' }
+    ]
+  }
 ];
 
 const LISTA = [
@@ -1478,7 +1670,9 @@ const corazon = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
 /* Pétalo y tulipán para los efectos */
 const petaloSVG = '<svg viewBox="0 0 24 32" aria-hidden="true"><path d="M12 1.6C7.1 7.1 4.1 12.7 4.1 18.7c0 6.6 3.5 11.7 7.9 11.7s7.9-5.1 7.9-11.7C19.9 12.7 16.9 7.1 12 1.6Z" fill="currentColor"/><path d="M12 7.5v18" stroke="rgba(0,0,0,.10)" stroke-width="1" stroke-linecap="round"/></svg>';
 
-const tulipanSVG = '<svg viewBox="0 0 64 132" fill="none" aria-hidden="true"><path d="M32 36V126" stroke="#6f9f6a" stroke-width="3.4" stroke-linecap="round"/><path d="M32 104c-13-1.6-20-9-21-21 12 0 19 7.5 21 21Z" fill="#6f9f6a"/><path d="M32 118c12-1 18.5-7.5 19.5-18-10.5 0-17.5 6-19.5 18Z" fill="#5c8b58"/><path d="M32 6c-3.6 3.8-6.1 8.2-6.1 13.4v6.2c0 8.2 2.7 13.4 6.1 13.4s6.1-5.2 6.1-13.4v-6.2C38.1 14.2 35.6 9.8 32 6Z" fill="currentColor"/><path d="M25.9 13.5c-4.6 3.6-7.2 8.7-7.2 14.3 0 6.2 2.6 10.8 6.1 12.2V26.5c0-4.1.2-8 1.1-13Z" fill="currentColor" opacity=".92"/><path d="M38.1 13.5c4.6 3.6 7.2 8.7 7.2 14.3 0 6.2-2.6 10.8-6.1 12.2V26.5c0-4.1-.2-8-1.1-13Z" fill="currentColor" opacity=".92"/></svg>';
+const hojaSVG = '<svg viewBox="0 0 24 32" aria-hidden="true"><path d="M12 2C5.5 8.5 3 15 3 21.5 3 27 7 30 12 30s9-3 9-8.5C21 15 18.5 8.5 12 2Z" fill="currentColor"/><path d="M12 8v18" stroke="rgba(0,0,0,.12)" stroke-width="1" stroke-linecap="round"/></svg>';
+
+const tulipanSVG = '<svg viewBox="0 0 64 132" fill="none" aria-hidden="true"><path d="M32 36V126" stroke="#6f9f6a" stroke-width="3.4" stroke-linecap="round"/><path d="M32 84c-10-1-15.6-6.2-16.6-15.2 9.4 0 15 5.2 16.6 15.2Z" fill="#79a874"/><path d="M32 96c9-.9 14-5.2 15-13-8.4 0-13.5 4.4-15 13Z" fill="#5c8b58"/><path d="M32 104c-13-1.6-20-9-21-21 12 0 19 7.5 21 21Z" fill="#6f9f6a"/><path d="M32 118c12-1 18.5-7.5 19.5-18-10.5 0-17.5 6-19.5 18Z" fill="#5c8b58"/><path d="M32 6c-3.6 3.8-6.1 8.2-6.1 13.4v6.2c0 8.2 2.7 13.4 6.1 13.4s6.1-5.2 6.1-13.4v-6.2C38.1 14.2 35.6 9.8 32 6Z" fill="currentColor"/><path d="M25.9 13.5c-4.6 3.6-7.2 8.7-7.2 14.3 0 6.2 2.6 10.8 6.1 12.2V26.5c0-4.1.2-8 1.1-13Z" fill="currentColor" opacity=".92"/><path d="M38.1 13.5c4.6 3.6 7.2 8.7 7.2 14.3 0 6.2-2.6 10.8-6.1 12.2V26.5c0-4.1-.2-8-1.1-13Z" fill="currentColor" opacity=".92"/></svg>';
 
 /* ---------- Textos con el nombre ---------- */
 $('.hero__nombres').innerHTML = `${EL} <span class="amp">&amp;</span> ${ELLA}`;
@@ -1498,12 +1692,13 @@ $('#momentos').innerHTML = MOMENTOS.map((m, i) => `
     <p>${m.texto}</p>
   </div>`).join('');
 
-/* ---------- Lugares ---------- */
-$('#lugares').innerHTML = LUGARES.map((l, i) => `
-  <li class="lugar">
-    <span class="lugar__num">${String(i + 1).padStart(2, '0')}</span>
-    <span class="lugar__txt"><b>${l.nombre}</b>${l.detalle}</span>
-  </li>`).join('');
+/* ---------- Paradas (Google Maps + fotos) ---------- */
+$('#paradas').innerHTML = PARADAS.map((p, i) => `
+  <button class="parada" type="button" data-parada="${p.id}">
+    <span class="parada__num">${String(i + 1).padStart(2, '0')}</span>
+    <span class="parada__txt"><b>${p.nombre}</b><small>${p.fecha}</small></span>
+    <span class="parada__fotos">${p.fotos.length} fotos</span>
+  </button>`).join('');
 
 /* ---------- Lista ---------- */
 $('#lista').innerHTML = LISTA.map(t => `
@@ -1545,6 +1740,7 @@ $('#vales').addEventListener('click', (e) => {
   const grande = $('#contadorGrande');
   const reloj = $('#contadorReloj');
   const junto = $('#contadorJuntos');
+  const relojJuntos = $('#relojJuntos');
   const total = $('#totalJuntos');
 
   if (!FECHA_INICIO) {
@@ -1600,7 +1796,9 @@ $('#vales').addEventListener('click', (e) => {
     const hh = String(ahora.getHours()).padStart(2, '0');
     const mm = String(ahora.getMinutes()).padStart(2, '0');
     const ss = String(ahora.getSeconds()).padStart(2, '0');
-    reloj.innerHTML = `${hh}h ${mm}m ${ss}s <span>· y contando</span>`;
+    const hora = `${hh}h ${mm}m ${ss}s <span>· y contando</span>`;
+    reloj.innerHTML = hora;
+    if (relojJuntos) relojJuntos.innerHTML = hora;
   }
 
   pintar();
@@ -1646,6 +1844,49 @@ $('#vales').addEventListener('click', (e) => {
 })();
 
 /* ---------- Jardines de tulipanes ---------- */
+function soltarHojas(el) {
+  if (reduceMotion) return;
+  const capa = $('#burst');
+  if (!capa) return;
+
+  const caja = el.getBoundingClientRect();
+  const cx = caja.left + caja.width / 2;
+  const cy = caja.top + caja.height * 0.22;
+  const cols = ['#6f9f6a', '#7fae74', '#5c8b58', '#e8c15f', '#d99a8a'];
+
+  el.animate([
+    { transform: 'rotate(0deg)' },
+    { transform: 'rotate(-5deg)' },
+    { transform: 'rotate(4deg)' },
+    { transform: 'rotate(0deg)' }
+  ], { duration: 480, easing: 'ease-in-out' });
+
+  for (let i = 0; i < 10; i++) {
+    const h = document.createElement('div');
+    h.className = 'burst__petalo';
+    const size = 10 + Math.random() * 9;
+    h.style.left = (cx + (Math.random() * 30 - 15)) + 'px';
+    h.style.top = (cy + (Math.random() * 22 - 11)) + 'px';
+    h.style.width = size + 'px';
+    h.style.height = (size * 1.35) + 'px';
+    h.style.color = cols[i % cols.length];
+    h.innerHTML = (i % 3 === 0) ? petaloSVG : hojaSVG;
+    capa.appendChild(h);
+
+    const dx = Math.random() * 130 - 65;
+    const dy = 80 + Math.random() * 130;
+    const rot = Math.random() * 540 - 270;
+    const dur = 1100 + Math.random() * 900;
+
+    const anim = h.animate([
+      { transform: 'translate(-50%,-50%) rotate(0deg)', opacity: 1 },
+      { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) rotate(${rot}deg)`, opacity: 0 }
+    ], { duration: dur, easing: 'cubic-bezier(.3,.2,.4,1)', fill: 'forwards' });
+
+    anim.onfinish = () => h.remove();
+  }
+}
+
 function crearJardin(cont, datos) {
   datos.forEach((t) => {
     const el = document.createElement('div');
@@ -1655,8 +1896,9 @@ function crearJardin(cont, datos) {
     el.style.color = t.c;
     el.style.animationDelay = '-' + t.d + 's';
     el.style.animationDuration = (5.4 + Math.random() * 2.2).toFixed(2) + 's';
-    el.style.opacity = (0.45 + Math.random() * 0.38).toFixed(2);
+    el.style.opacity = (0.5 + Math.random() * 0.35).toFixed(2);
     el.innerHTML = tulipanSVG;
+    el.addEventListener('click', () => soltarHojas(el));
     cont.appendChild(el);
   });
 }
@@ -1667,33 +1909,37 @@ function crearJardin(cont, datos) {
   const portada = $('#jardin');
   if (portada) {
     crearJardin(portada, [
-      { x: -1,   h: 98,  c: '#e8c15f', d: 0    },
-      { x: 4.5,  h: 132, c: '#f4dda2', d: 1.2  },
-      { x: 10,   h: 80,  c: '#d99a8a', d: 2.4  },
-      { x: 15.5, h: 120, c: '#c9a24a', d: 0.7  },
-      { x: 21,   h: 92,  c: '#f4dda2', d: 1.9  },
-      { x: 26.5, h: 138, c: '#e8c15f', d: 2.8  },
-      { x: 38,   h: 66,  c: '#d99a8a', d: 1.5  },
-      { x: 60,   h: 72,  c: '#f4dda2', d: 0.9  },
-      { x: 73.5, h: 124, c: '#e8c15f', d: 1.6  },
-      { x: 79,   h: 88,  c: '#c9a24a', d: 0.4  },
-      { x: 84.5, h: 134, c: '#f4dda2', d: 2.2  },
-      { x: 90,   h: 96,  c: '#d99a8a', d: 1.1  },
-      { x: 95.5, h: 126, c: '#e8c15f', d: 2.6  },
-      { x: 101,  h: 104, c: '#c9a24a', d: 0.2  }
+      { x: -1,   h: 112, c: '#e8c15f', d: 0    },
+      { x: 4.5,  h: 150, c: '#f4dda2', d: 1.2  },
+      { x: 10,   h: 92,  c: '#d99a8a', d: 2.4  },
+      { x: 15.5, h: 138, c: '#c9a24a', d: 0.7  },
+      { x: 21,   h: 104, c: '#f4dda2', d: 1.9  },
+      { x: 26.5, h: 158, c: '#e8c15f', d: 2.8  },
+      { x: 32.5, h: 78,  c: '#d99a8a', d: 1.5  },
+      { x: 38,   h: 70,  c: '#f4dda2', d: 0.9  },
+      { x: 60,   h: 76,  c: '#d99a8a', d: 2.3  },
+      { x: 67.5, h: 86,  c: '#c9a24a', d: 0.5  },
+      { x: 73.5, h: 142, c: '#e8c15f', d: 1.6  },
+      { x: 79,   h: 100, c: '#c9a24a', d: 0.4  },
+      { x: 84.5, h: 154, c: '#f4dda2', d: 2.2  },
+      { x: 90,   h: 110, c: '#d99a8a', d: 1.1  },
+      { x: 95.5, h: 146, c: '#e8c15f', d: 2.6  },
+      { x: 101,  h: 120, c: '#c9a24a', d: 0.2  }
     ]);
   }
 
   const final = $('#jardinFinal');
   if (final) {
     crearJardin(final, [
-      { x: 1,  h: 92,  c: '#e8c15f', d: 0.3 },
-      { x: 16, h: 118, c: '#f4dda2', d: 1.4 },
-      { x: 31, h: 78,  c: '#d99a8a', d: 2.1 },
-      { x: 45, h: 124, c: '#c9a24a', d: 0.8 },
-      { x: 59, h: 86,  c: '#f4dda2', d: 2.6 },
-      { x: 73, h: 110, c: '#e8c15f', d: 1.1 },
-      { x: 88, h: 94,  c: '#d99a8a', d: 0.5 }
+      { x: 1,  h: 104, c: '#e8c15f', d: 0.3 },
+      { x: 11, h: 132, c: '#f4dda2', d: 1.4 },
+      { x: 22, h: 88,  c: '#d99a8a', d: 2.1 },
+      { x: 34, h: 142, c: '#c9a24a', d: 0.8 },
+      { x: 46, h: 96,  c: '#f4dda2', d: 2.6 },
+      { x: 58, h: 148, c: '#e8c15f', d: 1.1 },
+      { x: 70, h: 92,  c: '#d99a8a', d: 0.5 },
+      { x: 81, h: 126, c: '#f4dda2', d: 1.8 },
+      { x: 92, h: 108, c: '#c9a24a', d: 0.9 }
     ]);
   }
 })();
@@ -1763,6 +2009,31 @@ function explotarPetalos(x, y) {
     anim.onfinish = () => p.remove();
   }
 }
+
+/* ---------- Bus en movimiento ---------- */
+(function busViaje() {
+  if (reduceMotion) return;
+  const bus = document.getElementById('busViaje');
+  const ruta = document.getElementById('rutaBus');
+  if (!bus || !ruta || !ruta.getTotalLength) return;
+
+  const largo = ruta.getTotalLength();
+  const duracion = 15000;
+
+  function frame(now) {
+    const fase = (now % duracion) / duracion;
+    const avance = fase < .5 ? fase * 2 : (1 - fase) * 2;
+    const dir = fase < .5 ? 1 : -1;
+    const d = avance * largo;
+    const p = ruta.getPointAtLength(d);
+    const p2 = ruta.getPointAtLength(Math.min(largo, Math.max(0, d + 8 * dir)));
+    const ang = Math.atan2(p2.y - p.y, p2.x - p.x) * 180 / Math.PI;
+    const salto = Math.sin(now / 220) * 1.1;
+    bus.setAttribute('transform', `translate(${p.x} ${p.y + salto}) rotate(${ang})`);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
 
 /* ---------- Abrir el regalo ---------- */
 const sobre = $('#sobre');
@@ -1846,9 +2117,67 @@ function cerrarCarta() {
 btnAbrirCarta.addEventListener('click', abrirCarta);
 modal.querySelectorAll('[data-cerrar-carta]').forEach(el => el.addEventListener('click', cerrarCarta));
 
+/* ---------- Paradas: mapa y fotos ---------- */
+const modalLugar = $('#modalLugar');
+const iframeMapa = $('#mapaGoogle');
+let focoParada = null;
+
+function abrirLugar(id) {
+  const p = PARADAS.find(x => x.id === id);
+  if (!p) return;
+  focoParada = document.activeElement;
+
+  document.querySelectorAll('.parada').forEach(b => {
+    b.classList.toggle('activa', b.dataset.parada === id);
+  });
+
+  if (iframeMapa) {
+    iframeMapa.src = `https://maps.google.com/maps?q=${encodeURIComponent(p.mapa)}&z=16&output=embed&hl=es`;
+  }
+  const enlaceMapa = $('#enlaceMapa');
+  if (enlaceMapa) {
+    enlaceMapa.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.mapa)}`;
+  }
+
+  $('#tituloLugar').textContent = p.nombre;
+  $('#fechaLugar').textContent = p.fecha;
+  $('#lugarFotos').innerHTML = p.fotos.map(f =>
+    `<figure><img src="${f.src}" alt="${f.alt}" loading="lazy"></figure>`
+  ).join('');
+
+  modalLugar.classList.add('abierto');
+  modalLugar.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  modalLugar.querySelector('.carta-cerrar').focus({ preventScroll: true });
+}
+
+function cerrarLugar() {
+  modalLugar.classList.remove('abierto');
+  modalLugar.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = (visor.classList.contains('abierto') || modal.classList.contains('abierto')) ? 'hidden' : '';
+  if (focoParada) focoParada.focus({ preventScroll: true });
+}
+
+document.querySelectorAll('.parada').forEach(btn => {
+  btn.addEventListener('click', () => abrirLugar(btn.dataset.parada));
+});
+const primeraParada = document.querySelector('.parada');
+if (primeraParada) primeraParada.classList.add('activa');
+modalLugar.querySelectorAll('[data-cerrar-lugar]').forEach(el => el.addEventListener('click', cerrarLugar));
+
+modalLugar.addEventListener('keydown', (e) => {
+  if (e.key !== 'Tab') return;
+  const foco = modalLugar.querySelectorAll('button, [href], input, [tabindex]:not([tabindex="-1"])');
+  if (!foco.length) return;
+  const primero = foco[0], ultimo = foco[foco.length - 1];
+  if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
+  else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
+});
+
 document.addEventListener('keydown', (e) => {
   if (e.key !== 'Escape') return;
   if (visor.classList.contains('abierto')) { cerrarVisor(); return; }
+  if (modalLugar.classList.contains('abierto')) { cerrarLugar(); return; }
   if (modal.classList.contains('abierto')) cerrarCarta();
 });
 

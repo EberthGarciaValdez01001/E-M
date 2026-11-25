@@ -13,12 +13,13 @@ Abre `index.html` con doble clic. Funciona sin servidor; las fotos están en `fo
    - Nombres + “Guatemala · Honduras”.
    - Foto de su cumpleaños en Metro Mall.
    - **Tiempo de conocernos (primer saludo):** fecha 27/11/2024 · 22:13, contador y reloj en vivo.
-   - **Tiempo de estar juntos (la pregunta):** fecha 14/07/2026, contador y total de días juntos.
+   - **Tiempo de estar juntos (la pregunta):** fecha 14/07/2026, contador, reloj en vivo y total de días juntos.
    - “Mensaje privado → Abrir carta”: la carta escrita, la firma y **la carta a mano del PDF** (se puede ampliar).
    - Foto del primer encuentro (Centro Cívico).
    - “Lo que más amo de ti”.
    - **Línea del tiempo:** 27/11/2024 22:13 → 14/07/2026 → 4/9/2026 12:00 → 5/9/2026 12:30 → 7/9/2026 5:30 → hoy.
-   - **“Nuestra distancia”**: mapa Guatemala ↔ Honduras + los 3 lugares.
+   - **Nuestra distancia:** mapa Guatemala ↔ Honduras con un bus que se mueve por la ruta.
+   - **Nuestros lugares:** mapa de Google real + paradas (Centro Cívico y Metro Mall); al tocar una parada se mueve el mapa y se abren sus fotos.
    - Foto de Metro Mall.
    - **Galería:** las fotos de los días 4 y 5 de septiembre de 2026.
    - “Nuestra lista” (checklist interactiva).
@@ -63,7 +64,7 @@ Están en `fotos/` ya optimizadas (JPEG). Para cambiar una, reemplaza el archivo
 
 **Carta a mano:** viene de `ELISAAA.pdf` (1 página escaneada). Se recortó, se convirtió a JPEG y se agregó al modal de “Abrir carta”, debajo del texto. Al tocarla se abre en un visor a pantalla completa y se puede acercar tocando la imagen.
 
-**Nota de privacidad:** el boleto de avión no se publicó porque muestra el número de pasaporte y el código QR. La historia del vuelo está contada en texto.
+**Nota de privacidad:** el boleto de bus no se publicó porque muestra el número de pasaporte y el código QR. El regreso se cuenta en texto, sin publicar el documento.
 
 ## Publicar y compartir
 
@@ -81,8 +82,9 @@ Están en `fotos/` ya optimizadas (JPEG). Para cambiar una, reemplaza el archivo
 
 ## Efectos de tulipanes
 
-- **Jardín:** 8 tulipanes creciendo en las esquinas inferiores de la portada, meciéndose con el viento.
+- **Jardín:** 16 tulipanes en la portada y 9 al cierre, más grandes y con cuatro hojas cada uno, meciéndose con el viento. Al tocar uno, se sacude y se le caen las hojas.
 - **Pétalos cayendo:** capa de pétalos dorados, crema y rosa en toda la página.
 - **Lluvia al abrir:** al pulsar “Toca para abrir” salen 32 pétalos desde el sobre.
+- **Fotos flotantes:** cuatro polaroids pequeñas que se balancean alrededor de la página.
 - **Detalles:** tulipán en el divisor de los nombres, en el pie y como icono de la pestaña.
 - Todo se oculta automáticamente si el dispositivo pide movimiento reducido.
