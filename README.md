@@ -1,4 +1,4 @@
-# Eberth & Melida · Nuestra historia
+# Marcelo & Melida · Nuestra historia
 
 Página de regalo con la estética de la referencia (azul noche + dorado): portada con sobre, nombres, foto con marco blanco, contador en vivo, mensaje privado, momentos, mapa, lista, vales y ruleta.
 
@@ -30,7 +30,7 @@ Todo el contenido está en el bloque de constantes al inicio del `<script>` de `
 
 ```js
 const ELLA = 'Melida';          // nombre de ella
-const EL   = 'Eberth';          // tu nombre
+const EL   = 'Marcelo';          // tu nombre
 const FECHA_INICIO = '2024-02-14';  // AAAA-MM-DD ("" oculta el contador)
 
 const GUSTOS = [ ... ];         // "Lo que más amo de ti"
