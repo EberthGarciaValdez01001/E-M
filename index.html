@@ -295,6 +295,15 @@
     margin:18px auto 0;
     background:linear-gradient(90deg,transparent,rgba(232,193,95,.75),transparent);
   }
+  .hero__lugar{
+    margin:16px 0 0;
+    font-size:.56rem;
+    letter-spacing:.3em;
+    text-indent:.3em;
+    text-transform:uppercase;
+    color:#8f96b4;
+  }
+  .hero__lugar span{ color:#c9a86a; padding:0 .5em; }
 
   /* Marco de foto */
   .marco{
@@ -329,21 +338,6 @@
       repeating-linear-gradient(115deg, rgba(255,255,255,.022) 0 1px, transparent 1px 8px),
       radial-gradient(circle at 50% 50%, transparent 55%, rgba(4,7,18,.35) 100%);
     pointer-events:none;
-  }
-  .marco__vacio{
-    position:relative; z-index:1;
-    display:flex; flex-direction:column; align-items:center; gap:10px;
-    text-align:center;
-    padding:22px;
-  }
-  .marco__vacio svg{ width:30px; height:30px; color:rgba(244,221,162,.7); }
-  .marco__vacio strong{
-    font-family:var(--serif); font-style:italic; font-weight:500;
-    font-size:1.35rem; color:rgba(247,241,227,.9);
-  }
-  .marco__vacio span{
-    font-size:.56rem; letter-spacing:.3em; text-transform:uppercase;
-    color:rgba(244,221,162,.6);
   }
   .marco figcaption{
     text-align:center;
@@ -416,6 +410,15 @@
     color:#e9d3a1;
   }
   .contador__reloj span{ color:#8f97b8; letter-spacing:.1em; }
+  .contador__extra{
+    margin:16px 0 0;
+    font-size:.72rem;
+    font-weight:300;
+    letter-spacing:.04em;
+    line-height:1.6;
+    color:#9aa1bf;
+  }
+  .contador__extra b{ font-weight:400; color:#d9c396; }
 
   /* Sobre de la carta */
   .sobre-arte{
@@ -519,7 +522,7 @@
   }
   .momento__cap{
     display:block;
-    font-size:.55rem; letter-spacing:.3em; text-transform:uppercase;
+    font-size:.56rem; letter-spacing:.22em; text-transform:uppercase;
     color:#a98f5e; margin-bottom:.3rem;
   }
   .momento h3{
@@ -552,38 +555,36 @@
     mask-image:radial-gradient(circle at 50% 50%, #000 55%, transparent 100%);
   }
   .mapa svg{ position:absolute; inset:0; width:100%; height:100%; }
-  .pin{
+  .ciudad{
     position:absolute;
-    transform:translate(-50%,-50%);
-    display:flex; flex-direction:column; align-items:center;
+    transform:translate(-50%,0);
+    display:flex; flex-direction:column; align-items:center; gap:9px;
     z-index:2;
   }
-  .pin__punto{
+  .ciudad__punto{
     position:relative;
-    width:30px; height:30px;
+    width:12px; height:12px;
     border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, #fff2c4, #e8c15f 55%, #b98d2b);
-    display:grid; place-items:center;
-    box-shadow:0 6px 14px rgba(0,0,0,.5);
-    font-size:.66rem; font-weight:500; color:#241b05;
+    background:var(--oro);
+    box-shadow:0 0 0 5px rgba(232,193,95,.12), 0 0 18px rgba(232,193,95,.6);
   }
-  .pin__punto::after{
+  .ciudad__punto::after{
     content:'';
-    position:absolute; inset:-8px;
+    position:absolute; inset:-7px;
     border-radius:50%;
     border:1px solid rgba(232,193,95,.35);
     animation:pulso 3.8s ease-in-out infinite;
   }
-  .pin__nombre{
-    margin-top:7px;
-    padding:3px 8px;
+  .ciudad__nombre{
+    padding:4px 9px;
     border-radius:999px;
-    background:rgba(7,12,30,.82);
-    border:1px solid rgba(232,193,95,.25);
+    background:rgba(7,12,30,.85);
+    border:1px solid rgba(232,193,95,.28);
     font-size:.5rem; letter-spacing:.16em; text-transform:uppercase;
     color:#e7d6ae;
     white-space:nowrap;
   }
+  .etiqueta--sub{ margin-top:26px; }
   .lugares{
     list-style:none; margin:0; padding:0;
     display:grid; gap:2px;
@@ -603,6 +604,38 @@
   }
   .lugar__txt{ font-size:.9rem; line-height:1.5; font-weight:300; color:#c6cadf; }
   .lugar__txt b{ display:block; font-weight:400; color:var(--crema); font-size:.95rem; }
+
+  /* Galería */
+  .galeria{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin:18px 0 0;
+  }
+  .galeria figure{
+    position:relative;
+    margin:0;
+    aspect-ratio:3/4;
+    border-radius:12px;
+    overflow:hidden;
+    border:1px solid rgba(232,193,95,.18);
+    background:#0d1533;
+  }
+  .galeria img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .8s cubic-bezier(.22,.9,.28,1);
+  }
+  .galeria figure:hover img{ transform:scale(1.04); }
+  .galeria figcaption{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:26px 10px 8px;
+    text-align:left;
+    font-size:.48rem; letter-spacing:.18em; text-transform:uppercase;
+    color:#f2e7cc;
+    background:linear-gradient(transparent, rgba(4,7,18,.8));
+  }
 
   /* Lista */
   .lista{
@@ -985,23 +1018,21 @@
     <p class="hero__etiqueta">Nuestra historia</p>
     <h1 class="hero__nombres">Marcelo <span class="amp">&amp;</span> Melida</h1>
     <span class="hero__linea" aria-hidden="true"></span>
+    <p class="hero__lugar">Tegucigalpa <span>·</span> El Salvador</p>
   </header>
 
   <figure class="marco revelar">
     <div class="marco__foto">
-      <div class="marco__vacio">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h1.7l1.2-2h7.2l1.2 2h1.7A2.5 2.5 0 0 1 21 8.5v8A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z"/><circle cx="12" cy="12.2" r="3.6"/></svg>
-        <strong>Nuestra foto</strong>
-        <span>aquí van tus recuerdos</span>
-      </div>
+      <img src="fotos/metro-mall-1.jpg" alt="Melida soplando las velas de su cumpleaños en Metro Mall" loading="lazy">
     </div>
-    <figcaption>Nosotros, en nuestro lugar favorito.</figcaption>
+    <figcaption>Tu cumpleaños · Metro Mall, 5 de septiembre de 2026.</figcaption>
   </figure>
 
   <section class="panel revelar">
     <p class="etiqueta">Juntos desde hace</p>
     <p class="contador__grande" id="contadorGrande">Calculando…</p>
     <p class="contador__reloj" id="contadorReloj" aria-live="off">00h 00m 00s</p>
+    <p class="contador__extra" id="contadorExtra">Nos conocimos el 27 de noviembre de 2024.</p>
   </section>
 
   <section class="panel revelar">
@@ -1022,13 +1053,9 @@
 
   <figure class="marco revelar">
     <div class="marco__foto">
-      <div class="marco__vacio">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h1.7l1.2-2h7.2l1.2 2h1.7A2.5 2.5 0 0 1 21 8.5v8A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z"/><circle cx="12" cy="12.2" r="3.6"/></svg>
-        <strong>Nuestra foto</strong>
-        <span>un día que vale la pena</span>
-      </div>
+      <img src="fotos/centro-civico-3.jpg" alt="Dos bebidas azules y una bolsa de McDonald's en el Centro Cívico" loading="lazy">
     </div>
-    <figcaption>Los días que se volvieron recuerdo.</figcaption>
+    <figcaption>Nuestro primer encuentro · Centro Cívico, 4 de septiembre de 2026.</figcaption>
   </figure>
 
   <section class="panel revelar">
@@ -1044,30 +1071,49 @@
   </section>
 
   <section class="panel revelar">
-    <p class="etiqueta">Dónde empezó todo</p>
-    <h2 class="titulo-panel">Nuestros lugares</h2>
-    <div class="mapa" aria-hidden="true">
+    <p class="etiqueta">Dos países, una historia</p>
+    <h2 class="titulo-panel">Nuestra distancia</h2>
+    <p class="sub-panel">Tegucigalpa y El Salvador. Un avión, muchas llamadas y las ganas de volver a vernos.</p>
+    <div class="mapa mapa--distancia" aria-hidden="true">
       <svg viewBox="0 0 400 250" fill="none">
-        <path d="M96 168 C 150 120, 168 92, 205 92 S 268 128, 300 76"
-              stroke="rgba(232,193,95,.55)" stroke-width="1.4" stroke-dasharray="5 6" stroke-linecap="round"/>
+        <path d="M70 170 C 150 40, 250 40, 330 170"
+              stroke="rgba(232,193,95,.5)" stroke-width="1.6" stroke-dasharray="2 7" stroke-linecap="round"/>
+        <g transform="translate(200 72.5) rotate(90) scale(1.15)" fill="#e8c15f" opacity=".95">
+          <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/>
+        </g>
       </svg>
-      <div class="pin" style="left:24%; top:70%"><div class="pin__punto">1</div></div>
-      <div class="pin" style="left:51%; top:40%"><div class="pin__punto">2</div></div>
-      <div class="pin" style="left:76%; top:34%"><div class="pin__punto">3</div></div>
+      <div class="ciudad" style="left:17.5%; top:68%">
+        <span class="ciudad__punto"></span>
+        <span class="ciudad__nombre">Tegucigalpa</span>
+      </div>
+      <div class="ciudad" style="left:82.5%; top:68%">
+        <span class="ciudad__punto"></span>
+        <span class="ciudad__nombre">El Salvador</span>
+      </div>
     </div>
+    <p class="etiqueta etiqueta--sub">Nuestros lugares</p>
     <ul class="lugares" id="lugares"></ul>
   </section>
 
   <figure class="marco revelar">
     <div class="marco__foto">
-      <div class="marco__vacio">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h1.7l1.2-2h7.2l1.2 2h1.7A2.5 2.5 0 0 1 21 8.5v8A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z"/><circle cx="12" cy="12.2" r="3.6"/></svg>
-        <strong>Nuestra foto</strong>
-        <span>el siguiente recuerdo</span>
-      </div>
+      <img src="fotos/metro-mall-3.jpg" alt="Melida en la comida del Metro Mall" loading="lazy">
     </div>
-    <figcaption>Y todo lo que todavía nos falta.</figcaption>
+    <figcaption>Metro Mall · 5 de septiembre de 2026.</figcaption>
   </figure>
+
+  <section class="panel revelar">
+    <p class="etiqueta">4 y 5 de septiembre de 2026</p>
+    <h2 class="titulo-panel">Los días que se volvieron nuestros</h2>
+    <div class="galeria">
+      <figure><img src="fotos/centro-civico-1.jpg" alt="Plaza del Centro Cívico" loading="lazy"><figcaption>Centro Cívico</figcaption></figure>
+      <figure><img src="fotos/centro-civico-5.jpg" alt="Torre Chortí" loading="lazy"><figcaption>Torre Chortí</figcaption></figure>
+      <figure><img src="fotos/centro-civico-4.jpg" alt="Pérgola y flores del Centro Cívico" loading="lazy"><figcaption>Centro Cívico</figcaption></figure>
+      <figure><img src="fotos/centro-civico-2.jpg" alt="Vista de la plaza desde arriba" loading="lazy"><figcaption>Centro Cívico</figcaption></figure>
+      <figure><img src="fotos/centro-civico-6.jpg" alt="Pasillo del Centro Cívico" loading="lazy"><figcaption>Centro Cívico</figcaption></figure>
+      <figure><img src="fotos/metro-mall-2.jpg" alt="Caminando por Metro Mall" loading="lazy"><figcaption>Metro Mall</figcaption></figure>
+    </div>
+  </section>
 
   <section class="panel revelar">
     <p class="etiqueta">Cosas que quiero hacer contigo</p>
@@ -1117,8 +1163,9 @@
     </button>
     <p class="etiqueta">Para ti</p>
     <h2 id="tituloCarta">Melida</h2>
-    <p>No sé si esto se parece a lo que imaginabas, pero quería hacerte un lugar donde quepa un poco de nosotros.</p>
-    <p>Gracias por reírte de mis chistes malos, por quedarte los días difíciles y por hacer que lo cotidiano se sienta como una aventura.</p>
+    <p>Melida: hay fechas que no se eligen, pero se quedan. El 27 de noviembre de 2024, a las 22:13, te escribí por primera vez.</p>
+    <p>El 14 de julio de 2026 dijiste que sí. El 4 de septiembre te vi llegar al Centro Cívico y entendí que tanta distancia valía la pena.</p>
+    <p>Gracias por ese cumpleaños en Metro Mall, por reírte conmigo, por despedirte en un aeropuerto sin hacer drama y por quedarte incluso cuando estoy lejos.</p>
     <p>Ojalá vuelvas a leer esto las veces que quieras. Yo voy a seguir aquí.</p>
     <p class="carta-firma">Con amor<span>Marcelo</span></p>
     <button class="btn-contorno" type="button" data-cerrar-carta>Cerrar</button>
@@ -1142,8 +1189,11 @@
 const ELLA = 'Melida';
 const EL   = 'Marcelo';
 
-// Fecha y hora en que empezó todo (AAAA-MM-DD). Déjalo vacío ("") para ocultar el contador.
-const FECHA_INICIO = '2024-02-14';
+// Fecha en que empezó la relación (AAAA-MM-DD). Déjalo vacío ("") para ocultar el contador.
+const FECHA_INICIO = '2026-07-14';
+
+// El día del primer saludo: se usa en la línea de abajo del contador.
+const FECHA_SALUDO = '2024-11-27T22:13:00';
 
 const GUSTOS = [
   'Tu risa cuando algo te da un poco de pena.',
@@ -1153,18 +1203,18 @@ const GUSTOS = [
 ];
 
 const MOMENTOS = [
-  { titulo:'El primer mensaje', texto:'Todavía recuerdo la primera vez que hablamos. No sabía que una conversación tan simple iba a cambiarme tantas cosas.' },
-  { titulo:'La primera risa', texto:'Hubo un momento en el que te reíste de algo que dije y supe que quería escuchar esa risa muchas veces más.' },
-  { titulo:'Nuestro lugar', texto:'No importa dónde sea: contigo cualquier sitio se vuelve mi favorito. Un café, una banca, una llamada a medianoche.' },
-  { titulo:'Las fotos que guardo', texto:'Tengo fotos tuyas que no muestro a nadie. Son mis favoritas porque en ellas estás siendo tú, sin filtros ni poses.' },
-  { titulo:'El día que dije “te amo”', texto:'Lo dije bajito, casi con miedo. Y tú me miraste como si ya lo supieras desde hace mucho tiempo.' },
-  { titulo:'Lo que viene', texto:'Esto no es un repaso del pasado: es una promesa. Todavía nos quedan muchísimos capítulos por escribir juntos.' }
+  { fecha:'27 nov 2024 · 22:13', titulo:'El primer saludo', texto:'Te escribí a las 22:13 sin saber que esa conversación iba a cambiarme el año entero.' },
+  { fecha:'14 jul 2026', titulo:'La pregunta', texto:'Después de miles de mensajes te pregunté si querías ser mi novia. Dijiste que sí, y desde entonces todo tiene otro nombre: nosotros.' },
+  { fecha:'4 sep 2026 · 12:00', titulo:'El primer encuentro', texto:'Centro Cívico, Tegucigalpa. Llegaste a las doce y, por un momento, todo lo que había esperado se quedó quieto.' },
+  { fecha:'5 sep 2026 · 12:30', titulo:'Metro Mall', texto:'Al día siguiente te vi otra vez. Era tu cumpleaños y yo solo quería que ese día te recordara a mí.' },
+  { fecha:'7 sep 2026 · 05:30', titulo:'El vuelo', texto:'A las 5:30 de la mañana salió mi vuelo. Desde entonces la distancia es solo el espacio entre una llamada y la siguiente.' },
+  { fecha:'Hoy', titulo:'Lo que viene', texto:'Esto no es un repaso del pasado: es una promesa. Todavía nos quedan muchísimos capítulos por escribir juntos.' }
 ];
 
 const LUGARES = [
-  { nombre:'Donde nos conocimos', detalle:'El sitio donde todo empezó sin que nos diéramos cuenta.' },
-  { nombre:'Nuestra primera cita', detalle:'Ese día que se pasó volando y no queríamos irnos.' },
-  { nombre:'Nuestro lugar', detalle:'Al que siempre volvemos cuando queremos estar en paz.' }
+  { nombre:'Centro Cívico, Tegucigalpa', detalle:'Nuestro primer encuentro · 4 de septiembre de 2026, 12:00 p.m.' },
+  { nombre:'Metro Mall, Tegucigalpa', detalle:'Tu cumpleaños · 5 de septiembre de 2026, 12:30 p.m.' },
+  { nombre:'Aeropuerto Toncontín', detalle:'El día que volví · 7 de septiembre de 2026, 5:30 a.m.' }
 ];
 
 const LISTA = [
@@ -1204,7 +1254,7 @@ $('#gustos').innerHTML = GUSTOS.map(g => `<li>${corazon}<span>${g}</span></li>`)
 /* ---------- Momentos ---------- */
 $('#momentos').innerHTML = MOMENTOS.map((m, i) => `
   <div class="momento">
-    <span class="momento__cap">Capítulo ${String(i + 1).padStart(2, '0')}</span>
+    <span class="momento__cap">${String(i + 1).padStart(2, '0')} · ${m.fecha}</span>
     <h3>${m.titulo}</h3>
     <p>${m.texto}</p>
   </div>`).join('');
@@ -1255,10 +1305,13 @@ $('#vales').addEventListener('click', (e) => {
 (function contador() {
   const grande = $('#contadorGrande');
   const reloj = $('#contadorReloj');
-  if (!FECHA_INICIO) { grande.textContent = 'Cada día contigo'; reloj.remove(); return; }
+  const extra = $('#contadorExtra');
+  if (!FECHA_INICIO) { grande.textContent = 'Cada día contigo'; reloj.remove(); extra.remove(); return; }
 
   const inicio = new Date(FECHA_INICIO + 'T00:00:00');
-  if (isNaN(inicio.getTime())) { grande.textContent = 'Cada día contigo'; reloj.remove(); return; }
+  if (isNaN(inicio.getTime())) { grande.textContent = 'Cada día contigo'; reloj.remove(); extra.remove(); return; }
+
+  const saludo = FECHA_SALUDO ? new Date(FECHA_SALUDO) : null;
 
   const plural = (n, uno, varios) => n === 1 ? `${n} ${uno}` : `${n} ${varios}`;
 
@@ -1291,6 +1344,11 @@ $('#vales').addEventListener('click', (e) => {
     const mm = String(ahora.getMinutes()).padStart(2, '0');
     const ss = String(ahora.getSeconds()).padStart(2, '0');
     reloj.innerHTML = `${hh}h ${mm}m ${ss}s <span>· y contando</span>`;
+
+    if (extra && saludo && !isNaN(saludo.getTime())) {
+      const diasSaludo = Math.max(0, Math.floor((ahora - saludo) / 86400000));
+      extra.innerHTML = `Nos conocimos el <b>27 de noviembre de 2024</b> · hace ${diasSaludo.toLocaleString('es')} días`;
+    }
   }
 
   pintar();
