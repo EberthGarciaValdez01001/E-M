@@ -19,7 +19,7 @@ Abre `index.html` con doble clic. Funciona sin servidor; las fotos están en `fo
    - “Lo que más amo de ti”.
    - **Línea del tiempo:** 27/11/2024 22:13 → 14/07/2026 → 4/9/2026 12:00 → 5/9/2026 12:30 → 7/9/2026 5:30 → hoy.
    - **Nuestra distancia:** mapa Guatemala ↔ Honduras con un bus que se mueve por la ruta.
-   - **Nuestros lugares:** mapa de Google real + paradas (Centro Cívico y Metro Mall); al tocar una parada se mueve el mapa y se abren sus fotos.
+   - **Nuestros lugares:** mapa satelital interactivo (Leaflet + Esri) con un pin por lugar; al tocar un pin (o una parada) se abre el álbum de fotos de ese lugar.
    - Foto de Metro Mall.
    - **Galería:** las fotos de los días 4 y 5 de septiembre de 2026.
    - **Siete atardeceres:** cuenta regresiva al próximo atardecer (18:15) y 7 tarjetas con frases, del 7 al 1.
@@ -79,6 +79,15 @@ La sección **“Siete atardeceres”** tiene 7 tarjetas (del 07 al 01), cada un
 
 - Las frases y los colores de cada cielo están en el arreglo `ATARDECERES`, al inicio del `<script>`.
 - La hora del atardecer está en la función `relojAtardecer()` (`HORA = 18`, `MIN = 15`). Cámbiala si quieres otra hora.
+
+## Mapa de lugares
+
+La sección **“Nuestros lugares”** usa Leaflet con imágenes satelitales de Esri (sin API key) y un pin dorado por parada.
+
+- Las coordenadas están en `PARADAS`: `lat` y `lng` de cada lugar.
+- Al tocar un pin o una tarjeta se abre el álbum de fotos de esa parada.
+- El enlace **“Abrir en Google Maps”** lleva al lugar activo en Google Maps.
+- Si el mapa no carga (sin internet), aparece un enlace directo a Google Maps.
 
 ## Detalles técnicos
 

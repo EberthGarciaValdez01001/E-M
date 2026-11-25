@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
 <style>
   /* ============ BASE ============ */
@@ -732,18 +733,71 @@
   }
   .etiqueta--sub{ margin-top:26px; }
 
-  /* Google Maps + paradas */
-  .mapa-google{
-    margin:18px 0 16px;
-    height:270px;
+  /* Mapa interactivo + paradas */
+  .mapa-paradas{
+    position:relative;
+    z-index:0;
+    isolation:isolate;
+    height:300px;
+    margin:18px 0 12px;
     border-radius:14px;
     overflow:hidden;
     border:1px solid rgba(232,193,95,.28);
     background:#0a1029;
     box-shadow:0 12px 28px rgba(0,0,0,.4);
   }
-  .mapa-google iframe{ display:block; width:100%; height:100%; border:0; }
-  @media (min-width:520px){ .mapa-google{ height:330px; } }
+  @media (min-width:520px){ .mapa-paradas{ height:340px; } }
+  .mapa-paradas .leaflet-container{ background:#0a1029; font-family:var(--sans); }
+  .mapa-paradas .leaflet-tile-pane{ filter:saturate(.85) brightness(.8) contrast(1.05); }
+  .mapa-paradas .leaflet-control-zoom{ border:1px solid rgba(232,193,95,.3); border-radius:8px; overflow:hidden; }
+  .mapa-paradas .leaflet-control-zoom a{
+    background:#0c1533; color:#e8c15f; border-color:rgba(232,193,95,.22);
+  }
+  .mapa-paradas .leaflet-control-zoom a:hover{ background:#16224a; color:#f4dda2; }
+  .mapa-paradas .leaflet-control-attribution{
+    background:rgba(7,12,30,.72); color:#9aa1bf; font-size:9px;
+  }
+  .mapa-paradas .leaflet-control-attribution a{ color:#c9a86a; }
+
+  .pin-mapa{ background:transparent; border:0; }
+  .pin-mapa__cuerpo{
+    display:grid; place-items:center;
+    width:38px; height:38px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #fff3cc, #e8c15f 55%, #b98d2b);
+    border:2px solid rgba(8,12,28,.88);
+    box-shadow:0 8px 18px rgba(0,0,0,.55), 0 0 0 5px rgba(232,193,95,.16);
+    color:#241b05;
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:.95rem;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .leaflet-marker-icon:hover .pin-mapa__cuerpo{
+    transform:scale(1.08);
+    box-shadow:0 10px 22px rgba(0,0,0,.6), 0 0 0 8px rgba(232,193,95,.22);
+  }
+  .etiqueta-mapa{
+    background:rgba(7,12,30,.86);
+    border:1px solid rgba(232,193,95,.32);
+    border-radius:999px;
+    box-shadow:0 6px 14px rgba(0,0,0,.45);
+    color:#f2e7cc;
+    font-family:var(--sans);
+    font-weight:400;
+    font-size:10px;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    padding:4px 9px;
+    white-space:nowrap;
+  }
+  .etiqueta-mapa::before{ display:none; }
+  .mapa-paradas--fallo{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:8px; padding:20px; text-align:center;
+    font-size:.82rem; color:#9aa1bf;
+  }
+  .mapa-paradas--fallo a{ color:#e8c15f; }
   .mapa-google__link{
     display:inline-block;
     margin:-2px 0 16px;
@@ -1604,12 +1658,8 @@
   <section class="panel revelar">
     <p class="etiqueta">Puntos del viaje</p>
     <h2 class="titulo-panel">Nuestros lugares</h2>
-    <p class="sub-panel">Toca una parada para ver el mapa y sus fotos.</p>
-    <div class="mapa-google">
-      <iframe id="mapaGoogle" title="Mapa de nuestros lugares"
-              src="https://maps.google.com/maps?q=Centro%20C%C3%ADvico%2C%20Tegucigalpa%2C%20Honduras&z=16&output=embed&hl=es"
-              loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
-    </div>
+    <p class="sub-panel">Toca un pin o una parada para ver las fotos.</p>
+    <div class="mapa-paradas" id="mapaParadas" role="application" aria-label="Mapa de los lugares que visitamos"></div>
     <a class="mapa-google__link" id="enlaceMapa" href="https://www.google.com/maps/search/?api=1&amp;query=Centro+C%C3%ADvico%2C+Tegucigalpa%2C+Honduras" target="_blank" rel="noopener">Abrir en Google Maps</a>
     <div class="paradas" id="paradas"></div>
   </section>
@@ -1748,6 +1798,7 @@
   </svg>
 </button>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 /* ============================================================
    PERSONALIZA AQUÍ
@@ -1783,6 +1834,8 @@ const PARADAS = [
     nombre: 'Centro Cívico',
     fecha: '4 de septiembre de 2026 · 12:00 p.m.',
     mapa: 'Centro Cívico, Tegucigalpa, Honduras',
+    lat: 14.0882507,
+    lng: -87.1888340,
     fotos: [
       { src: 'fotos/centro-civico-1.jpg', alt: 'Plaza del Centro Cívico' },
       { src: 'fotos/centro-civico-2.jpg', alt: 'Vista de la plaza desde arriba' },
@@ -1797,6 +1850,8 @@ const PARADAS = [
     nombre: 'Metro Mall',
     fecha: '5 de septiembre de 2026 · 12:30 p.m.',
     mapa: 'Metro Mall, Tegucigalpa, Honduras',
+    lat: 14.0747879,
+    lng: -87.2127252,
     fotos: [
       { src: 'fotos/metro-mall-1.jpg', alt: 'Melida soplando las velas de su cumpleaños' },
       { src: 'fotos/metro-mall-2.jpg', alt: 'Caminando por Metro Mall' },
@@ -2275,6 +2330,7 @@ function abrir() {
     document.body.classList.remove('abriendo');
     window.scrollTo({ top: 0, behavior: 'auto' });
     iniciarRevelado();
+    setTimeout(iniciarMapa, 400);
     $('#sitio').focus?.({ preventScroll: true });
     bloqueado = false;
   }, reduceMotion ? 100 : 980);
@@ -2339,8 +2395,64 @@ modal.querySelectorAll('[data-cerrar-carta]').forEach(el => el.addEventListener(
 
 /* ---------- Paradas: mapa y fotos ---------- */
 const modalLugar = $('#modalLugar');
-const iframeMapa = $('#mapaGoogle');
 let focoParada = null;
+let mapaParadas = null;
+
+function iniciarMapa() {
+  const cont = document.getElementById('mapaParadas');
+  if (!cont) return;
+  if (mapaParadas) { mapaParadas.invalidateSize(); return; }
+
+  if (!window.L) {
+    cont.classList.add('mapa-paradas--fallo');
+    cont.innerHTML = '<span>No se pudo cargar el mapa.</span><a href="https://www.google.com/maps/search/?api=1&query=Centro+C%C3%ADvico%2C+Tegucigalpa%2C+Honduras" target="_blank" rel="noopener">Abrir en Google Maps</a>';
+    return;
+  }
+
+  mapaParadas = L.map(cont, {
+    scrollWheelZoom: false,
+    zoomControl: true,
+    attributionControl: true
+  }).setView([14.0815, -87.2005], 13);
+
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 19,
+    attribution: 'Imagery &copy; <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a>, Maxar, Earthstar Geographics'
+  }).addTo(mapaParadas);
+
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 19
+  }).addTo(mapaParadas);
+
+  PARADAS.forEach((p, i) => {
+    const icono = L.divIcon({
+      className: 'pin-mapa',
+      html: `<span class="pin-mapa__cuerpo">${String(i + 1).padStart(2, '0')}</span>`,
+      iconSize: [38, 38],
+      iconAnchor: [19, 19]
+    });
+
+    const marcador = L.marker([p.lat, p.lng], {
+      icon: icono,
+      title: p.nombre,
+      alt: p.nombre
+    }).addTo(mapaParadas);
+
+    marcador.bindTooltip(p.nombre, {
+      permanent: true,
+      direction: 'top',
+      offset: [0, -20],
+      className: 'etiqueta-mapa',
+      opacity: 1
+    });
+
+    marcador.on('click', () => abrirLugar(p.id));
+  });
+
+  const limites = L.latLngBounds(PARADAS.map(p => [p.lat, p.lng]));
+  mapaParadas.fitBounds(limites, { padding: [36, 36], maxZoom: 14 });
+  setTimeout(() => mapaParadas.invalidateSize(), 350);
+}
 
 function abrirLugar(id) {
   const p = PARADAS.find(x => x.id === id);
@@ -2351,9 +2463,11 @@ function abrirLugar(id) {
     b.classList.toggle('activa', b.dataset.parada === id);
   });
 
-  if (iframeMapa) {
-    iframeMapa.src = `https://maps.google.com/maps?q=${encodeURIComponent(p.mapa)}&z=16&output=embed&hl=es`;
+  if (!mapaParadas) iniciarMapa();
+  if (mapaParadas) {
+    mapaParadas.flyTo([p.lat, p.lng], Math.max(mapaParadas.getZoom() || 14, 15), { duration: 1 });
   }
+
   const enlaceMapa = $('#enlaceMapa');
   if (enlaceMapa) {
     enlaceMapa.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.mapa)}`;
