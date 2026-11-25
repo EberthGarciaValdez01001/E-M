@@ -419,6 +419,14 @@
     color:#9aa1bf;
   }
   .contador__extra b{ font-weight:400; color:#d9c396; }
+  .contador__nota{
+    margin:-4px 0 12px;
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:.98rem;
+    letter-spacing:.04em;
+    color:#9aa1bf;
+  }
 
   /* Sobre de la carta */
   .sobre-arte{
@@ -923,6 +931,82 @@
   .carta-cerrar:hover{ background:rgba(232,193,95,.18); color:#fff; }
   .carta-cerrar svg{ width:15px; height:15px; }
 
+  .carta-extra{
+    margin-top:26px;
+    padding-top:24px;
+    border-top:1px solid rgba(232,193,95,.26);
+  }
+  .carta-extra__intro{
+    margin:0 0 16px !important;
+    font-size:1rem !important;
+    color:#bfb8a6 !important;
+  }
+  .carta-mano{
+    display:block;
+    width:100%;
+    padding:0;
+    border:1px solid rgba(232,193,95,.35);
+    border-radius:10px;
+    background:#fff;
+    overflow:hidden;
+    cursor:zoom-in;
+    box-shadow:0 18px 38px rgba(0,0,0,.5);
+    transition:transform .3s, box-shadow .3s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .carta-mano:hover{ transform:translateY(-2px); box-shadow:0 24px 46px rgba(0,0,0,.55); }
+  .carta-mano:focus-visible{ outline:2px solid var(--oro-claro); outline-offset:4px; }
+  .carta-mano img{ display:block; width:100%; height:auto; }
+  .carta-mano__pie{
+    margin:10px 0 0 !important;
+    font-family:var(--sans) !important;
+    font-style:normal !important;
+    font-size:.55rem !important;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:#a98f5e !important;
+  }
+  .carta-extra + .btn-contorno{ margin-top:26px; }
+
+  /* Visor de la carta a mano */
+  .visor{
+    position:fixed; inset:0; z-index:90;
+    display:flex; align-items:flex-start; justify-content:center;
+    padding:66px 14px 40px;
+    background:rgba(3,6,16,.96);
+    overflow:auto;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .35s ease, visibility .35s;
+  }
+  .visor.abierto{ opacity:1; visibility:visible; }
+  .visor img{
+    width:min(1000px, 100%);
+    height:auto;
+    border-radius:6px;
+    background:#fff;
+    box-shadow:0 30px 60px rgba(0,0,0,.6);
+    cursor:zoom-in;
+    transition:width .35s ease;
+  }
+  .visor img.zoom{ width:min(1800px, 175vw); cursor:zoom-out; }
+  .visor__cerrar{
+    position:fixed;
+    top:max(16px, env(safe-area-inset-top));
+    right:16px;
+    z-index:2;
+    width:44px; height:44px;
+    display:grid; place-items:center;
+    border-radius:50%;
+    border:1px solid rgba(232,193,95,.4);
+    background:rgba(7,12,30,.9);
+    color:#e9d9b4;
+    cursor:pointer;
+    transition:background .25s, color .25s;
+  }
+  .visor__cerrar:hover{ background:rgba(232,193,95,.2); color:#fff; }
+  .visor__cerrar svg{ width:18px; height:18px; }
+
   /* ============ FLOTANTES ============ */
   .flotador{
     position:fixed; z-index:40;
@@ -1018,7 +1102,7 @@
     <p class="hero__etiqueta">Nuestra historia</p>
     <h1 class="hero__nombres">Marcelo <span class="amp">&amp;</span> Melida</h1>
     <span class="hero__linea" aria-hidden="true"></span>
-    <p class="hero__lugar">Tegucigalpa <span>·</span> El Salvador</p>
+    <p class="hero__lugar">Guatemala <span>·</span> Honduras</p>
   </header>
 
   <figure class="marco revelar">
@@ -1029,10 +1113,11 @@
   </figure>
 
   <section class="panel revelar">
-    <p class="etiqueta">Juntos desde hace</p>
+    <p class="etiqueta">Tiempo de conocernos</p>
+    <p class="contador__nota">( primer saludo )</p>
     <p class="contador__grande" id="contadorGrande">Calculando…</p>
     <p class="contador__reloj" id="contadorReloj" aria-live="off">00h 00m 00s</p>
-    <p class="contador__extra" id="contadorExtra">Nos conocimos el 27 de noviembre de 2024.</p>
+    <p class="contador__extra" id="contadorExtra">Juntos desde el 14 de julio de 2026.</p>
   </section>
 
   <section class="panel revelar">
@@ -1073,7 +1158,7 @@
   <section class="panel revelar">
     <p class="etiqueta">Dos países, una historia</p>
     <h2 class="titulo-panel">Nuestra distancia</h2>
-    <p class="sub-panel">Tegucigalpa y El Salvador. Un avión, muchas llamadas y las ganas de volver a vernos.</p>
+    <p class="sub-panel">Guatemala y Honduras. Un avión, muchas llamadas y las ganas de volver a vernos.</p>
     <div class="mapa mapa--distancia" aria-hidden="true">
       <svg viewBox="0 0 400 250" fill="none">
         <path d="M70 170 C 150 40, 250 40, 330 170"
@@ -1084,11 +1169,11 @@
       </svg>
       <div class="ciudad" style="left:17.5%; top:68%">
         <span class="ciudad__punto"></span>
-        <span class="ciudad__nombre">Tegucigalpa</span>
+        <span class="ciudad__nombre">Guatemala</span>
       </div>
       <div class="ciudad" style="left:82.5%; top:68%">
         <span class="ciudad__punto"></span>
-        <span class="ciudad__nombre">El Salvador</span>
+        <span class="ciudad__nombre">Honduras</span>
       </div>
     </div>
     <p class="etiqueta etiqueta--sub">Nuestros lugares</p>
@@ -1168,8 +1253,26 @@
     <p>Gracias por ese cumpleaños en Metro Mall, por reírte conmigo, por despedirte en un aeropuerto sin hacer drama y por quedarte incluso cuando estoy lejos.</p>
     <p>Ojalá vuelvas a leer esto las veces que quieras. Yo voy a seguir aquí.</p>
     <p class="carta-firma">Con amor<span>Marcelo</span></p>
+
+    <div class="carta-extra">
+      <p class="etiqueta">La carta</p>
+      <p class="carta-extra__intro">La que te escribí a mano el día de tu graduación.</p>
+      <button class="carta-mano" id="verCarta" type="button" aria-label="Ver la carta escrita a mano en tamaño completo">
+        <img src="fotos/carta-mano.jpg" alt="Carta escrita a mano para Melida" loading="lazy">
+      </button>
+      <p class="carta-mano__pie">Toca la carta para leerla completa</p>
+    </div>
+
     <button class="btn-contorno" type="button" data-cerrar-carta>Cerrar</button>
   </div>
+</div>
+
+<!-- Visor de la carta escrita a mano -->
+<div class="visor" id="visorCarta" role="dialog" aria-modal="true" aria-label="Carta escrita a mano" aria-hidden="true">
+  <button class="visor__cerrar" id="cerrarVisor" type="button" aria-label="Cerrar la carta ampliada">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+  <img src="fotos/carta-mano.jpg" alt="Carta escrita a mano para Melida">
 </div>
 
 <!-- Botones flotantes -->
@@ -1189,11 +1292,11 @@
 const ELLA = 'Melida';
 const EL   = 'Marcelo';
 
-// Fecha en que empezó la relación (AAAA-MM-DD). Déjalo vacío ("") para ocultar el contador.
-const FECHA_INICIO = '2026-07-14';
+// Primer saludo: desde aquí se cuenta el contador "Tiempo de conocernos".
+const FECHA_INICIO = '2024-11-27T22:13:00';
 
-// El día del primer saludo: se usa en la línea de abajo del contador.
-const FECHA_SALUDO = '2024-11-27T22:13:00';
+// Inicio de la relación: se muestra en la línea de abajo del contador.
+const FECHA_RELACION = '2026-07-14';
 
 const GUSTOS = [
   'Tu risa cuando algo te da un poco de pena.',
@@ -1308,10 +1411,10 @@ $('#vales').addEventListener('click', (e) => {
   const extra = $('#contadorExtra');
   if (!FECHA_INICIO) { grande.textContent = 'Cada día contigo'; reloj.remove(); extra.remove(); return; }
 
-  const inicio = new Date(FECHA_INICIO + 'T00:00:00');
+  const inicio = new Date(FECHA_INICIO);
   if (isNaN(inicio.getTime())) { grande.textContent = 'Cada día contigo'; reloj.remove(); extra.remove(); return; }
 
-  const saludo = FECHA_SALUDO ? new Date(FECHA_SALUDO) : null;
+  const relacion = FECHA_RELACION ? new Date(FECHA_RELACION + 'T00:00:00') : null;
 
   const plural = (n, uno, varios) => n === 1 ? `${n} ${uno}` : `${n} ${varios}`;
 
@@ -1345,9 +1448,9 @@ $('#vales').addEventListener('click', (e) => {
     const ss = String(ahora.getSeconds()).padStart(2, '0');
     reloj.innerHTML = `${hh}h ${mm}m ${ss}s <span>· y contando</span>`;
 
-    if (extra && saludo && !isNaN(saludo.getTime())) {
-      const diasSaludo = Math.max(0, Math.floor((ahora - saludo) / 86400000));
-      extra.innerHTML = `Nos conocimos el <b>27 de noviembre de 2024</b> · hace ${diasSaludo.toLocaleString('es')} días`;
+    if (extra && relacion && !isNaN(relacion.getTime())) {
+      const diasRelacion = Math.max(0, Math.floor((ahora - relacion) / 86400000));
+      extra.innerHTML = `Juntos desde el <b>14 de julio de 2026</b> · hace ${diasRelacion.toLocaleString('es')} días`;
     }
   }
 
@@ -1471,7 +1574,9 @@ btnAbrirCarta.addEventListener('click', abrirCarta);
 modal.querySelectorAll('[data-cerrar-carta]').forEach(el => el.addEventListener('click', cerrarCarta));
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && modal.classList.contains('abierto')) cerrarCarta();
+  if (e.key !== 'Escape') return;
+  if (visor.classList.contains('abierto')) { cerrarVisor(); return; }
+  if (modal.classList.contains('abierto')) cerrarCarta();
 });
 
 /* Atrapa el foco dentro del modal */
@@ -1483,6 +1588,35 @@ modal.addEventListener('keydown', (e) => {
   if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
   else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
 });
+
+/* ---------- Carta escrita a mano (visor) ---------- */
+const visor = $('#visorCarta');
+const verCarta = $('#verCarta');
+const visorImg = visor.querySelector('img');
+const btnCerrarVisor = $('#cerrarVisor');
+let focoVisor = null;
+
+function abrirVisor() {
+  focoVisor = document.activeElement;
+  visor.classList.add('abierto');
+  visor.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  visor.scrollTop = 0;
+  btnCerrarVisor.focus({ preventScroll: true });
+}
+
+function cerrarVisor() {
+  visor.classList.remove('abierto');
+  visor.setAttribute('aria-hidden', 'true');
+  visorImg.classList.remove('zoom');
+  document.body.style.overflow = modal.classList.contains('abierto') ? 'hidden' : '';
+  if (focoVisor) focoVisor.focus({ preventScroll: true });
+}
+
+verCarta.addEventListener('click', abrirVisor);
+btnCerrarVisor.addEventListener('click', cerrarVisor);
+visor.addEventListener('click', (e) => { if (e.target === visor) cerrarVisor(); });
+visorImg.addEventListener('click', () => visorImg.classList.toggle('zoom'));
 
 /* ---------- Ruleta ---------- */
 (function ruleta() {
