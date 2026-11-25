@@ -22,7 +22,7 @@ Abre `index.html` con doble clic. Funciona sin servidor; las fotos están en `fo
    - **Nuestros lugares:** mapa satelital interactivo (Leaflet + Esri) con un pin por lugar; al tocar un pin (o una parada) se abre el álbum de fotos de ese lugar.
    - Foto de Metro Mall.
    - **Galería:** las fotos de los días 4 y 5 de septiembre de 2026.
-   - **Siete atardeceres:** cuenta regresiva al próximo atardecer (18:15) y 7 tarjetas con frases, del 7 al 1.
+   - **Siete atardeceres:** cuenta regresiva a la **graduación del 27 de noviembre** (7 tarjetas, del 21 al 27); la tarjeta del día se ilumina con “HOY”.
    - “Nuestra lista” (checklist interactiva).
    - “Nuestros vales de amor” (se pueden canjear).
    - Ruleta de citas.
@@ -75,10 +75,12 @@ Están en `fotos/` ya optimizadas (JPEG). Para cambiar una, reemplaza el archivo
 
 ## Atardeceres
 
-La sección **“Siete atardeceres”** tiene 7 tarjetas (del 07 al 01), cada una con su cielo y su frase, y una cuenta regresiva en vivo hasta el próximo atardecer.
+La sección **“Siete atardeceres”** cuenta los días hasta la **graduación**: 7 tarjetas del 07 al 01 (del 21 al 27 de noviembre), cada una con su cielo y su frase, y una cuenta regresiva en vivo.
 
-- Las frases y los colores de cada cielo están en el arreglo `ATARDECERES`, al inicio del `<script>`.
-- La hora del atardecer está en la función `relojAtardecer()` (`HORA = 18`, `MIN = 15`). Cámbiala si quieres otra hora.
+- La fecha objetivo está en `FECHA_GRADUACION = '2026-11-27T18:15:00'` (cámbiala si la ceremonia es a otra hora).
+- La tarjeta del día se resalta automáticamente con la etiqueta **HOY**; la última lleva **27 NOV**.
+- Las frases y los colores de cada cielo están en el arreglo `ATARDECERES`.
+- Cuando llega la fecha, el número grande cambia a **HOY** y el reloj muestra que la graduación ya llegó.
 
 ## Mapa de lugares
 

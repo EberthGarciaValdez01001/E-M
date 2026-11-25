@@ -902,6 +902,11 @@
     line-height:.9;
     color:var(--oro-claro);
     text-shadow:0 0 34px rgba(240,170,90,.35);
+    transition:font-size .3s ease;
+  }
+  .cuenta__num--hoy{
+    font-size:clamp(2.4rem, 11vw, 3.2rem);
+    letter-spacing:.06em;
   }
   .cuenta__label{
     margin:8px 0 12px;
@@ -1026,6 +1031,16 @@
       radial-gradient(1.5px 1.5px at 86% 24%, rgba(255,255,255,.65), transparent 100%),
       radial-gradient(1.2px 1.2px at 8% 10%, rgba(255,255,255,.45), transparent 100%);
     opacity:.8;
+  }
+  .atardecer--hoy{
+    border-color:rgba(232,193,95,.75);
+    box-shadow:0 0 0 1px rgba(232,193,95,.35), 0 0 26px rgba(232,193,95,.2);
+  }
+  .atardecer--hoy .atardecer__frase{ color:#fff8e8; }
+  .atardecer--hoy .atardecer__badge{
+    background:rgba(232,193,95,.92);
+    border-color:transparent;
+    color:#241b05;
   }
 
   /* Lista */
@@ -1687,12 +1702,12 @@
   <section class="panel revelar">
     <p class="etiqueta">Cuenta regresiva</p>
     <h2 class="titulo-panel">Siete atardeceres</h2>
-    <p class="sub-panel">Del siete al uno, los cielos que nos faltan para volver a vernos.</p>
+    <p class="sub-panel">Del 21 al 27 de noviembre, los cielos que faltan para tu graduación.</p>
 
     <div class="cuenta">
-      <span class="cuenta__num" aria-hidden="true">7</span>
-      <p class="cuenta__label">atardeceres para volver a verte</p>
-      <p class="cuenta__reloj" id="relojAtardecer" aria-live="off">El próximo atardecer en —</p>
+      <span class="cuenta__num" id="cuentaNum" aria-hidden="true">7</span>
+      <p class="cuenta__label" id="cuentaLabel">atardeceres para tu graduación</p>
+      <p class="cuenta__reloj" id="relojAtardecer" aria-live="off">Faltan — para tu graduación</p>
     </div>
 
     <ol class="soles" id="soles"></ol>
@@ -1877,21 +1892,24 @@ const VALES = [
 const RULETA = ['Cena', 'Cine', 'Helado', 'Baile', 'Sorpresa'];
 
 const ATARDECERES = [
-  { n: '07', frase: 'Siete atardeceres y todavía me acuerdo del primero que vi pensando en ti.',
+  { n: '07', frase: 'Siete atardeceres y el cielo ya sabe que se acerca tu graduación.',
     cielo: { c1: '#241a44', c2: '#7c4a76', c3: '#f0a06a', sol: '#ffd9a0', tierra: '#120f26', sx: '38%', sy: '24%', ss: '25%' } },
-  { n: '06', frase: 'Seis cielos que se apagan, y en todos sigo buscando tu risa.',
+  { n: '06', frase: 'Seis. Cada día que cae te acerca un poco más a ese título que tanto buscaste.',
     cielo: { c1: '#1e1b3e', c2: '#a14f52', c3: '#f3bd6a', sol: '#ffe3a8', tierra: '#150f1f', sx: '62%', sy: '30%', ss: '28%' } },
-  { n: '05', frase: 'Cinco. A esta hora, en algún lugar, tú también estás mirando el cielo.',
+  { n: '05', frase: 'Cinco. A esta hora, en algún lugar, tú también estás contando los días.',
     cielo: { c1: '#2a1f45', c2: '#8b5a7e', c3: '#eda17c', sol: '#ffd0a8', tierra: '#100e22', sx: '50%', sy: '34%', ss: '23%' } },
-  { n: '04', frase: 'Cuatro. La distancia es solo el rato que hay entre tu voz y la mía.',
+  { n: '04', frase: 'Cuatro. Todo el esfuerzo de estos años cabe en una sola palabra: orgullo.',
     cielo: { c1: '#17203c', c2: '#3f6577', c3: '#f0b562', sol: '#ffe2a4', tierra: '#0a1222', sx: '30%', sy: '28%', ss: '27%' } },
   { n: '03', frase: 'Tres. Ya casi puedo contar las horas con una sola mano.',
     cielo: { c1: '#2b2347', c2: '#a86a5e', c3: '#ffd3a0', sol: '#fff0c2', tierra: '#130f24', sx: '70%', sy: '32%', ss: '24%' } },
-  { n: '02', frase: 'Dos. El sol se despide despacio, como si tampoco quisiera irse.',
+  { n: '02', frase: 'Dos. El sol se despide despacio, como si supiera lo que viene.',
     cielo: { c1: '#191634', c2: '#5a3d72', c3: '#e89b76', sol: '#ffd2a6', tierra: '#0b0d20', sx: '45%', sy: '38%', ss: '22%' } },
-  { n: '01', frase: 'Uno. Mañana el cielo se verá distinto, porque voy a verte.', final: true,
+  { n: '01', frase: 'Uno. Es tu graduación, y no hay cielo que alcance para lo orgulloso que estoy de ti.', final: true,
     cielo: { c1: '#101a3a', c2: '#4d3a72', c3: '#f2a76b', sol: '#fff0bd', tierra: '#080d1e', sx: '76%', sy: '30%', ss: '17%' } }
 ];
+
+// Fecha de la graduación: cuenta regresiva y último atardecer.
+const FECHA_GRADUACION = '2026-11-27T18:15:00';
 
 /* ============================================================
    A PARTIR DE AQUÍ NO NECESITAS CAMBIAR NADA
@@ -1936,12 +1954,12 @@ $('#paradas').innerHTML = PARADAS.map((p, i) => `
 
 /* ---------- Atardeceres ---------- */
 $('#soles').innerHTML = ATARDECERES.map(a => `
-  <li class="atardecer${a.final ? ' atardecer--final' : ''}">
+  <li class="atardecer${a.final ? ' atardecer--final' : ''}" data-dia="${Number(a.n)}">
     <div class="atardecer__cielo" style="--c1:${a.cielo.c1};--c2:${a.cielo.c2};--c3:${a.cielo.c3};--sol:${a.cielo.sol};--tierra:${a.cielo.tierra};--sx:${a.cielo.sx};--sy:${a.cielo.sy};--ss:${a.cielo.ss}">
       <span class="atardecer__sol" aria-hidden="true"></span>
       <span class="atardecer__horizonte" aria-hidden="true"></span>
       <span class="atardecer__num">${a.n}</span>
-      ${a.final ? '<span class="atardecer__badge">El último</span>' : ''}
+      <span class="atardecer__badge"${a.final ? '' : ' hidden'}>${a.final ? '27 NOV' : ''}</span>
     </div>
     <p class="atardecer__frase">${a.frase}</p>
   </li>`).join('');
@@ -2051,29 +2069,72 @@ $('#vales').addEventListener('click', (e) => {
   setInterval(pintar, 1000);
 })();
 
-/* ---------- Próximo atardecer ---------- */
-(function relojAtardecer() {
-  const el = $('#relojAtardecer');
-  if (!el) return;
+/* ---------- Cuenta regresiva a la graduación ---------- */
+(function cuentaGraduacion() {
+  const num = $('#cuentaNum');
+  const label = $('#cuentaLabel');
+  const reloj = $('#relojAtardecer');
+  const objetivo = new Date(FECHA_GRADUACION);
+  if (!num || !label || !reloj || isNaN(objetivo.getTime())) return;
 
-  const HORA = 18;
-  const MIN = 15;
+  const tarjetas = Array.from(document.querySelectorAll('.atardecer'));
 
-  function siguiente() {
-    const ahora = new Date();
-    const puesta = new Date(ahora);
-    puesta.setHours(HORA, MIN, 0, 0);
-    if (puesta <= ahora) puesta.setDate(puesta.getDate() + 1);
-    return puesta;
+  function diasHasta() {
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    const meta = new Date(objetivo);
+    meta.setHours(0, 0, 0, 0);
+    return Math.round((meta - hoy) / 86400000);
   }
 
   function pintar() {
     const ahora = new Date();
-    const falta = Math.max(0, siguiente() - ahora);
-    const h = Math.floor(falta / 3600000);
-    const m = Math.floor(falta / 60000) % 60;
-    const s = Math.floor(falta / 1000) % 60;
-    el.innerHTML = `El próximo atardecer en <b>${String(h).padStart(2, '0')}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s</b>`;
+    const dias = diasHasta();
+
+    if (dias > 0) {
+      num.textContent = Math.min(7, dias);
+      num.classList.remove('cuenta__num--hoy');
+      label.textContent = 'atardeceres para tu graduación';
+    } else if (dias === 0) {
+      num.textContent = 'HOY';
+      num.classList.add('cuenta__num--hoy');
+      label.textContent = 'es tu graduación';
+    } else {
+      num.textContent = '0';
+      num.classList.remove('cuenta__num--hoy');
+      label.textContent = 'ya te graduaste';
+    }
+
+    const falta = Math.max(0, objetivo - ahora);
+    if (falta > 0) {
+      const d = Math.floor(falta / 86400000);
+      const h = Math.floor(falta / 3600000) % 24;
+      const m = Math.floor(falta / 60000) % 60;
+      const s = Math.floor(falta / 1000) % 60;
+      const prefijo = d > 0 ? `${d}d ` : '';
+      reloj.innerHTML = `Faltan <b>${prefijo}${String(h).padStart(2, '0')}h ${String(m).padStart(2, '0')}m ${String(s).padStart(2, '0')}s</b> para tu graduación`;
+    } else {
+      reloj.innerHTML = 'La graduación ya llegó <b>🎓</b>';
+    }
+
+    tarjetas.forEach((card) => {
+      const n = Number(card.dataset.dia);
+      const esHoy = (dias >= 1 && dias <= 7 && n === dias) || (dias === 0 && n === 1);
+      card.classList.toggle('atardecer--hoy', esHoy);
+
+      const badge = card.querySelector('.atardecer__badge');
+      if (!badge) return;
+      if (esHoy) {
+        badge.hidden = false;
+        badge.textContent = 'HOY';
+      } else if (n === 1) {
+        badge.hidden = false;
+        badge.textContent = '27 NOV';
+      } else {
+        badge.hidden = true;
+        badge.textContent = '';
+      }
+    });
   }
 
   pintar();
